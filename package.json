@@ -1,7 +1,7 @@
 {
   "name": "daac",
   "version": "0.0.1",
-  "private": true,
+  "description": "Real time chat for CAA utilizers",
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -10,15 +10,31 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@aws-amplify/ui-react": "^2.1.5",
+    "@babel/preset-env": "^7.16.5",
+    "@react-native-async-storage/async-storage": "^1.15.14",
+    "@react-native-community/netinfo": "^7.1.7",
+    "@react-native-picker/picker": "^2.2.1",
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/native-stack": "^6.2.5",
+    "amazon-cognito-identity-js": "^5.2.3",
+    "aws-amplify": "^4.3.11",
+    "aws-amplify-react-native": "^6.0.2",
+    "moment": "^2.29.1",
     "react": "17.0.2",
-    "react-native": "0.66.4"
+    "react-native": "0.66.4",
+    "react-native-safe-area-context": "^3.3.2",
+    "react-native-screens": "^3.10.1",
+    "react-native-vector-icons": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@soluzioni-futura/eslint-config-soluzioni-futura": "^1.4.0",
     "@types/jest": "^26.0.23",
     "@types/react-native": "^0.66.4",
+    "@types/react-native-vector-icons": "^6.4.10",
     "@types/react-test-renderer": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
@@ -42,5 +58,6 @@
       "json",
       "node"
     ]
-  }
+  },
+  "private": true
 }

@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "daac",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "/Users/riccardonassisi/repo/tesi/daac/amplify/backend/api/daac/schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 7
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "AMAZON_COGNITO_USER_POOLS",
+        "cognitoUserPoolId": "authdaac03802083"
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-daac-dev-125109-authRole",
+      "UnauthRoleArn": "arn:aws:iam::070209187237:role/amplify-daac-dev-125109-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::070209187237:role/amplify-daac-dev-125109-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-daac-dev-125109-deployment",
+      "UnauthRoleName": "amplify-daac-dev-125109-unauthRole",
+      "StackName": "amplify-daac-dev-125109",
+      "StackId": "arn:aws:cloudformation:eu-central-1:070209187237:stack/amplify-daac-dev-125109/9f311170-689d-11ec-9519-02c4207dea3c",
+      "AmplifyAppId": "d8gnd2gyyhs55"
+    },
+    "categories": {
+      "auth": {
+        "daac03802083": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+type User @model @auth(rules: [ { allow: private, provider: userPools } ]) {
+  id: ID!
+  name: String!
+  imageUri: String
+  status: String
+  chatRoomUser: [ChatRoom] @manyToMany(relationName: "ChatRoomUsers")
+}
+
+type ChatRoom @model @auth(rules: [ { allow: private, provider: userPools } ]) {
+  id: ID!
+  users: [User] @manyToMany(relationName: "ChatRoomUsers")
+  messages: [Message] @hasMany
+  lastMessage: Message @hasOne
+}
+
+type Message @model @auth(rules: [ { allow: private, provider: userPools } ]) {
+  id: ID!
+  content: String!
+  urls: [String]
+  createdAt: String!
+  user: User @hasOne
+  chatRoom: ChatRoom @belongsTo
+}
+
+type DefaultMessage @model @auth(rules: [ { allow: private, provider: userPools } ]) {
+  id: ID!
+  content: String!
+  urls: [String]
+}
