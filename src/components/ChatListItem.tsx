@@ -4,39 +4,33 @@ import { useEffect, useState } from "react"
 import { Pressable, View, Image, Text, StyleSheet } from "react-native"
 
 import moment from "moment"
-import { ChatRoom } from "../../types"
-
 import { useNavigation } from "@react-navigation/native"
 
 import { Auth } from "aws-amplify"
 
-export type ChatListItemProps = {
-  chatRoom: ChatRoom
-}
-
-const ChatListItem = (props: ChatListItemProps) => {
+const ChatListItem = (props) => {
   const { chatRoom } = props
-  // const [otherUser, setOtherUser] = useState(null)
-  const otherUser = chatRoom.users[1]
+  const [otherUser, setOtherUser] = useState(null)
+
   const navigation = useNavigation()
 
-  // useEffect(() => {
-  //   const getOtherUser = async() => {
-  //     const userInfo = await Auth.currentAuthenticatedUser()
+  useEffect(() => {
+    const getOtherUser = async() => {
+      const userInfo = await Auth.currentAuthenticatedUser()
 
-  //     if (chatRoom.users.items[1].user.id === userInfo.attributes.sub) {
-  //       setOtherUser(chatRoom.users.items[0].user)
-  //     } else {
-  //       setOtherUser(chatRoom.users.items[1].user)
-  //     }
-  //   }
+      if (chatRoom.users.items[1].user.id === userInfo.attributes.sub) {
+        setOtherUser(chatRoom.users.items[0].user)
+      } else {
+        setOtherUser(chatRoom.users.items[1].user)
+      }
+    }
 
-  //   getOtherUser()
-  // })
+    getOtherUser()
+  })
 
-  // if (!otherUser) {
-  //   return null
-  // }
+  if (!otherUser) {
+    return null
+  }
 
   const onClick = () => {
     navigation.navigate("ChatRoom", {
@@ -55,11 +49,11 @@ const ChatListItem = (props: ChatListItemProps) => {
 
           <View style={styles.midContainer}>
             <Text style={styles.username}>{otherUser.name}</Text>
-            {/* <Text style={styles.lastMessage}>{
+            <Text style={styles.lastMessage}>{
               chatRoom.lastMessage && chatRoom.lastMessage.user.id === otherUser.id ? `${otherUser.name}: ${chatRoom.lastMessage.content}`
                 : chatRoom.lastMessage && chatRoom.lastMessage.user.id !== otherUser.id ? chatRoom.lastMessage.content
                   : ""
-            }</Text> */}
+            }</Text>
           </View>
         </View>
 

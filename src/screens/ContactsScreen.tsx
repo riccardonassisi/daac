@@ -25,16 +25,14 @@ export default function ContactsScreen() {
           )
         )
 
-        // const currentUser = await Auth.currentAuthenticatedUser()
-        // const otherUsers = usersData.data.listUsers.items.filter(e => e.id !== currentUser.attributes.sub)
+        const currentUser = await Auth.currentAuthenticatedUser()
+        const otherUsers = usersData.data.listUsers.items.filter(e => e.id !== currentUser.attributes.sub)
 
-        // setUsers(otherUsers)
+        setUsers(otherUsers)
 
-        setUsers(usersData.data.listUsers.items)
-        console.log(users)
-
+        // setUsers(usersData.data.listUsers.items)
       } catch (error) {
-
+        console.warn(error)
       }
     }
 

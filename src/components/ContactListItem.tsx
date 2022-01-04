@@ -22,6 +22,7 @@ const ContactListItem = (props: ChatMessageProps) => {
     try {
 
       const userInfo = await Auth.currentAuthenticatedUser()
+
       const userFromChatRoom = await API.graphql(
         graphqlOperation(
           listUsersFromChatRoom, {
@@ -88,6 +89,7 @@ const ContactListItem = (props: ChatMessageProps) => {
         })
       }
     } catch (e) {
+      console.error(e)
     }
   }
 

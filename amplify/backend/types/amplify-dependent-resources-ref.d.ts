@@ -1,13 +1,12 @@
 export type AmplifyDependentResourcesAttributes = {
     "api": {
         "daac": {
-            "GraphQLAPIKeyOutput": "string",
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
         }
     },
     "auth": {
-        "daac03802083": {
+        "daacabc029e3": {
             "IdentityPoolId": "string",
             "IdentityPoolName": "string",
             "UserPoolId": "string",

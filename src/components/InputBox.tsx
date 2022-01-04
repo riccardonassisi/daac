@@ -170,7 +170,7 @@ const InputBox = (props: InputBoxProps) => {
           onPress()
         }}>
           <View style={styles.buttonContainer}>
-            <FontAwesome5 name="send" size={20} color={"white"} />
+            <FontAwesome5 name="paper-plane" size={25} color={"white"} />
           </View>
         </Pressable>}
     </View>
@@ -180,27 +180,25 @@ const InputBox = (props: InputBoxProps) => {
 const styles = StyleSheet.create({
   containerAndroid: {
     flexDirection: "row",
-    margin: 5,
-    padding: 5,
+    padding: 10,
     alignItems: "center",
     backgroundColor: "transparent"
   },
   containerIOS: {
     flexDirection: "row",
-    margin: 5,
-    padding: 5,
+    padding: 10,
     marginBottom: 15,
     alignItems: "center",
     backgroundColor: "transparent"
   },
   mainContainer: {
     backgroundColor: "white",
-    borderColor: "black",
-    borderWidth: 3,
+    borderColor: Colors.mainPurple,
+    borderWidth: 2,
     borderStyle: "solid",
     padding: 10,
-    borderRadius: 25,
     marginRight: 5,
+    borderRadius: 25,
     flex: 1,
     flexDirection: "column"
   },

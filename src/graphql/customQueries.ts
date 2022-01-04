@@ -40,7 +40,7 @@ export const getUser = /* GraphQL */ `
   }
 `
 export const listMessageFromChatRoom = /* GraphQL */ `
-query MyQuery($id: ID!) {
+query MyQueryOne($id: ID!) {
   listMessages(filter: {chatRoomMessagesId: {eq: $id}}) {
     items {
       content
@@ -58,7 +58,7 @@ query MyQuery($id: ID!) {
 `
 
 export const listUsersFromChatRoom = /* GraphQL */ `
-query MyQuery($id: ID!) {
+query MyQueryTwo($id: ID!) {
   listChatRoomUsers(filter: {userID: {eq: $id}}) {
     items {
       chatRoom {
