@@ -110,8 +110,6 @@ const InputBox = (props: InputBoxProps) => {
       )
       await updateLastMessage(newMessageData.data.createMessage.id)
     } catch (error) {
-      console.log(error)
-
     }
     setMessage("")
     setUrls([])

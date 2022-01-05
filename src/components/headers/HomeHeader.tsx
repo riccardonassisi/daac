@@ -6,11 +6,12 @@ import Colors from "../../constants/Color"
 
 import { API, Auth, graphqlOperation } from "aws-amplify"
 import { getUserInfo } from "../../graphql/customQueries"
-
+import { StackActions, useNavigation } from "@react-navigation/native"
 
 const HomeHeader = () => {
 
   const [currentUser, setCurrentUser] = useState()
+  const navigation = useNavigation()
 
   useEffect(() => {
     const fetchMyData = async() => {
@@ -33,7 +34,12 @@ const HomeHeader = () => {
   async function signOut() {
     try {
       await Auth.signOut()
+      navigation.dispatch(
+        StackActions.replace("SignIn")
+      )
     } catch (error) {
+      console.error(error)
+
     }
   }
 
