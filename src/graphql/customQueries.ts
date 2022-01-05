@@ -1,19 +1,9 @@
 export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
-      id
-      name
-      imageUri
-      status
       chatRoomUser {
         items {
-          chatRoomID
-          createdAt
-          updatedAt
-          id
-          userID
           chatRoom {
-            createdAt
             lastMessage {
               user {
                 id
@@ -72,4 +62,14 @@ query MyQueryTwo($id: ID!) {
     }
   }
 }
+`
+
+export const getUserInfo = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      imageUri
+      name
+      status
+    }
+  }
 `

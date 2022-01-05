@@ -17,7 +17,7 @@ const NewMessageButton = () => {
     <View style={styles.container}>
       <Pressable onPress={onPress}>
         <FontAwesome5
-          name="plus"
+          name="pencil-alt"
           size={30}
           color={"white"}
         />

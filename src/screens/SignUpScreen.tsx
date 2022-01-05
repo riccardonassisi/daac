@@ -2,8 +2,8 @@ import React, { useState } from "react"
 import { View, Text, ScrollView } from "react-native"
 import { StyleSheet } from "react-native"
 
-import CustomButton from "../components/CustomButton"
-import CustomInput from "../components/CustomInput"
+import CustomButton from "../components/forms/CustomButton"
+import CustomInput from "../components/forms/CustomInput"
 import Colors from "../constants/Color"
 
 import { useNavigation } from "@react-navigation/native"

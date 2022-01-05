@@ -7,6 +7,7 @@ import moment from "moment"
 import { useNavigation } from "@react-navigation/native"
 
 import { Auth } from "aws-amplify"
+import Colors from "../constants/Color"
 
 const ChatListItem = (props) => {
   const { chatRoom } = props
@@ -35,18 +36,19 @@ const ChatListItem = (props) => {
   const onClick = () => {
     navigation.navigate("ChatRoom", {
       id: chatRoom.id,
-      name: otherUser.name
+      name: otherUser.name,
+      image: otherUser.imageUri
     })
   }
 
   return (
     <Pressable onPress={onClick}>
-
       <View style={styles.container}>
-
         <View style={styles.leftContainer} >
           <Image source={{ uri: otherUser.imageUri }} style={styles.avatar} />
-
+          {/* <View style={styles.badgeContainer}>
+            <Text style={styles.badgeText}>4</Text>
+          </View> */}
           <View style={styles.midContainer}>
             <Text style={styles.username}>{otherUser.name}</Text>
             <Text style={styles.lastMessage}>{
@@ -70,22 +72,21 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 10,
     borderBottomColor: "grey",
-    borderBottomWidth: 0.5
+    borderBottomWidth: 0.5,
+    paddingVertical: 7.5
   },
   leftContainer: {
     flexDirection: "row"
   },
   midContainer: {
+    paddingLeft: 10,
     justifyContent: "space-evenly"
   },
   avatar: {
     width: 50,
     height: 50,
-    borderRadius: 50,
-    marginRight: 10,
-    marginLeft: 0
+    borderRadius: 50
   },
   username: {
     fontWeight: "bold",
@@ -96,6 +97,21 @@ const styles = StyleSheet.create({
   },
   time: {
     color: "grey"
+  },
+  badgeContainer: {
+    backgroundColor: Colors.mainPurple,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: Colors.lightPurple,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    left: 35
+  },
+  badgeText: {
+    color: "#fff"
   }
 })
 

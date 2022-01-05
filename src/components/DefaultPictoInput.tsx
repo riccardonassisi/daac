@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { FlatList, Image, Pressable, ScrollView, Text, View, StyleSheet } from "react-native"
+import { FlatList, Image, Pressable, Text, View, StyleSheet } from "react-native"
 
 import { StandardMessage } from "../../types"
 
@@ -7,6 +7,7 @@ import { API, Auth, graphqlOperation } from "aws-amplify"
 
 import { listDefaultMessages } from "../graphql/queries"
 import { createMessage, updateChatRoom } from "../graphql/mutations"
+import Colors from "../constants/Color"
 
 export type DefaultPictoInputProps = {
   chatRoomId: string
@@ -56,6 +57,8 @@ const DefaultPictoInput = (props: DefaultPictoInputProps) => {
         )
       )
     } catch (error) {
+      console.error(error)
+
     }
   }
 
@@ -76,6 +79,7 @@ const DefaultPictoInput = (props: DefaultPictoInputProps) => {
       )
       await updateLastMessage(newMessageData.data.createMessage.id)
     } catch (error) {
+      console.error(error)
     }
   }
 
@@ -104,14 +108,12 @@ const DefaultPictoInput = (props: DefaultPictoInputProps) => {
   }
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <FlatList
-          data={defaultMessages}
-          renderItem={({ item }) => DefaultMessage(item)}
-        />
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      <FlatList
+        data={defaultMessages}
+        renderItem={({ item }) => DefaultMessage(item)}
+      />
+    </View>
   )
 }
 
@@ -121,20 +123,23 @@ const styles = StyleSheet.create({
     height: 50
   },
   container: {
-    margin: 5,
+    flex: 1,
     padding: 5,
+    marginRight: 5,
     height: 185,
-    borderColor: "#fff",
-    borderWidth: 1,
+    borderColor: Colors.mainPurple,
+    borderWidth: 2,
     borderStyle: "solid",
     borderRadius: 20
   },
   message: {
     backgroundColor: "#fff",
-    margin: 5,
     padding: 5,
+    margin: 2.5,
     alignItems: "center",
-    borderRadius: 25
+    borderRadius: 25,
+    borderWidth: 0.5,
+    borderColor: Colors.mainPurple
   },
   textMessage: {
     color: "#000"

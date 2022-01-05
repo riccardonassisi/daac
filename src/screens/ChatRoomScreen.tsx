@@ -1,6 +1,6 @@
 import React from "react"
 import { useEffect, useState } from "react"
-import { StyleSheet, FlatList, ScrollView, KeyboardAvoidingView, Platform } from "react-native"
+import { StyleSheet, FlatList, KeyboardAvoidingView, Platform } from "react-native"
 
 import { useRoute } from "@react-navigation/native"
 import moment from "moment"
@@ -53,13 +53,11 @@ const ChatRoomScreen = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      style={{ flex: 1 }}>
-      <ScrollView style={{ flexGrow: 1 }} contentContainerStyle={{ flex: 1 }} keyboardShouldPersistTaps={"handled"}>
-        <FlatList
-          data={messages.sort((a, b) => new moment(a?.createdAt) - new moment(b?.createdAt))}
-          renderItem={({ item }) => <ChatMessage message={item} ownerId={myId}/>}
-        />
-      </ScrollView>
+      style={styles.container}>
+      <FlatList
+        data={messages.sort((a, b) => new moment(a?.createdAt) - new moment(b?.createdAt))}
+        renderItem={({ item }) => <ChatMessage message={item} ownerId={myId}/>}
+      />
       <InputBox chatRoomId={route?.params?.id} />
     </KeyboardAvoidingView>
   )
@@ -67,8 +65,7 @@ const ChatRoomScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "space-between"
+    flex: 1
   }
 })
 

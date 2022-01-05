@@ -8,6 +8,7 @@ import Navigation from "./src/navigation"
 import { API, Auth, graphqlOperation } from "aws-amplify"
 import { getUser } from "./src/graphql/queries"
 import { createUser } from "./src/graphql/mutations"
+import Colors from "./src/constants/Color"
 
 
 const App = () => {
@@ -59,7 +60,7 @@ const App = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: "#e4dfe8"
+    backgroundColor: Colors.lightPurple
   }
 })
 

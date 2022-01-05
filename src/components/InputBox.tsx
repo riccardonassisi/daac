@@ -126,14 +126,11 @@ const InputBox = (props: InputBoxProps) => {
 
   return (
     <View
-      style={[
+      style={
         Platform.OS === "ios" ?
           styles.containerIOS :
           styles.containerAndroid
-        ,
-        Platform.OS === "ios" && isKeyboardVisible ?
-          { marginBottom: KEYBOARD_HINTS_HEIGHT } : {}
-      ]}>
+      }>
       {defPictogramVisible
         ? (<DefaultPictoInput chatRoomId={chatRoomId}/>)
         : (
@@ -157,7 +154,8 @@ const InputBox = (props: InputBoxProps) => {
                 setNewUrls(message)
               }}
             />
-          </View>)}
+          </View>)
+      }
       {!isKeyboardVisible
         ?
         <Pressable onPress={changeKeys}>
@@ -172,7 +170,8 @@ const InputBox = (props: InputBoxProps) => {
           <View style={styles.buttonContainer}>
             <FontAwesome5 name="paper-plane" size={25} color={"white"} />
           </View>
-        </Pressable>}
+        </Pressable>
+      }
     </View>
   )
 }

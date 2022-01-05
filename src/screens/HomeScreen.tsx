@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
-import { View, StyleSheet, FlatList, ScrollView, Text } from "react-native"
+import { View, StyleSheet, FlatList, Text } from "react-native"
 
-import Colors from "../constants/Color"
 import moment from "moment"
 
 import ChatListItem from "../components/ChatListItem"
@@ -26,8 +25,7 @@ const HomeScreen = () => {
         )
         if (userData !== null) {
           const content = userData?.data?.getUser?.chatRoomUser?.items
-          // setChatRooms(content.sort((a, b) => new moment(b.chatRoom.lastMessage.createdAt) - new moment(a.chatRoom.lastMessage.createdAt)))
-          setChatRooms(content)
+          setChatRooms(content.sort((a, b) => new moment(b.chatRoom.lastMessage.createdAt) - new moment(a.chatRoom.lastMessage.createdAt)))
         }
       } catch (e) {
         console.error(e)
@@ -37,7 +35,6 @@ const HomeScreen = () => {
   })
 
   return (
-    // <ScrollView>
     <View style={styles.root}>
       {chatRooms.length > 0
         ? (<FlatList
@@ -46,15 +43,13 @@ const HomeScreen = () => {
           }}
           data={chatRooms}
           renderItem={({ item }) => <ChatListItem chatRoom={item?.chatRoom} />}
-          // renderItem={({ item }) => <ChatListItem chatRoom={item} />}
           keyExtractor={(item) => item?.chatRoom.id}
         />) : (
-          <Text style={styles.title}>Such empty</Text>
+          <Text style={styles.empty}>Such empty</Text>
         )}
 
       <NewMessageButton />
     </View>
-    // </ScrollView>
   )
 }
 
@@ -66,12 +61,10 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
     justifyContent: "center"
   },
-  title: {
-    fontSize: 26,
+  empty: {
     fontWeight: "bold",
-    color: Colors.mainPurple,
     padding: 10,
-    borderColor: Colors.mainPurple,
+    borderColor: "grey",
     borderWidth: 0.5
   }
 })

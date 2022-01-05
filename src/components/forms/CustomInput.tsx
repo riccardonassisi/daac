@@ -1,6 +1,6 @@
 import React from "react"
 import { View, TextInput, StyleSheet } from "react-native"
-import { CustomInputParamList } from "../../types"
+import { CustomInputParamList } from "../../../types"
 
 const CustomInput = ({ value, setValue, placeholder, secureTextEntry }: CustomInputParamList) => {
   return (

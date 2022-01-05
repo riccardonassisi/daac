@@ -10,24 +10,47 @@ import ForgotPasswordScreen from "../screens/ForgotPasswordScreen"
 import ResetPasswordScreen from "../screens/ResetPasswordScreen"
 import ChatRoomScreen from "../screens/ChatRoomScreen"
 import ContactsScreen from "../screens/ContactsScreen"
+import HomeHeader from "../components/headers/HomeHeader"
+import ChatRoomHeader from "../components/headers/ChatRoomHeader"
+import Colors from "../constants/Color"
 
 const Stack = createNativeStackNavigator()
 
 const Navigation = () => {
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator screenOptions={{ headerShown: false }}> */}
-      <Stack.Navigator>
-        {/* <Stack.Screen name="SignIn" component={SignInScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
-        <Stack.Screen name="ConfirmEmail" component={ConfirmEmailScreen} />
-        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
-        <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} /> */}
+      <Stack.Navigator screenOptions={{
+        headerShadowVisible: false,
+        headerStyle: {
+          backgroundColor: Colors.mainPurple
+        },
+        headerTintColor: "#fff"
+      }}>
+        {/* <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="ConfirmEmail" component={ConfirmEmailScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{ headerShown: false }}/> */}
 
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Contacts" component={ContactsScreen} />
-        <Stack.Screen name="ChatRoom" component={ChatRoomScreen} />
-
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerTitle: () => (<HomeHeader />) }}
+        />
+        <Stack.Screen
+          name="Contacts"
+          component={ContactsScreen}
+          options={{
+            title: "Contatti"
+          }}
+        />
+        <Stack.Screen
+          name="ChatRoom"
+          component={ChatRoomScreen}
+          options={({ route }) => ({
+            headerTitle: () => (<ChatRoomHeader name={route?.params?.name} image={route?.params?.image} />)
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )

@@ -1,7 +1,7 @@
 import React from "react"
 import { Pressable, Text, StyleSheet } from "react-native"
-import { CustomButtonParamList } from "../../types"
-import Colors from "../constants/Color"
+import { CustomButtonParamList } from "../../../types"
+import Colors from "../../constants/Color"
 
 const CustomButton = ({ buttonText, onPress, type = "PRIMARY" }: CustomButtonParamList) => {
   return (
