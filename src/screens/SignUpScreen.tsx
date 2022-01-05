@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native"
 
 import CustomButton from "../components/forms/CustomButton"
 import CustomInput from "../components/forms/CustomInput"
+import CustomErrorMessage from "../components/forms/CustomErrorMessage"
 import Colors from "../constants/Color"
 
 import { useNavigation } from "@react-navigation/native"
@@ -16,25 +17,33 @@ const SignUpScreen = () => {
   const [phoneNumber, setPhoneNumber] = useState("")
   const [password, setPassword] = useState("")
   const [passwordRepeat, setPasswordRepeat] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
 
   const navigation = useNavigation()
 
   const onSignUpPressed = async() => {
-    try {
-      const { user } = await Auth.signUp({
-        username,
-        password,
-        attributes: {
-          email,          // optional
-          phone_number: phoneNumber   // optional - E.164 number convention
-          // other custom attributes
-        }
-      })
-      console.log(user)
-      navigation.navigate("ConfirmEmail")
-    } catch (error) {
-      console.log("error signing up:", error)
+
+    if (password !== passwordRepeat) {
+      setErrorMessage("Le password non corrispondono")
+
+    } else {
+      try {
+        const { user } = await Auth.signUp({
+          username,
+          password,
+          attributes: {
+            email,          // optional
+            phone_number: phoneNumber   // optional - E.164 number convention
+            // other custom attributes
+          }
+        })
+        
+        navigation.navigate("ConfirmEmail")
+      } catch (error) {
+        setErrorMessage(error.message)
+      }
     }
+
   }
 
   const onSignInPressed = () => {
@@ -89,6 +98,8 @@ const SignUpScreen = () => {
         />
 
         <Text style={styles.text}>Registrandoti, confermi di accettare i nostri <Text style={styles.link} onPress={onTermsPressed}>Termini e Condizioni d'Uso</Text> e la nostra <Text style={styles.link} onPress={onPrivacyPressed}>Privacy Policy</Text>.</Text>
+
+        <CustomErrorMessage value={errorMessage}/>
 
         <CustomButton
           buttonText="Registrati"

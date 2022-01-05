@@ -29,8 +29,6 @@ export default function ContactsScreen() {
         const otherUsers = usersData.data.listUsers.items.filter(e => e.id !== currentUser.attributes.sub)
 
         setUsers(otherUsers)
-
-        // setUsers(usersData.data.listUsers.items)
       } catch (error) {
         console.warn(error)
       }

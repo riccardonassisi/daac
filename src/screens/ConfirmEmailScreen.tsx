@@ -3,31 +3,38 @@ import { View, Text, ScrollView, StyleSheet } from "react-native"
 
 import CustomButton from "../components/forms/CustomButton"
 import CustomInput from "../components/forms/CustomInput"
+import CustomErrorMessage from "../components/forms/CustomErrorMessage"
 
 import Colors from "../constants/Color"
 
 import { useNavigation } from "@react-navigation/native"
+import { Auth } from "aws-amplify"
 
 const ConfirmEmailScreen = () => {
-  const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
   const [confirmationCode, setConfirmationCode] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
 
   const navigation = useNavigation()
 
   const onConfirmPressed = async() => {
     try {
-      await Auth.confirmSignUp(username, code)
+      await Auth.confirmSignUp(username, confirmationCode)
     } catch (error) {
-      console.log("error confirming sign up", error)
+      setErrorMessage(error.message)
     }
 
-    navigation.navigate("Home")
+    navigation.navigate("SignIn")
   }
   const onSignInPressed = () => {
     navigation.navigate("SignIn")
   }
-  const onResendPress = () => {
-    console.warn("RESEND CODE")
+  const onResendPress = async() => {
+    try {
+      await Auth.resendSignUp(username)
+    } catch (error) {
+      setErrorMessage(error.message)
+    }
   }
 
   return (
@@ -37,9 +44,9 @@ const ConfirmEmailScreen = () => {
         <Text style={styles.title}>Conferma la tua email</Text>
 
         <CustomInput
-          placeholder="Email"
-          value={email}
-          setValue={setEmail}
+          placeholder="Username"
+          value={username}
+          setValue={setUsername}
           secureTextEntry={false}
         />
         <CustomInput
@@ -48,6 +55,8 @@ const ConfirmEmailScreen = () => {
           setValue={setConfirmationCode}
           secureTextEntry={false}
         />
+
+        <CustomErrorMessage value={errorMessage}/>
 
         <CustomButton
           buttonText="Conferma"

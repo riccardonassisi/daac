@@ -58,7 +58,6 @@ const DefaultPictoInput = (props: DefaultPictoInputProps) => {
       )
     } catch (error) {
       console.error(error)
-
     }
   }
 

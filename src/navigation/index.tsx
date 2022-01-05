@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
@@ -16,26 +16,34 @@ import Colors from "../constants/Color"
 
 const Stack = createNativeStackNavigator()
 
-const Navigation = () => {
+const Navigation = (props) => {
+
+  const { isLoggedIn } = props
+
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{
-        headerShadowVisible: false,
-        headerStyle: {
-          backgroundColor: Colors.mainPurple
-        },
-        headerTintColor: "#fff"
-      }}>
-        {/* <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }}/>
+
+      <Stack.Navigator
+        initialRouteName={isLoggedIn ? "HomeScreen" : "SignIn"}
+        screenOptions={{
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: Colors.mainPurple
+          },
+          headerTintColor: "#fff"
+        }}
+      >
+        <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="ConfirmEmail" component={ConfirmEmailScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ headerShown: false }}/>
-        <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{ headerShown: false }}/> */}
-
+        <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{ headerShown: false }}/>
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ headerTitle: () => (<HomeHeader />) }}
+          options={{
+            headerTitle: () => (<HomeHeader />)
+          }}
         />
         <Stack.Screen
           name="Contacts"
@@ -51,9 +59,11 @@ const Navigation = () => {
             headerTitle: () => (<ChatRoomHeader name={route?.params?.name} image={route?.params?.image} />)
           })}
         />
+
       </Stack.Navigator>
     </NavigationContainer>
   )
+
 }
 
 export default Navigation

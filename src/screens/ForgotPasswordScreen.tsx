@@ -3,22 +3,29 @@ import { View, Text, ScrollView, StyleSheet } from "react-native"
 
 import CustomButton from "../components/forms/CustomButton"
 import CustomInput from "../components/forms/CustomInput"
+import CustomErrorMessage from "../components/forms/CustomErrorMessage"
 import Colors from "../constants/Color"
 
 import { useNavigation } from "@react-navigation/native"
+import { Auth } from "aws-amplify"
 
 const ForgotPasswordScreen = () => {
   const [username, setUsername] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
 
   const navigation = useNavigation()
 
-  const onConfirmPressed = () => {
-    navigation.navigate("ResetPassword")
+  const onConfirmPressed = async() => {
+    try {
+      await Auth.forgotPassword(username)
+      navigation.navigate("ResetPassword")
+    } catch (error) {
+      setErrorMessage(error.message)
+    }
   }
   const onSignInPressed = () => {
     navigation.navigate("SignIn")
   }
-
 
   return (
     <ScrollView>
@@ -32,6 +39,8 @@ const ForgotPasswordScreen = () => {
           setValue={setUsername}
           secureTextEntry={true}
         />
+
+        <CustomErrorMessage value={errorMessage}/>
 
         <CustomButton
           buttonText="Conferma"

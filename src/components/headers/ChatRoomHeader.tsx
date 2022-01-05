@@ -8,8 +8,6 @@ const ChatRoomHeader = (props) => {
 
   const { name, image } = props
 
-  console.log(props)
-
   return (
     <View style={styles.container}>
       <Image

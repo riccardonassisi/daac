@@ -1,23 +1,34 @@
 import React, { useState } from "react"
-import { View, Image, StyleSheet, useWindowDimensions, ScrollView } from "react-native"
+import { View, Image, StyleSheet, useWindowDimensions, ScrollView, Text } from "react-native"
 import Logo from "./../../assets/images/logo.png"
 
 import CustomInput from "../components/forms/CustomInput"
 import CustomButton from "../components/forms/CustomButton"
 
-import { useNavigation } from "@react-navigation/native"
+import { StackActions, useNavigation } from "@react-navigation/native"
 
 import { Auth } from "aws-amplify"
+import CustomErrorMessage from "../components/forms/CustomErrorMessage"
 
 const SignInScreen = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
 
   const { height } = useWindowDimensions()
   const navigation = useNavigation()
 
   const onSignInPressed = async() => {
-    navigation.navigate("Home")
+
+    try {
+      await Auth.signIn(username, password)
+      navigation.dispatch(
+        StackActions.replace("Home")
+      )
+    } catch (error) {
+      setErrorMessage(error.message)
+    }
+
   }
 
   const onForgotPasswordPressed = () => {
@@ -51,6 +62,8 @@ const SignInScreen = () => {
           secureTextEntry={true}
         />
 
+        <CustomErrorMessage value={errorMessage}/>
+
         <CustomButton
           buttonText="Accedi"
           onPress={onSignInPressed}
@@ -67,6 +80,7 @@ const SignInScreen = () => {
           onPress={onSignUpPressed}
           type="TEXTONLY"
         />
+
       </View>
     </ScrollView>
   )
