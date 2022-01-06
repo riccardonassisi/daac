@@ -8,6 +8,7 @@ import { API, Auth, graphqlOperation } from "aws-amplify"
 import { getUser } from "./src/graphql/queries"
 import { createUser } from "./src/graphql/mutations"
 import Colors from "./src/constants/Color"
+import { KeyboardContextProvider } from "./src/keyboard/keyboard.context"
 
 const App = () => {
 
@@ -58,9 +59,11 @@ const App = () => {
     return null
   } else {
     return (
-      <SafeAreaView style={styles.root}>
-        <Navigation />
-      </SafeAreaView>
+      <KeyboardContextProvider>
+        <SafeAreaView style={styles.root}>
+          <Navigation />
+        </SafeAreaView>
+      </KeyboardContextProvider>
     )
   }
 
