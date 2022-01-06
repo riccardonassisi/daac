@@ -1,16 +1,16 @@
 import React from "react"
-import { Pressable, Text, StyleSheet } from "react-native"
+import { Pressable, Text, StyleSheet, TouchableOpacity } from "react-native"
 import { CustomButtonParamList } from "../../../types"
 import Colors from "../../constants/Color"
 
 const CustomButton = ({ buttonText, onPress, type = "PRIMARY" }: CustomButtonParamList) => {
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={onPress}
       style={[styles.container, styles[`button_${type}`]]}
     >
       <Text style={[styles.text, styles[`text_${type}`]]}>{buttonText}</Text>
-    </Pressable>
+    </TouchableOpacity>
   )
 }
 

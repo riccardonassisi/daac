@@ -42,7 +42,7 @@ const Navigation = (props) => {
           name="Home"
           component={HomeScreen}
           options={{
-            headerTitle: () => (<HomeHeader />)
+            header: () => (<HomeHeader />)
           }}
         />
         <Stack.Screen

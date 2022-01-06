@@ -35,7 +35,7 @@ export default function ContactsScreen() {
     }
 
     fetchUsers()
-  })
+  }, [])
 
   return (
     <View style={styles.container}>

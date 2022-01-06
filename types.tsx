@@ -1,14 +1,15 @@
 export type CustomButtonParamList = {
   buttonText: string,
-  onPress: undefined,
+  onPress(a: any): void,
   type: string | undefined
 }
 
 export type CustomInputParamList = {
   placeholder: string,
   value: string,
-  setValue: undefined,
-  secureTextEntry: boolean
+  setValue(s: string): void,
+  secureTextEntry: boolean,
+  onSubmit?(a: any): void
 }
 
 export type User = {

@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { View, Image, StyleSheet, useWindowDimensions, ScrollView, Text } from "react-native"
+import React, { useRef, useState } from "react"
+import { View, Image, StyleSheet, useWindowDimensions, ScrollView, Text, Keyboard } from "react-native"
 import Logo from "./../../assets/images/logo.png"
 
 import CustomInput from "../components/forms/CustomInput"
@@ -14,6 +14,8 @@ const SignInScreen = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
+  const usernameRef = useRef<any>()
+  const passwordRef = useRef<any>()
 
   const { height } = useWindowDimensions()
   const navigation = useNavigation()
@@ -31,6 +33,14 @@ const SignInScreen = () => {
 
   }
 
+  const onUsernameSubmit = () => {
+    passwordRef.current.focus()
+  }
+
+  const onPasswordSubmit = () => {
+    onSignInPressed()
+  }
+
   const onForgotPasswordPressed = () => {
     navigation.navigate("ForgotPassword")
   }
@@ -40,7 +50,7 @@ const SignInScreen = () => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView keyboardShouldPersistTaps={"handled"}>
 
       <View style={styles.root}>
         <Image
@@ -50,14 +60,18 @@ const SignInScreen = () => {
         />
 
         <CustomInput
+          ref={usernameRef}
           placeholder="Username"
           value={username}
           setValue={setUsername}
+          onSubmit={onUsernameSubmit}
           secureTextEntry={false}
         />
         <CustomInput
+          ref={passwordRef}
           placeholder="Password"
           value={password}
+          onSubmit={onPasswordSubmit}
           setValue={setPassword}
           secureTextEntry={true}
         />

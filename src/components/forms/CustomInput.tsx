@@ -2,19 +2,22 @@ import React from "react"
 import { View, TextInput, StyleSheet } from "react-native"
 import { CustomInputParamList } from "../../../types"
 
-const CustomInput = ({ value, setValue, placeholder, secureTextEntry }: CustomInputParamList) => {
+const CustomInput = React.forwardRef(({ value, setValue, placeholder, secureTextEntry, onSubmit }: CustomInputParamList, ref: any) => {
   return (
     <View style={styles.container}>
       <TextInput
+        ref={ref}
         value={value}
         onChangeText={setValue}
         placeholder={placeholder}
         style={styles.input}
+        onSubmitEditing={onSubmit ? onSubmit : undefined}
+        onEndEditing={() => {}}
         secureTextEntry={secureTextEntry}
       />
     </View>
   )
-}
+})
 
 const styles = StyleSheet.create({
   container: {
