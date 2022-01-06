@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { FlatList, Image, Pressable, Text, View, StyleSheet } from "react-native"
+import { FlatList, Image, Pressable, Text, View, StyleSheet, TouchableOpacity } from "react-native"
 
 import { StandardMessage } from "../../types"
 
@@ -84,7 +84,7 @@ const DefaultPictoInput = (props: DefaultPictoInputProps) => {
 
   const DefaultMessage = (message: StandardMessage) => {
     return (
-      <Pressable
+      <TouchableOpacity
         onPress={() => {
           onSendPress(message)
         }}
@@ -102,7 +102,7 @@ const DefaultPictoInput = (props: DefaultPictoInputProps) => {
             horizontal={true}
           />
         </View>
-      </Pressable>
+      </TouchableOpacity>
     )
   }
 

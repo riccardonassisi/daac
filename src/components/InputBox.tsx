@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { View, Keyboard, Image, Platform, TextInput, FlatList, Pressable, StyleSheet } from "react-native"
+import { View, Keyboard, Image, Platform, TextInput, FlatList, Pressable, StyleSheet, TouchableOpacity } from "react-native"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
 import Colors from "../constants/Color"
@@ -156,19 +156,19 @@ const InputBox = (props: InputBoxProps) => {
       }
       {!isKeyboardVisible
         ?
-        <Pressable onPress={changeKeys}>
+        <TouchableOpacity onPress={changeKeys}>
           <View style={styles.caaContainer}>
             <Image source={{ uri: "https://api.arasaac.org/api/pictograms/6991?download=false" }} style={styles.caaIcon} />
           </View>
-        </Pressable>
+        </TouchableOpacity>
         :
-        <Pressable onPress={() => {
+        <TouchableOpacity onPress={() => {
           onPress()
         }}>
           <View style={styles.buttonContainer}>
             <FontAwesome5 name="paper-plane" size={25} color={"white"} />
           </View>
-        </Pressable>
+        </TouchableOpacity>
       }
     </View>
   )

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { View, Text, StyleSheet, Image, Pressable } from "react-native"
+import { View, Text, StyleSheet, Image, Pressable, TouchableOpacity } from "react-native"
 
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import Colors from "../../constants/Color"
@@ -49,13 +49,13 @@ const HomeHeader = () => {
         style={styles.image}
         source={{ uri: currentUser?.imageUri }}/>
       <Text style={styles.text}>DAAC</Text>
-      <Pressable onPress={ () => signOut() }>
+      <TouchableOpacity onPress={ () => signOut() }>
         <FontAwesome5
           name="sign-out-alt"
           size={20}
           color={"#fff"}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -66,14 +66,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     backgroundColor: Colors.mainPurple,
-    paddingLeft: "5%"
+    paddingHorizontal: 8,
+    paddingVertical: 8
   },
   image: {
     width: 40,
     height: 40,
     borderRadius: 20,
     padding: 0
-  },  
+  },
   text: {
     color: "#fff",
     fontSize: 18,

@@ -1,5 +1,5 @@
 import React from "react"
-import { Image, Pressable, View, Text, StyleSheet } from "react-native"
+import { Image, Pressable, View, Text, StyleSheet, TouchableOpacity } from "react-native"
 
 import { User } from "../../types"
 
@@ -16,7 +16,7 @@ export type ChatMessageProps = {
 const ContactListItem = (props: ChatMessageProps) => {
   const { user } = props
 
-  const navigation = useNavigation()
+  const navigation = useNavigation<any>()
 
   const onClick = async() => {
     try {
@@ -41,7 +41,7 @@ const ContactListItem = (props: ChatMessageProps) => {
       })
 
       if (existingChatRoomID) {
-        navigation.navigate("ChatRoom", {
+        navigation.replace("ChatRoom", {
           id: existingChatRoomID,
           name: user.name
         })
@@ -82,7 +82,6 @@ const ContactListItem = (props: ChatMessageProps) => {
             }
           )
         )
-
         navigation.navigate("ChatRoom", {
           id: newChatRoom.id,
           name: user.name
@@ -94,7 +93,7 @@ const ContactListItem = (props: ChatMessageProps) => {
   }
 
   return (
-    <Pressable onPress={onClick}>
+    <TouchableOpacity onPress={onClick}>
 
       <View style={styles.container}>
 
@@ -106,7 +105,7 @@ const ContactListItem = (props: ChatMessageProps) => {
         </View>
 
       </View>
-    </Pressable>
+    </TouchableOpacity>
   )
 }
 
