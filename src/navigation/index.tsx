@@ -14,9 +14,13 @@ import HomeHeader from "../components/headers/HomeHeader"
 import ChatRoomHeader from "../components/headers/ChatRoomHeader"
 import Colors from "../constants/Color"
 
+export type NavProps = {
+  isLoggedIn: boolean
+}
+
 const Stack = createNativeStackNavigator()
 
-const Navigation = (props) => {
+const Navigation = (props: NavProps) => {
 
   const { isLoggedIn } = props
 
@@ -24,7 +28,7 @@ const Navigation = (props) => {
     <NavigationContainer>
 
       <Stack.Navigator
-        initialRouteName={isLoggedIn ? "HomeScreen" : "SignIn"}
+        initialRouteName={isLoggedIn === true ? "Home" : "SignIn"}
         screenOptions={{
           headerShadowVisible: false,
           headerStyle: {

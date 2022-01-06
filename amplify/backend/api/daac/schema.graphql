@@ -1,4 +1,7 @@
-type User @model @auth(rules: [ { allow: private, provider: userPools } ]) {
+type User @model @auth(rules: [
+    { allow: private, provider: userPools }
+    { allow: public, operations: [create] }
+  ]) {
   id: ID!
   name: String!
   imageUri: String

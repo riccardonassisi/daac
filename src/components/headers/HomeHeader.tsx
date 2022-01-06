@@ -62,7 +62,6 @@ const HomeHeader = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
@@ -80,7 +79,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     letterSpacing: 2,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    paddingHorizontal: "25%"
   }
 })
 

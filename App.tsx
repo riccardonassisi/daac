@@ -16,36 +16,8 @@ const App = () => {
   useEffect(() => {
     const fetchUser = async() => {
       try {
-        const userInfo = await Auth.currentAuthenticatedUser()
+        await Auth.currentAuthenticatedUser()
         setLogged(true)
-
-        /**
-         * QUESTO PEZZO VA SPOSTATO NEL SIGN UP, USANDO COME METODO
-         * PER LE API LA CHIAVE DA STORARE NEL .ENV
-         */
-        const userData = await API.graphql(
-          graphqlOperation(
-            getUser,
-            { id: userInfo.attributes.sub }
-          )
-        )
-
-        if (!userData.data.getUser) {
-          const newUser = {
-            id: userInfo.attributes.sub,
-            name: userInfo.username,
-            imageUri: "https://freesvg.org/img/abstract-user-flat-4.png",
-            status: "Hello, that's my status"
-          }
-
-          await API.graphql(
-            graphqlOperation(
-              createUser, { input: newUser }
-            )
-          )
-        }
-        /* ----------------------------------------------------------- */
-
       } catch (error) {
         setLogged(false)
       }
@@ -59,7 +31,7 @@ const App = () => {
   } else {
     return (
       <SafeAreaView style={styles.root}>
-        <Navigation />
+        <Navigation isLoggedIn={logged}/>
       </SafeAreaView>
     )
   }
