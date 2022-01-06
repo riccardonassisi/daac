@@ -59,7 +59,7 @@ const App = () => {
   } else {
     return (
       <SafeAreaView style={styles.root}>
-        <Navigation />
+        <Navigation isLoggedIn={logged}/>
       </SafeAreaView>
     )
   }
