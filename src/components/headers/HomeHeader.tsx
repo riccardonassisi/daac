@@ -62,23 +62,24 @@ const HomeHeader = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",
     backgroundColor: Colors.mainPurple,
-    paddingLeft: 10
+    paddingLeft: "5%"
   },
   image: {
     width: 40,
     height: 40,
-    borderRadius: 20
-  },
+    borderRadius: 20,
+    padding: 0
+  },  
   text: {
     color: "#fff",
     fontSize: 18,
     letterSpacing: 2,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    paddingHorizontal: "25%"
   }
 })
 

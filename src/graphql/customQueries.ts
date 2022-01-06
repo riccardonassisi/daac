@@ -73,3 +73,13 @@ export const getUserInfo = /* GraphQL */ `
     }
   }
 `
+export const createUserSignUp = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    createUser(input: $input, condition: $condition) {
+      id
+    }
+  }
+`

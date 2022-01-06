@@ -2,31 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createUser = /* GraphQL */ `
-  mutation CreateUser(
-    $input: CreateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    createUser(input: $input, condition: $condition) {
-      id
-      name
-      imageUri
-      status
-      chatRoomUser {
-        items {
-          id
-          userID
-          chatRoomID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const updateUser = /* GraphQL */ `
   mutation UpdateUser(
     $input: UpdateUserInput!
@@ -437,52 +412,6 @@ export const deleteDefaultMessage = /* GraphQL */ `
     }
   }
 `;
-export const createChatRoomUsers = /* GraphQL */ `
-  mutation CreateChatRoomUsers(
-    $input: CreateChatRoomUsersInput!
-    $condition: ModelChatRoomUsersConditionInput
-  ) {
-    createChatRoomUsers(input: $input, condition: $condition) {
-      id
-      userID
-      chatRoomID
-      user {
-        id
-        name
-        imageUri
-        status
-        chatRoomUser {
-          nextToken
-        }
-        createdAt
-        updatedAt
-      }
-      chatRoom {
-        id
-        users {
-          nextToken
-        }
-        messages {
-          nextToken
-        }
-        lastMessage {
-          id
-          content
-          urls
-          createdAt
-          updatedAt
-          chatRoomMessagesId
-          messageUserId
-        }
-        createdAt
-        updatedAt
-        chatRoomLastMessageId
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const updateChatRoomUsers = /* GraphQL */ `
   mutation UpdateChatRoomUsers(
     $input: UpdateChatRoomUsersInput!
@@ -535,6 +464,77 @@ export const deleteChatRoomUsers = /* GraphQL */ `
     $condition: ModelChatRoomUsersConditionInput
   ) {
     deleteChatRoomUsers(input: $input, condition: $condition) {
+      id
+      userID
+      chatRoomID
+      user {
+        id
+        name
+        imageUri
+        status
+        chatRoomUser {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      chatRoom {
+        id
+        users {
+          nextToken
+        }
+        messages {
+          nextToken
+        }
+        lastMessage {
+          id
+          content
+          urls
+          createdAt
+          updatedAt
+          chatRoomMessagesId
+          messageUserId
+        }
+        createdAt
+        updatedAt
+        chatRoomLastMessageId
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    createUser(input: $input, condition: $condition) {
+      id
+      name
+      imageUri
+      status
+      chatRoomUser {
+        items {
+          id
+          userID
+          chatRoomID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createChatRoomUsers = /* GraphQL */ `
+  mutation CreateChatRoomUsers(
+    $input: CreateChatRoomUsersInput!
+    $condition: ModelChatRoomUsersConditionInput
+  ) {
+    createChatRoomUsers(input: $input, condition: $condition) {
       id
       userID
       chatRoomID
