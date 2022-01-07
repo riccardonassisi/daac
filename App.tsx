@@ -4,9 +4,7 @@ import {
   StyleSheet
 } from "react-native"
 import Navigation from "./src/navigation"
-import { API, Auth, graphqlOperation } from "aws-amplify"
-import { getUser } from "./src/graphql/queries"
-import { createUser } from "./src/graphql/mutations"
+import { Auth } from "aws-amplify"
 import Colors from "./src/constants/Color"
 
 const App = () => {
