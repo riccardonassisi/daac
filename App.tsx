@@ -6,6 +6,7 @@ import {
 import Navigation from "./src/navigation"
 import { Auth } from "aws-amplify"
 import Colors from "./src/constants/Color"
+import { KeyboardContextProvider } from "./src/keyboard/keyboard.context"
 
 const App = () => {
 
@@ -28,9 +29,11 @@ const App = () => {
     return null
   } else {
     return (
-      <SafeAreaView style={styles.root}>
-        <Navigation isLoggedIn={logged}/>
-      </SafeAreaView>
+      <KeyboardContextProvider>
+        <SafeAreaView style={styles.root}>
+          <Navigation />
+        </SafeAreaView>
+      </KeyboardContextProvider>
     )
   }
 

@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native"
 import { API, Auth, graphqlOperation } from "aws-amplify"
 import { listUsersFromChatRoom } from "../graphql/customQueries"
 import { createChatRoom, createChatRoomUsers } from "../graphql/mutations"
+import { useKeyboard } from "../keyboard/keyboard.context"
 
 export type ChatMessageProps = {
   user: User
@@ -92,8 +93,14 @@ const ContactListItem = (props: ChatMessageProps) => {
     }
   }
 
+  const keyboard = useKeyboard()
+
+  const onClick2 = () => {
+    keyboard.setKeyboardVisible(true, "TEXT")
+  }
+
   return (
-    <TouchableOpacity onPress={onClick}>
+    <TouchableOpacity onPress={onClick2}>
 
       <View style={styles.container}>
 
