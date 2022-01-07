@@ -9,7 +9,8 @@ import Colors from "../constants/Color"
 
 import { useNavigation } from "@react-navigation/native"
 
-import { Auth } from "aws-amplify"
+import { API, Auth } from "aws-amplify"
+import { createUserSignUp } from "../graphql/customQueries"
 
 const SignUpScreen = () => {
   const [username, setUsername] = useState("")
@@ -28,16 +29,28 @@ const SignUpScreen = () => {
 
     } else {
       try {
-        const { user } = await Auth.signUp({
+        const { userSub } = await Auth.signUp({
           username,
           password,
           attributes: {
             email,          // optional
             phone_number: phoneNumber   // optional - E.164 number convention
-            // other custom attributes
           }
         })
-        
+
+        const newUser = {
+          id: userSub,
+          name: username,
+          imageUri: "https://freesvg.org/img/abstract-user-flat-4.png",
+          status: "Hello, that's my status"
+        }
+
+        await API.graphql({
+          query: createUserSignUp,
+          variables: { input: newUser },
+          authMode: "API_KEY"
+        })
+
         navigation.navigate("ConfirmEmail")
       } catch (error) {
         setErrorMessage(error.message)

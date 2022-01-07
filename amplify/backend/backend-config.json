@@ -11,7 +11,16 @@
               "userPoolId": "authdaacabc029e3"
             }
           },
-          "additionalAuthenticationProviders": []
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "API_KEY",
+              "apiKeyConfig": {
+                "apiKeyExpirationDays": 365,
+                "apiKeyExpirationDate": "2023-01-06T10:05:27.348Z",
+                "description": "api key for daac project"
+              }
+            }
+          ]
         }
       }
     }

@@ -16,14 +16,19 @@ import ChatRoomHeader from "../components/headers/ChatRoomHeader"
 import Colors from "../constants/Color"
 import { useKeyboard } from "../keyboard/keyboard.context"
 
+export type NavProps = {
+  isLoggedIn: boolean
+}
+
 const Stack = createNativeStackNavigator()
 
-const Navigation = (props) => {
+const Navigation = (props: NavProps) => {
 
   const { isLoggedIn } = props
   const keyboard = useKeyboard()
 
   return (
+
     <View style={{ flex: 1 }}>
       <NavigationContainer>
         <Stack.Navigator

@@ -14,13 +14,13 @@ const ChatRoomHeader = (props) => {
         style={styles.image}
         source={{ uri: image }}/>
       <Text style={styles.text}>{name}</Text>
-      <Pressable>
+      {/* <Pressable>
         <FontAwesome5
           name="ellipsis-v"
           size={20}
           color={"#fff"}
         />
-      </Pressable>
+      </Pressable> */}
     </View>
   )
 }
@@ -29,7 +29,6 @@ export default ChatRoomHeader
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -45,7 +44,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     letterSpacing: 2,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    paddingLeft: "20%"
   }
 })
 

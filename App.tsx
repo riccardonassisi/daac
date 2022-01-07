@@ -4,9 +4,7 @@ import {
   StyleSheet
 } from "react-native"
 import Navigation from "./src/navigation"
-import { API, Auth, graphqlOperation } from "aws-amplify"
-import { getUser } from "./src/graphql/queries"
-import { createUser } from "./src/graphql/mutations"
+import { Auth } from "aws-amplify"
 import Colors from "./src/constants/Color"
 import { KeyboardContextProvider } from "./src/keyboard/keyboard.context"
 
@@ -17,36 +15,8 @@ const App = () => {
   useEffect(() => {
     const fetchUser = async() => {
       try {
-        const userInfo = await Auth.currentAuthenticatedUser()
+        await Auth.currentAuthenticatedUser()
         setLogged(true)
-
-        /**
-         * QUESTO PEZZO VA SPOSTATO NEL SIGN UP, USANDO COME METODO
-         * PER LE API LA CHIAVE DA STORARE NEL .ENV
-         */
-        const userData = await API.graphql(
-          graphqlOperation(
-            getUser,
-            { id: userInfo.attributes.sub }
-          )
-        )
-
-        if (!userData.data.getUser) {
-          const newUser = {
-            id: userInfo.attributes.sub,
-            name: userInfo.username,
-            imageUri: "https://freesvg.org/img/abstract-user-flat-4.png",
-            status: "Hello, that's my status"
-          }
-
-          await API.graphql(
-            graphqlOperation(
-              createUser, { input: newUser }
-            )
-          )
-        }
-        /* ----------------------------------------------------------- */
-
       } catch (error) {
         setLogged(false)
       }
