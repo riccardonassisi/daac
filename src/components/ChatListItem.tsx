@@ -1,7 +1,8 @@
 import React from "react"
 import { useEffect, useState } from "react"
 
-import { Pressable, View, Image, Text, StyleSheet, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
+import FastImage from "react-native-fast-image"
 
 import moment from "moment"
 import { useNavigation } from "@react-navigation/native"
@@ -45,7 +46,7 @@ const ChatListItem = (props) => {
     <TouchableOpacity onPress={onClick}>
       <View style={styles.container}>
         <View style={styles.leftContainer} >
-          <Image source={{ uri: otherUser.imageUri }} style={styles.avatar} />
+          <FastImage source={{ uri: otherUser.imageUri }} style={styles.avatar} />
           {/* <View style={styles.badgeContainer}>
             <Text style={styles.badgeText}>4</Text>
           </View> */}

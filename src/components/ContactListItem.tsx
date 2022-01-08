@@ -1,5 +1,6 @@
 import React from "react"
-import { Image, View, Text, StyleSheet, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
+import FastImage from "react-native-fast-image"
 
 import { User } from "../../types"
 
@@ -97,7 +98,7 @@ const ContactListItem = (props: ChatMessageProps) => {
 
       <View style={styles.container}>
 
-        <Image source={{ uri: user.imageUri }} style={styles.avatar} />
+        <FastImage source={{ uri: user.imageUri }} style={styles.avatar} />
 
         <View style={styles.midContainer}>
           <Text style={styles.username}>{user.name}</Text>

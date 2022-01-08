@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { View, Text, StyleSheet, Image, Pressable, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
 
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import Colors from "../../constants/Color"
@@ -7,6 +7,7 @@ import Colors from "../../constants/Color"
 import { API, Auth, graphqlOperation } from "aws-amplify"
 import { getUserInfo } from "../../graphql/customQueries"
 import { StackActions, useNavigation } from "@react-navigation/native"
+import FastImage from "react-native-fast-image"
 
 const HomeHeader = () => {
 
@@ -45,7 +46,7 @@ const HomeHeader = () => {
 
   return (
     <View style={styles.container}>
-      <Image
+      <FastImage
         style={styles.image}
         source={{ uri: currentUser?.imageUri }}/>
       <Text style={styles.text}>DAAC</Text>

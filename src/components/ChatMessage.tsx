@@ -1,6 +1,7 @@
 import React from "react"
 
-import { FlatList, Image, Text, View, StyleSheet } from "react-native"
+import { FlatList, Text, View, StyleSheet } from "react-native"
+import FastImage from "react-native-fast-image"
 import Colors from "../constants/Color"
 
 import moment from "moment"
@@ -30,12 +31,12 @@ const ChatMessage = (props: ChatMessageProps) => {
           data={message?.urls}
           renderItem={({ item }) => {
             if (item[0] === "_") {
-              return (<Image
+              return (<FastImage
                 style={styles.image}
                 source={Pictograms[item]}
               />)
             } else {
-              return (<Image
+              return (<FastImage
                 style={styles.image}
                 source={{ uri: item }}
               />)

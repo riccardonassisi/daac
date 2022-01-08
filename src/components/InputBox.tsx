@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { View, Keyboard, Image, Platform, TextInput, FlatList, StyleSheet, TouchableOpacity } from "react-native"
+import { View, Keyboard, Platform, TextInput, FlatList, StyleSheet, TouchableOpacity } from "react-native"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
 import Colors from "@constants/Color"
@@ -10,6 +10,7 @@ import { API, graphqlOperation, Auth } from "aws-amplify"
 import { createMessage, updateChatRoom } from "../graphql/mutations"
 
 import { useKeyboard } from "../keyboard/keyboard.context"
+import FastImage from "react-native-fast-image"
 
 export type InputBoxProps = {
   chatRoomId: string
@@ -113,7 +114,7 @@ const InputBox = (props: InputBoxProps) => {
       }>
       <TouchableOpacity onPress={onShowPictoKeyboard}>
         <View style={styles.caaContainer}>
-          <Image source={caaLogo} style={styles.caaIcon} />
+          <FastImage source={caaLogo} style={styles.caaIcon} />
         </View>
       </TouchableOpacity>
 
@@ -121,7 +122,7 @@ const InputBox = (props: InputBoxProps) => {
         <View style={styles.preview}>
           <FlatList
             data={urls}
-            renderItem={({ item }) => <Image
+            renderItem={({ item }) => <FastImage
               style={styles.image}
               source={{ uri: item }}
             />}
