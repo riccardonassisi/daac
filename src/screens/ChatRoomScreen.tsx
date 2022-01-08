@@ -46,8 +46,9 @@ const ChatRoomScreen = () => {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       style={styles.container}>
       <FlatList
-        data={messages.sort((a, b) => new moment(a?.createdAt) - new moment(b?.createdAt))}
+        data={messages.sort((a, b) => new moment(b?.createdAt) - new moment(a?.createdAt))}
         renderItem={({ item }) => <ChatMessage message={item} ownerId={currentUserId}/>}
+        inverted
       />
       {caaKeyboard.visible
         ? (<CaaKeyboard currentUserId={currentUserId} chatRoomId={route?.params?.id}/>)
