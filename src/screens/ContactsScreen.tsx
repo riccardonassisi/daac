@@ -6,15 +6,18 @@ import ContactListItem from "../components/ContactListItem"
 import { useEffect, useState } from "react"
 import {
   API,
-  graphqlOperation,
-  Auth
+  graphqlOperation
 } from "aws-amplify"
 
 import { listUsers } from "../graphql/queries"
+import { useRoute } from "@react-navigation/native"
 
-export default function ContactsScreen() {
+const ContactsScreen = () => {
 
   const [users, setUsers] = useState([])
+  const route = useRoute()
+
+  const currentUserId = route?.params?.currentUserId
 
   useEffect(() => {
     const fetchUsers = async() => {
@@ -25,8 +28,7 @@ export default function ContactsScreen() {
           )
         )
 
-        const currentUser = await Auth.currentAuthenticatedUser()
-        const otherUsers = usersData.data.listUsers.items.filter(e => e.id !== currentUser.attributes.sub)
+        const otherUsers = usersData?.data?.listUsers?.items?.filter(e => e.id !== currentUserId)
 
         setUsers(otherUsers)
       } catch (error) {
@@ -44,7 +46,7 @@ export default function ContactsScreen() {
           width: "100%"
         }}
         data={users}
-        renderItem={({ item }) => <ContactListItem user={item} />}
+        renderItem={({ item }) => <ContactListItem currentUserId={currentUserId} user={item} />}
         keyExtractor={(item) => item.id}
       />
     </View>
@@ -57,3 +59,5 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 })
+
+export default ContactsScreen

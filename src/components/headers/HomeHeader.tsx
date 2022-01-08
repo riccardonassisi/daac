@@ -9,7 +9,13 @@ import { getUserInfo } from "../../graphql/customQueries"
 import { StackActions, useNavigation } from "@react-navigation/native"
 import FastImage from "react-native-fast-image"
 
-const HomeHeader = () => {
+export type HomeHeaderProps = {
+  currentUserId: string
+}
+
+const HomeHeader = (props: HomeHeaderProps) => {
+
+  const { currentUserId } = props
 
   const [currentUser, setCurrentUser] = useState()
   const navigation = useNavigation()
@@ -17,15 +23,14 @@ const HomeHeader = () => {
   useEffect(() => {
     const fetchMyData = async() => {
       try {
-        const userInfo = await Auth.currentAuthenticatedUser()
         const myData = await API.graphql(
           graphqlOperation(
             getUserInfo, {
-              id: userInfo.attributes.sub
+              id: currentUserId
             }
           )
         )
-        setCurrentUser(myData.data.getUser)
+        setCurrentUser(myData?.data?.getUser)
       } catch (error) {
       }
     }
@@ -40,7 +45,6 @@ const HomeHeader = () => {
       )
     } catch (error) {
       console.error(error)
-
     }
   }
 
@@ -53,7 +57,7 @@ const HomeHeader = () => {
       <TouchableOpacity onPress={ () => signOut() }>
         <FontAwesome5
           name="sign-out-alt"
-          size={20}
+          size={30}
           color={"#fff"}
         />
       </TouchableOpacity>
@@ -73,8 +77,7 @@ const styles = StyleSheet.create({
   image: {
     width: 40,
     height: 40,
-    borderRadius: 20,
-    padding: 0
+    borderRadius: 20
   },
   text: {
     color: "#fff",

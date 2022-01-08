@@ -1,45 +1,27 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native"
+import FastImage from "react-native-fast-image"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
 import Colors from "@constants/Color"
 import caaLogo from "@pictograms/CAA.png"
-import domande from "@data/domande"
-import mainbody from "@data/Mainbody"
+import bodyList from "@data/bodylist"
 
 import CaaKeyboardComponent from "./CaaKeyboardComponent"
 
 import { useKeyboard } from "../../keyboard/keyboard.context"
 import { InputBoxProps } from "../InputBox"
 
-import { Auth } from "aws-amplify"
 import { API, graphqlOperation } from "aws-amplify"
 import { createMessage, updateChatRoom } from "../../graphql/mutations"
-import FastImage from "react-native-fast-image"
 
 const CaaKeyboard = (props: InputBoxProps) => {
-  const { chatRoomId } = props
+  const { currentUserId, chatRoomId } = props
 
   const [message, setMessage] = useState("")
   const [uris, setUris] = useState([])
-  const [myUserID, setMyUserID] = useState("")
-
-  const bodyList = {
-    mainbody,
-    domande
-  }
 
   const [body, setBody] = useState(bodyList.mainbody)
-
-  useEffect(() => {
-    const fetchUser = async() => {
-      const userInfo = await Auth.currentAuthenticatedUser()
-      setMyUserID(userInfo.attributes.sub)
-    }
-
-    fetchUser()
-  }, [])
-
   const caaKeyboard = useKeyboard()
   const onHideCaaKeyboard = () => {
     caaKeyboard.dismissKeyboard()
@@ -76,7 +58,9 @@ const CaaKeyboard = (props: InputBoxProps) => {
   }
 
   const showSecondaryBody = (name: string) => {
-    setBody(bodyList[`${name}`])
+    if (bodyList[`${name}`]) {
+      setBody(bodyList[`${name}`])
+    }
   }
 
   const updateLastMessage = async(chatId: string, messageId: string) => {
@@ -105,19 +89,18 @@ const CaaKeyboard = (props: InputBoxProps) => {
             input: {
               content: message,
               urls: uris,
-              messageUserId: myUserID,
+              messageUserId: currentUserId,
               chatRoomMessagesId: chatRoomId
             }
           }
         )
       )
-      await updateLastMessage(chatRoomId, newMessageData.data.createMessage.id)
+      await updateLastMessage(chatRoomId, newMessageData?.data?.createMessage?.id)
     } catch (error) {
     }
   }
 
   const onPress = () => {
-    console.log(uris)
     if (message) {
       onSendPress()
       clearPicto()

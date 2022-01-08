@@ -5,7 +5,12 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
 import Colors from "../../constants/Color"
 
-const ChatRoomHeader = (props) => {
+export type ChatRoomHeaderProps ={
+name: string,
+image: string
+}
+
+const ChatRoomHeader = (props: ChatRoomHeaderProps) => {
 
   const { name, image } = props
 

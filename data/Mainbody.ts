@@ -1,6 +1,6 @@
 import { Pictogram } from "../types"
 
-const HomeBody: Pictogram[] = [
+const mainbody: Pictogram[] = [
   {
     text: "ciao",
     uri: "_ciao",
@@ -103,4 +103,4 @@ const HomeBody: Pictogram[] = [
   }
 ]
 
-export default HomeBody
+export default mainbody

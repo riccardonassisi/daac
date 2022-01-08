@@ -6,38 +6,36 @@ import { User } from "../../types"
 
 import { useNavigation } from "@react-navigation/native"
 
-import { API, Auth, graphqlOperation } from "aws-amplify"
+import { API, graphqlOperation } from "aws-amplify"
 import { listUsersFromChatRoom } from "../graphql/customQueries"
 import { createChatRoom, createChatRoomUsers } from "../graphql/mutations"
 
 export type ChatMessageProps = {
+  currentUserId: string,
   user: User
 }
 
 const ContactListItem = (props: ChatMessageProps) => {
-  const { user } = props
+  const { currentUserId, user } = props
 
   const navigation = useNavigation<any>()
 
   const onClick = async() => {
     try {
-
-      const userInfo = await Auth.currentAuthenticatedUser()
-
       const userFromChatRoom = await API.graphql(
         graphqlOperation(
           listUsersFromChatRoom, {
-            id: userInfo.attributes.sub
+            id: currentUserId
           }
         )
       )
 
-      const chatRooms = userFromChatRoom.data.listChatRoomUsers.items
+      const chatRooms = userFromChatRoom?.data?.listChatRoomUsers?.items
       let existingChatRoomID
 
       chatRooms.forEach(element => {
-        if (user.id === element.chatRoom.users.items[0].userID || user.id === element.chatRoom.users.items[1].userID) {
-          existingChatRoomID = element.chatRoom.id
+        if (user.id === element?.chatRoom?.users?.items[0]?.userID || user.id === element?.chatRoom?.users?.items[1]?.userID) {
+          existingChatRoomID = element?.chatRoom?.id
         }
       })
 
@@ -60,7 +58,7 @@ const ContactListItem = (props: ChatMessageProps) => {
           return
         }
 
-        const newChatRoom = newChatRoomData.data.createChatRoom
+        const newChatRoom = newChatRoomData?.data?.createChatRoom
 
         await API.graphql(
           graphqlOperation(
@@ -77,7 +75,7 @@ const ContactListItem = (props: ChatMessageProps) => {
           graphqlOperation(
             createChatRoomUsers, {
               input: {
-                userID: userInfo.attributes.sub,
+                userID: currentUserId,
                 chatRoomID: newChatRoom.id
               }
             }

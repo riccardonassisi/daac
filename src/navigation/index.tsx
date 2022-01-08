@@ -14,10 +14,9 @@ import ContactsScreen from "../screens/ContactsScreen"
 import HomeHeader from "../components/headers/HomeHeader"
 import ChatRoomHeader from "../components/headers/ChatRoomHeader"
 import Colors from "../constants/Color"
-import { useKeyboard } from "../keyboard/keyboard.context"
-import CaaKeyboard from "../components/CaaKeyboard"
 
 export type NavProps = {
+  currentUserId: string,
   isLoggedIn: boolean
 }
 
@@ -25,8 +24,7 @@ const Stack = createNativeStackNavigator()
 
 const Navigation = (props: NavProps) => {
 
-  const { isLoggedIn } = props
-  const keyboard = useKeyboard()
+  const { currentUserId, isLoggedIn } = props
 
   return (
 
@@ -49,11 +47,12 @@ const Navigation = (props: NavProps) => {
           <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{ headerShown: false }}/>
           <Stack.Screen
             name="Home"
-            component={HomeScreen}
             options={{
-              header: () => (<HomeHeader />)
+              header: () => (<HomeHeader currentUserId={currentUserId}/>)
             }}
-          />
+          >
+            {() => <HomeScreen currentUserId={currentUserId}/>}
+          </Stack.Screen>
           <Stack.Screen
             name="Contacts"
             component={ContactsScreen}
@@ -70,10 +69,6 @@ const Navigation = (props: NavProps) => {
           />
         </Stack.Navigator>
       </NavigationContainer>
-      {/* {keyboard.visible ?
-        <CaaKeyboard />
-        : null
-      } */}
     </View>
   )
 

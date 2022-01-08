@@ -9,8 +9,7 @@ import ChatMessage from "../components/ChatMessage"
 import InputBox from "../components/InputBox"
 import {
   API,
-  graphqlOperation,
-  Auth
+  graphqlOperation
 } from "aws-amplify"
 import { listMessageFromChatRoom } from "../graphql/customQueries"
 
@@ -20,11 +19,10 @@ import CaaKeyboard from "../components/CaaKeyboard"
 const ChatRoomScreen = () => {
 
   const [messages, setMessages] = useState([])
-  const [myId, setMyId] = useState("")
-
   const caaKeyboard = useKeyboard()
 
   const route = useRoute()
+  const currentUserId = route?.params?.currentUserId
 
   useEffect(() => {
     const fetchMessage = async() => {
@@ -32,26 +30,15 @@ const ChatRoomScreen = () => {
         const messagesData = await API.graphql(
           graphqlOperation(
             listMessageFromChatRoom, {
-              id: route.params.id
+              id: route?.params?.id
             }
           )
         )
-        setMessages(messagesData.data.listMessages.items)
+        setMessages(messagesData?.data?.listMessages?.items)
       } catch (error) {
       }
     }
     fetchMessage()
-  }, [])
-
-  useEffect(() => {
-    const fetchMyId = async() => {
-      try {
-        const userInfo = await Auth.currentAuthenticatedUser()
-        setMyId(userInfo.attributes.sub)
-      } catch (error) {
-      }
-    }
-    fetchMyId()
   }, [])
 
   return (
@@ -60,11 +47,11 @@ const ChatRoomScreen = () => {
       style={styles.container}>
       <FlatList
         data={messages.sort((a, b) => new moment(a?.createdAt) - new moment(b?.createdAt))}
-        renderItem={({ item }) => <ChatMessage message={item} ownerId={myId}/>}
+        renderItem={({ item }) => <ChatMessage message={item} ownerId={currentUserId}/>}
       />
       {caaKeyboard.visible
-        ? (<CaaKeyboard chatRoomId={route?.params?.id}/>)
-        : (<InputBox chatRoomId={route?.params?.id} />)
+        ? (<CaaKeyboard currentUserId={currentUserId} chatRoomId={route?.params?.id}/>)
+        : (<InputBox currentUserId={currentUserId} chatRoomId={route?.params?.id} />)
       }
     </KeyboardAvoidingView>
   )

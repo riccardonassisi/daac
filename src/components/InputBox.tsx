@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { View, Keyboard, Platform, TextInput, FlatList, StyleSheet, TouchableOpacity } from "react-native"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
 import Colors from "@constants/Color"
 import caaLogo from "@pictograms/CAA.png"
 
-import { API, graphqlOperation, Auth } from "aws-amplify"
+import { API, graphqlOperation } from "aws-amplify"
 
 import { createMessage, updateChatRoom } from "../graphql/mutations"
 
@@ -13,17 +13,16 @@ import { useKeyboard } from "../keyboard/keyboard.context"
 import FastImage from "react-native-fast-image"
 
 export type InputBoxProps = {
+  currentUserId: string,
   chatRoomId: string
 }
 
 const InputBox = (props: InputBoxProps) => {
 
-  const { chatRoomId } = props
+  const { currentUserId, chatRoomId } = props
 
   const [message, setMessage] = useState("")
   const [urls, setUrls] = useState([])
-
-  const [myUserID, setMyUserID] = useState("")
 
   const caaKeyboard = useKeyboard()
 
@@ -31,14 +30,6 @@ const InputBox = (props: InputBoxProps) => {
     caaKeyboard.setKeyboardVisible(true, "AAC")
   }
 
-  useEffect(() => {
-    const fetchUser = async() => {
-      const userInfo = await Auth.currentAuthenticatedUser()
-      setMyUserID(userInfo.attributes.sub)
-    }
-
-    fetchUser()
-  }, [])
 
   const setNewUrls = async(msg: string)  => {
     if (msg === "") {
@@ -76,29 +67,28 @@ const InputBox = (props: InputBoxProps) => {
     }
   }
 
-  const onSendPress = async(messageContent: string, pictoUrls: string[], userId: string, chatId: string) => {
-    console.log(pictoUrls)
+  const onSendPress = async() => {
     try {
       const newMessageData = await API.graphql(
         graphqlOperation(
           createMessage, {
             input: {
-              content: messageContent,
-              urls: pictoUrls,
-              messageUserId: userId,
+              content: message,
+              urls,
+              messageUserId: currentUserId,
               chatRoomMessagesId: chatRoomId
             }
           }
         )
       )
-      await updateLastMessage(chatId, newMessageData.data.createMessage.id)
+      await updateLastMessage(chatRoomId, newMessageData?.data?.createMessage?.id)
     } catch (error) {
     }
   }
 
   const onPress = () => {
     if (message) {
-      onSendPress(message, urls, myUserID, chatRoomId)
+      onSendPress()
       setMessage("")
       setUrls([])
       Keyboard.dismiss()
