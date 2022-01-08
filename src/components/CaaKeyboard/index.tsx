@@ -135,7 +135,7 @@ const CaaKeyboard = (props: InputBoxProps) => {
           </View>
         </TouchableOpacity>
         <View style={styles.preview}>
-          <Text>{message}</Text>
+          <Text style={styles.previewText}>{message}</Text>
         </View>
         <TouchableOpacity onPress={() => {
           onPress()
@@ -263,19 +263,15 @@ const styles = StyleSheet.create({
   },
   preview: {
     flex: 1,
-    paddingHorizontal: 8,
-    paddingTop: 8,
+    padding: 8,
     backgroundColor: "#fff",
-    marginHorizontal: 8
+    marginHorizontal: 8,
+    borderColor: Colors.mainPurple,
+    borderWidth: 1,
+    borderRadius: 15
   },
-  blankspace: {
-    flex: 1,
-    aspectRatio: 1,
-    borderWidth: 0.5,
-    borderColor: "black",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    padding: 2
+  previewText: {
+    color: "black"
   }
 
 })
