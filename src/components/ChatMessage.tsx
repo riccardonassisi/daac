@@ -5,6 +5,7 @@ import Colors from "../constants/Color"
 
 import moment from "moment"
 import { Message } from "../../types"
+import Pictograms from "../../data/Pictograms"
 
 export type ChatMessageProps = {
   message: Message,
@@ -27,10 +28,19 @@ const ChatMessage = (props: ChatMessageProps) => {
         <Text style={styles.message}>{message?.content}</Text>
         <FlatList
           data={message?.urls}
-          renderItem={({ item }) => <Image
-            style={styles.image}
-            source={{ uri: item }}
-          />}
+          renderItem={({ item }) => {
+            if (item[0] === "_") {
+              return (<Image
+                style={styles.image}
+                source={Pictograms[item]}
+              />)
+            } else {
+              return (<Image
+                style={styles.image}
+                source={{ uri: item }}
+              />)
+            }
+          }}
           horizontal={true}
         />
         <Text style={styles.time}>{moment(message?.createdAt).fromNow()}</Text>

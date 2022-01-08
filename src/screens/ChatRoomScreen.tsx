@@ -14,11 +14,15 @@ import {
 } from "aws-amplify"
 import { listMessageFromChatRoom } from "../graphql/customQueries"
 
+import { useKeyboard } from "../keyboard/keyboard.context"
+import CaaKeyboard from "../components/CaaKeyboard"
 
 const ChatRoomScreen = () => {
 
   const [messages, setMessages] = useState([])
   const [myId, setMyId] = useState("")
+
+  const caaKeyboard = useKeyboard()
 
   const route = useRoute()
 
@@ -37,7 +41,7 @@ const ChatRoomScreen = () => {
       }
     }
     fetchMessage()
-  })
+  }, [])
 
   useEffect(() => {
     const fetchMyId = async() => {
@@ -48,7 +52,7 @@ const ChatRoomScreen = () => {
       }
     }
     fetchMyId()
-  })
+  }, [])
 
   return (
     <KeyboardAvoidingView
@@ -58,7 +62,10 @@ const ChatRoomScreen = () => {
         data={messages.sort((a, b) => new moment(a?.createdAt) - new moment(b?.createdAt))}
         renderItem={({ item }) => <ChatMessage message={item} ownerId={myId}/>}
       />
-      <InputBox chatRoomId={route?.params?.id} />
+      {caaKeyboard.visible
+        ? (<CaaKeyboard chatRoomId={route?.params?.id}/>)
+        : (<InputBox chatRoomId={route?.params?.id} />)
+      }
     </KeyboardAvoidingView>
   )
 }

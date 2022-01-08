@@ -1,5 +1,5 @@
 import React from "react"
-import { Image, Pressable, View, Text, StyleSheet, TouchableOpacity } from "react-native"
+import { Image, View, Text, StyleSheet, TouchableOpacity } from "react-native"
 
 import { User } from "../../types"
 
@@ -8,7 +8,6 @@ import { useNavigation } from "@react-navigation/native"
 import { API, Auth, graphqlOperation } from "aws-amplify"
 import { listUsersFromChatRoom } from "../graphql/customQueries"
 import { createChatRoom, createChatRoomUsers } from "../graphql/mutations"
-import { useKeyboard } from "../keyboard/keyboard.context"
 
 export type ChatMessageProps = {
   user: User
@@ -93,14 +92,8 @@ const ContactListItem = (props: ChatMessageProps) => {
     }
   }
 
-  const keyboard = useKeyboard()
-
-  const onClick2 = () => {
-    keyboard.setKeyboardVisible(true, "TEXT")
-  }
-
   return (
-    <TouchableOpacity onPress={onClick2}>
+    <TouchableOpacity onPress={onClick}>
 
       <View style={styles.container}>
 

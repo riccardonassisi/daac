@@ -26,6 +26,7 @@ const HomeScreen = () => {
         if (userData !== null) {
           const content = userData?.data?.getUser?.chatRoomUser?.items
           setChatRooms(content.sort((a, b) => new moment(b.chatRoom.lastMessage.createdAt) - new moment(a.chatRoom.lastMessage.createdAt)))
+          // setChatRooms(content)
         }
       } catch (e) {
         console.error(e)

@@ -31,7 +31,7 @@ const App = () => {
     return (
       <KeyboardContextProvider>
         <SafeAreaView style={styles.root}>
-          <Navigation />
+          <Navigation isLoggedIn={logged}/>
         </SafeAreaView>
       </KeyboardContextProvider>
     )

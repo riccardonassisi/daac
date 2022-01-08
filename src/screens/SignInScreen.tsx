@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react"
 import { View, Image, StyleSheet, useWindowDimensions, ScrollView, Text, Keyboard } from "react-native"
-import Logo from "./../../assets/images/logo.png"
+import Logo from "@icons/logo.png"
 
 import CustomInput from "../components/forms/CustomInput"
 import CustomButton from "../components/forms/CustomButton"

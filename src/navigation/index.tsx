@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { StyleSheet, TouchableOpacity, View } from "react-native"
+import React from "react"
+import { View } from "react-native"
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
@@ -15,6 +15,7 @@ import HomeHeader from "../components/headers/HomeHeader"
 import ChatRoomHeader from "../components/headers/ChatRoomHeader"
 import Colors from "../constants/Color"
 import { useKeyboard } from "../keyboard/keyboard.context"
+import CaaKeyboard from "../components/CaaKeyboard"
 
 export type NavProps = {
   isLoggedIn: boolean
@@ -32,7 +33,7 @@ const Navigation = (props: NavProps) => {
     <View style={{ flex: 1 }}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName={isLoggedIn ? "HomeScreen" : "SignIn"}
+          initialRouteName={isLoggedIn ? "Home" : "SignIn"}
           screenOptions={{
             headerShadowVisible: false,
             headerStyle: {
@@ -69,10 +70,10 @@ const Navigation = (props: NavProps) => {
           />
         </Stack.Navigator>
       </NavigationContainer>
-      {keyboard.visible ?
-        <TouchableOpacity onPress={() => {
-          keyboard.dismissKeyboard()
-        }} style={{ flex: 1, backgroundColor: "red" }} /> : null}
+      {/* {keyboard.visible ?
+        <CaaKeyboard />
+        : null
+      } */}
     </View>
   )
 

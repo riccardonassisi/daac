@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react"
-import { View, Keyboard, Image, Platform, TextInput, FlatList, Pressable, StyleSheet, TouchableOpacity } from "react-native"
+import { View, Keyboard, Image, Platform, TextInput, FlatList, StyleSheet, TouchableOpacity } from "react-native"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
-import Colors from "../constants/Color"
+import Colors from "@constants/Color"
+import caaLogo from "@pictograms/CAA.png"
 
 import { API, graphqlOperation, Auth } from "aws-amplify"
 
-import DefaultPictoInput from "./DefaultPictoInput"
 import { createMessage, updateChatRoom } from "../graphql/mutations"
+
+import { useKeyboard } from "../keyboard/keyboard.context"
 
 export type InputBoxProps = {
   chatRoomId: string
 }
-
-const KEYBOARD_HINTS_HEIGHT = 100
 
 const InputBox = (props: InputBoxProps) => {
 
@@ -22,32 +22,13 @@ const InputBox = (props: InputBoxProps) => {
   const [message, setMessage] = useState("")
   const [urls, setUrls] = useState([])
 
-  const [myUserID, setMyUserID] = useState(null)
-  const [keyboardHeight, setKeyboardHeight] = useState(0)
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false)
-  const [defPictogramVisible, setDefPictogramVisible] = useState(false)
+  const [myUserID, setMyUserID] = useState("")
 
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      (e) => {
-        setKeyboardHeight(e.endCoordinates.height)
-        setKeyboardVisible(true)
-      }
-    )
-    const keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      () => {
-        setKeyboardHeight(0)
-        setKeyboardVisible(false)
-      }
-    )
+  const caaKeyboard = useKeyboard()
 
-    return (): void => {
-      keyboardDidHideListener.remove()
-      keyboardDidShowListener.remove()
-    }
-  }, [])
+  const onShowPictoKeyboard = () => {
+    caaKeyboard.setKeyboardVisible(true, "AAC")
+  }
 
   useEffect(() => {
     const fetchUser = async() => {
@@ -56,7 +37,7 @@ const InputBox = (props: InputBoxProps) => {
     }
 
     fetchUser()
-  })
+  }, [])
 
   const setNewUrls = async(msg: string)  => {
     if (msg === "") {
@@ -68,19 +49,23 @@ const InputBox = (props: InputBoxProps) => {
       for (const element of wordsArray) {
         const response = await fetch(`https://api.arasaac.org/api/pictograms/it/search/${element}`)
         const json = await response.json()
-        res.push(`https://api.arasaac.org/api/pictograms/${json[0]._id}?download=false`)
+        if (json[0]) {
+          res.push(`https://api.arasaac.org/api/pictograms/${json[0]._id}?download=false`)
+        } else {
+          res.push("https://api.arasaac.org/api/pictograms/3418?download=false")
+        }
       }
       setUrls(res)
     }
   }
 
-  const updateLastMessage = async(messageId: string) => {
+  const updateLastMessage = async(chatId: string, messageId: string) => {
     try {
       await API.graphql(
         graphqlOperation(
           updateChatRoom, {
             input: {
-              id: chatRoomId,
+              id: chatId,
               chatRoomLastMessageId: messageId
             }
           }
@@ -90,35 +75,32 @@ const InputBox = (props: InputBoxProps) => {
     }
   }
 
-  const changeKeys = () => {
-    setDefPictogramVisible(!defPictogramVisible)
-  }
-
-  const onSendPress = async() => {
+  const onSendPress = async(messageContent: string, pictoUrls: string[], userId: string, chatId: string) => {
+    console.log(pictoUrls)
     try {
       const newMessageData = await API.graphql(
         graphqlOperation(
           createMessage, {
             input: {
-              content: message,
-              urls,
-              messageUserId: myUserID,
+              content: messageContent,
+              urls: pictoUrls,
+              messageUserId: userId,
               chatRoomMessagesId: chatRoomId
             }
           }
         )
       )
-      await updateLastMessage(newMessageData.data.createMessage.id)
+      await updateLastMessage(chatId, newMessageData.data.createMessage.id)
     } catch (error) {
     }
-    setMessage("")
-    setUrls([])
-    Keyboard.dismiss()
   }
 
   const onPress = () => {
     if (message) {
-      onSendPress()
+      onSendPress(message, urls, myUserID, chatRoomId)
+      setMessage("")
+      setUrls([])
+      Keyboard.dismiss()
     }
   }
 
@@ -129,47 +111,42 @@ const InputBox = (props: InputBoxProps) => {
           styles.containerIOS :
           styles.containerAndroid
       }>
-      {defPictogramVisible
-        ? (<DefaultPictoInput chatRoomId={chatRoomId}/>)
-        : (
-          <View style={styles.mainContainer}>
-            <View style={styles.preview}>
-              <FlatList
-                data={urls}
-                renderItem={({ item }) => <Image
-                  style={styles.image}
-                  source={{ uri: item }}
-                />}
-                horizontal={true} />
-            </View>
-            <TextInput
-              placeholder="Type a message..."
-              multiline
-              value={message}
-              keyboardType="visible-password" // workaround per gli hints
-              onChangeText={(message) => {
-                setMessage(message)
-                setNewUrls(message)
-              }}
-            />
-          </View>)
-      }
-      {!isKeyboardVisible
-        ?
-        <TouchableOpacity onPress={changeKeys}>
-          <View style={styles.caaContainer}>
-            <Image source={{ uri: "https://api.arasaac.org/api/pictograms/6991?download=false" }} style={styles.caaIcon} />
-          </View>
-        </TouchableOpacity>
-        :
-        <TouchableOpacity onPress={() => {
-          onPress()
-        }}>
-          <View style={styles.buttonContainer}>
-            <FontAwesome5 name="paper-plane" size={25} color={"white"} />
-          </View>
-        </TouchableOpacity>
-      }
+      <TouchableOpacity onPress={onShowPictoKeyboard}>
+        <View style={styles.caaContainer}>
+          <Image source={caaLogo} style={styles.caaIcon} />
+        </View>
+      </TouchableOpacity>
+
+      <View style={styles.mainContainer}>
+        <View style={styles.preview}>
+          <FlatList
+            data={urls}
+            renderItem={({ item }) => <Image
+              style={styles.image}
+              source={{ uri: item }}
+            />}
+            horizontal={true} />
+        </View>
+        <TextInput
+          placeholder="Scrivi un messaggio..."
+          multiline
+          value={message}
+          keyboardType="visible-password" // workaround per gli hints
+          onChangeText={(message) => {
+            setMessage(message)
+            setNewUrls(message)
+          }}
+        />
+      </View>
+
+      <TouchableOpacity onPress={() => {
+        onPress()
+      }}>
+        <View style={styles.buttonContainer}>
+          <FontAwesome5 name="paper-plane" size={25} color={"white"} />
+        </View>
+      </TouchableOpacity>
+
     </View>
   )
 }
@@ -193,14 +170,14 @@ const styles = StyleSheet.create({
     borderColor: Colors.mainPurple,
     borderWidth: 2,
     borderStyle: "solid",
-    padding: 10,
-    marginRight: 5,
+    paddingHorizontal: 8,
+    paddingTop: 8,
+    marginHorizontal: 5,
     borderRadius: 25,
     flex: 1,
     flexDirection: "column"
   },
   preview: {
-    backgroundColor: "White"
   },
   buttonContainer: {
     backgroundColor: Colors.mainPurple,
