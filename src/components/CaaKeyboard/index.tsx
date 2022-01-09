@@ -19,10 +19,11 @@ const CaaKeyboard = (props: InputBoxProps) => {
   const { currentUserId, chatRoomId } = props
 
   const [message, setMessage] = useState("")
-  const [uris, setUris] = useState([])
+  const [urls, setUrls] = useState([])
 
   const [body, setBody] = useState(bodyList.mainbody)
   const caaKeyboard = useKeyboard()
+
   const onHideCaaKeyboard = () => {
     caaKeyboard.dismissKeyboard()
   }
@@ -34,23 +35,23 @@ const CaaKeyboard = (props: InputBoxProps) => {
       const newmsg = `${message} ${text}`
       setMessage(newmsg)
     }
-    const newuris = uris
+    const newuris = urls
     newuris.push(uri)
-    setUris(newuris)
+    setUrls(newuris)
   }
 
   const removePicto = () => {
     const newmsg = message.substring(0, message.lastIndexOf(" "))
     setMessage(newmsg)
-    const newuris = uris
+    const newuris = urls
     newuris.pop()
-    setUris(newuris)
+    setUrls(newuris)
   }
 
   const clearPicto = () => {
     setMessage("")
-    const r: [] = uris.splice(0, uris.length)
-    setUris(r)
+    const r: [] = urls.splice(0, urls.length)
+    setUrls(r)
   }
 
   const showInitialBody = () => {
@@ -82,13 +83,12 @@ const CaaKeyboard = (props: InputBoxProps) => {
 
   const onSendPress = async() => {
     try {
-
       const newMessageData = await API.graphql(
         graphqlOperation(
           createMessage, {
             input: {
               content: message,
-              urls: uris,
+              urls,
               messageUserId: currentUserId,
               chatRoomMessagesId: chatRoomId
             }
@@ -100,9 +100,9 @@ const CaaKeyboard = (props: InputBoxProps) => {
     }
   }
 
-  const onPress = () => {
+  const onPress = async() => {
     if (message) {
-      onSendPress()
+      await onSendPress()
       clearPicto()
       caaKeyboard.dismissKeyboard()
     }
@@ -120,9 +120,7 @@ const CaaKeyboard = (props: InputBoxProps) => {
         <View style={styles.preview}>
           <Text style={styles.previewText}>{message}</Text>
         </View>
-        <TouchableOpacity onPress={() => {
-          onPress()
-        }}>
+        <TouchableOpacity onPress={onPress}>
           <View style={styles.buttonContainer}>
             <FontAwesome5 name="paper-plane" size={25} color={"white"} />
           </View>

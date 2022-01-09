@@ -38,7 +38,7 @@ const HomeScreen = (props: HomeScreenProps) => {
       }
     }
     fetchChatRooms()
-  }, [])
+  })
 
   return (
     <View style={styles.root}>
@@ -51,7 +51,7 @@ const HomeScreen = (props: HomeScreenProps) => {
           renderItem={({ item }) => <ChatListItem currentUserId={currentUserId} chatRoom={item?.chatRoom} />}
           keyExtractor={(item) => item?.chatRoom?.id}
         />) : (
-          <Text style={styles.empty}>Such empty</Text>
+          <Text style={styles.empty}>Non ci sono ancora chat</Text>
         )}
 
       <NewMessageButton currentUserId={currentUserId}/>

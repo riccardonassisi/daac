@@ -14,7 +14,7 @@ import {
 import { listMessageFromChatRoom } from "../graphql/customQueries"
 
 import { useKeyboard } from "../keyboard/keyboard.context"
-import CaaKeyboard from "../components/CaaKeyboard"
+import CaaKeyboard from "../components/caakeyboard"
 
 const ChatRoomScreen = () => {
 
@@ -39,7 +39,7 @@ const ChatRoomScreen = () => {
       }
     }
     fetchMessage()
-  }, [])
+  })
 
   return (
     <KeyboardAvoidingView
