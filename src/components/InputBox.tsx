@@ -147,14 +147,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 10,
     alignItems: "center",
-    backgroundColor: "transparent"
+    backgroundColor: Colors.lightPurple
   },
   containerIOS: {
     flexDirection: "row",
     padding: 10,
     marginBottom: 15,
     alignItems: "center",
-    backgroundColor: "transparent"
+    backgroundColor: Colors.lightPurple
   },
   mainContainer: {
     backgroundColor: "white",

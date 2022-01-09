@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
     height: "100%",
     alignItems: "center",
     textAlignVertical: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "#fff"
   },
   empty: {
     fontWeight: "bold",

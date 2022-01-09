@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   messageSentBox: {
-    backgroundColor: "#d5ffa5",
+    backgroundColor: "#dabcf7",
     marginLeft: 50,
     padding: 10,
     borderRadius: 10

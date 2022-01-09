@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 8,
     alignItems: "center",
-    backgroundColor: "transparent"
+    backgroundColor: Colors.lightPurple  
   },
   buttonContainer: {
     backgroundColor: Colors.mainPurple,
