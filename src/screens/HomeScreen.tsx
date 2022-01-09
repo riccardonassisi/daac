@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { View, StyleSheet, FlatList, Text } from "react-native"
+import { useRoute } from "@react-navigation/native"
 
 import moment from "moment"
 
@@ -15,8 +16,14 @@ export type HomeScreenProps = {
 
 const HomeScreen = (props: HomeScreenProps) => {
 
-  const { currentUserId } = props
   const [chatRooms, setChatRooms] = useState([])
+
+  let { currentUserId } = props
+
+  if (!currentUserId) {
+    const route = useRoute()
+    currentUserId = route?.params?.currentUserId
+  }
 
   useEffect(() => {
     const fetchChatRooms = async() => {

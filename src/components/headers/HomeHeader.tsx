@@ -6,7 +6,7 @@ import Colors from "../../constants/Color"
 
 import { API, Auth, graphqlOperation } from "aws-amplify"
 import { getUserInfo } from "../../graphql/customQueries"
-import { StackActions, useNavigation } from "@react-navigation/native"
+import { StackActions, useNavigation, useRoute } from "@react-navigation/native"
 import FastImage from "react-native-fast-image"
 
 export type HomeHeaderProps = {
@@ -15,10 +15,15 @@ export type HomeHeaderProps = {
 
 const HomeHeader = (props: HomeHeaderProps) => {
 
-  const { currentUserId } = props
-
   const [currentUser, setCurrentUser] = useState()
   const navigation = useNavigation()
+
+  let { currentUserId } = props
+
+  // if (!currentUserId) {
+  //   const route = useRoute()
+  //   currentUserId = route?.params?.currentUserId
+  // }
 
   useEffect(() => {
     const fetchMyData = async() => {

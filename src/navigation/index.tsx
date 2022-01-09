@@ -47,9 +47,9 @@ const Navigation = (props: NavProps) => {
           <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{ headerShown: false }}/>
           <Stack.Screen
             name="Home"
-            options={{
-              header: () => (<HomeHeader currentUserId={currentUserId}/>)
-            }}
+            options={({ route }) => ({
+              header: () => (<HomeHeader currentUserId={currentUserId ? currentUserId : route?.params?.currentUserId}/>)
+            })}
           >
             {() => <HomeScreen currentUserId={currentUserId}/>}
           </Stack.Screen>
@@ -64,7 +64,7 @@ const Navigation = (props: NavProps) => {
             name="ChatRoom"
             component={ChatRoomScreen}
             options={({ route }) => ({
-              headerTitle: () => (<ChatRoomHeader name={route?.params?.name} image={route?.params?.image} />)
+              headerTitle: () => (<ChatRoomHeader name={route?.params?.name} image={route?.params?.imageUri} />)
             })}
           />
         </Stack.Navigator>
