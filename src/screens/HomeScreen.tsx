@@ -16,7 +16,6 @@ export type HomeScreenProps = {
 const HomeScreen = (props: HomeScreenProps) => {
 
   const { currentUserId } = props
-
   const [chatRooms, setChatRooms] = useState([])
 
   useEffect(() => {
@@ -29,9 +28,9 @@ const HomeScreen = (props: HomeScreenProps) => {
             }
           )
         )
-        if (userData !== null) {
+        if (userData.data?.getUser?.chatRoomUser !== null) {
           const content = userData?.data?.getUser?.chatRoomUser?.items
-          setChatRooms(content.sort((a, b) => new moment(b.chatRoom.lastMessage.createdAt) - new moment(a.chatRoom.lastMessage.createdAt)))
+          setChatRooms(content.sort((a, b) => new moment(b?.chatRoom?.lastMessage?.createdAt) - new moment(a?.chatRoom?.lastMessage?.createdAt)))
         }
       } catch (e) {
         console.error(e)

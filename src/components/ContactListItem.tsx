@@ -31,6 +31,7 @@ const ContactListItem = (props: ChatMessageProps) => {
       )
 
       const chatRooms = userFromChatRoom?.data?.listChatRoomUsers?.items
+
       let existingChatRoomID
 
       chatRooms.forEach(element => {
@@ -42,53 +43,59 @@ const ContactListItem = (props: ChatMessageProps) => {
       if (existingChatRoomID) {
         navigation.replace("ChatRoom", {
           id: existingChatRoomID,
-          name: user.name
+          name: user.name,
+          image: user.imageUri,
+          currentUserId
         })
 
-      } else {
-        const newChatRoomData = await API.graphql(
-          graphqlOperation(
-            createChatRoom, {
-              input: {}
-            }
-          )
-        )
-
-        if (!newChatRoomData) {
-          return
-        }
-
-        const newChatRoom = newChatRoomData?.data?.createChatRoom
-
-        await API.graphql(
-          graphqlOperation(
-            createChatRoomUsers, {
-              input: {
-                userID: user.id,
-                chatRoomID: newChatRoom.id
-              }
-            }
-          )
-        )
-
-        await API.graphql(
-          graphqlOperation(
-            createChatRoomUsers, {
-              input: {
-                userID: currentUserId,
-                chatRoomID: newChatRoom.id
-              }
-            }
-          )
-        )
-        navigation.navigate("ChatRoom", {
-          id: newChatRoom.id,
-          name: user.name
-        })
       }
     } catch (e) {
       console.error(e)
     }
+
+    const newChatRoomData = await API.graphql(
+      graphqlOperation(
+        createChatRoom, {
+          input: {}
+        }
+      )
+    )
+
+    if (!newChatRoomData) {
+      return
+    }
+
+    const newChatRoom = newChatRoomData?.data?.createChatRoom
+
+    await API.graphql(
+      graphqlOperation(
+        createChatRoomUsers, {
+          input: {
+            userID: user.id,
+            chatRoomID: newChatRoom.id
+          }
+        }
+      )
+    )
+
+    await API.graphql(
+      graphqlOperation(
+        createChatRoomUsers, {
+          input: {
+            userID: currentUserId,
+            chatRoomID: newChatRoom.id
+          }
+        }
+      )
+    )
+
+    navigation.replace("ChatRoom", {
+      id: newChatRoom.id,
+      name: user.name,
+      image: user.imageUri,
+      currentUserId
+    })
+
   }
 
   return (
