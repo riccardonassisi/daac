@@ -24,9 +24,11 @@ const SignInScreen = () => {
   const onSignInPressed = async() => {
 
     try {
-      await Auth.signIn(username, password)
+      const res = await Auth.signIn(username, password)
+      const currentUserId = res?.attributes?.sub
       navigation.dispatch(
-        StackActions.replace("Home")
+        StackActions.replace("Home",
+          { currentUserId })
       )
     } catch (error) {
       setErrorMessage(error.message)
