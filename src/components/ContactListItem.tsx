@@ -1,42 +1,41 @@
 import React from "react"
-import { Image, Pressable, View, Text, StyleSheet, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
+import FastImage from "react-native-fast-image"
 
 import { User } from "../../types"
 
 import { useNavigation } from "@react-navigation/native"
 
-import { API, Auth, graphqlOperation } from "aws-amplify"
+import { API, graphqlOperation } from "aws-amplify"
 import { listUsersFromChatRoom } from "../graphql/customQueries"
 import { createChatRoom, createChatRoomUsers } from "../graphql/mutations"
 
 export type ChatMessageProps = {
+  currentUserId: string,
   user: User
 }
 
 const ContactListItem = (props: ChatMessageProps) => {
-  const { user } = props
+  const { currentUserId, user } = props
 
   const navigation = useNavigation<any>()
 
   const onClick = async() => {
     try {
-
-      const userInfo = await Auth.currentAuthenticatedUser()
-
       const userFromChatRoom = await API.graphql(
         graphqlOperation(
           listUsersFromChatRoom, {
-            id: userInfo.attributes.sub
+            id: currentUserId
           }
         )
       )
 
-      const chatRooms = userFromChatRoom.data.listChatRoomUsers.items
+      const chatRooms = userFromChatRoom?.data?.listChatRoomUsers?.items
       let existingChatRoomID
 
       chatRooms.forEach(element => {
-        if (user.id === element.chatRoom.users.items[0].userID || user.id === element.chatRoom.users.items[1].userID) {
-          existingChatRoomID = element.chatRoom.id
+        if (user.id === element?.chatRoom?.users?.items[0]?.userID || user.id === element?.chatRoom?.users?.items[1]?.userID) {
+          existingChatRoomID = element?.chatRoom?.id
         }
       })
 
@@ -59,7 +58,7 @@ const ContactListItem = (props: ChatMessageProps) => {
           return
         }
 
-        const newChatRoom = newChatRoomData.data.createChatRoom
+        const newChatRoom = newChatRoomData?.data?.createChatRoom
 
         await API.graphql(
           graphqlOperation(
@@ -76,7 +75,7 @@ const ContactListItem = (props: ChatMessageProps) => {
           graphqlOperation(
             createChatRoomUsers, {
               input: {
-                userID: userInfo.attributes.sub,
+                userID: currentUserId,
                 chatRoomID: newChatRoom.id
               }
             }
@@ -97,7 +96,7 @@ const ContactListItem = (props: ChatMessageProps) => {
 
       <View style={styles.container}>
 
-        <Image source={{ uri: user.imageUri }} style={styles.avatar} />
+        <FastImage source={{ uri: user.imageUri }} style={styles.avatar} />
 
         <View style={styles.midContainer}>
           <Text style={styles.username}>{user.name}</Text>
@@ -128,7 +127,8 @@ const styles = StyleSheet.create({
   },
   username: {
     fontWeight: "bold",
-    fontSize: 16
+    fontSize: 16,
+    color: "#000"
   },
   status: {
     color: "grey"

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react"
-import { View, Image, StyleSheet, useWindowDimensions, ScrollView, Text, Keyboard } from "react-native"
-import Logo from "./../../assets/images/logo.png"
+import { View, StyleSheet, useWindowDimensions, ScrollView } from "react-native"
+import Logo from "@icons/logo.png"
 
 import CustomInput from "../components/forms/CustomInput"
 import CustomButton from "../components/forms/CustomButton"
@@ -9,6 +9,7 @@ import { StackActions, useNavigation } from "@react-navigation/native"
 
 import { Auth } from "aws-amplify"
 import CustomErrorMessage from "../components/forms/CustomErrorMessage"
+import FastImage from "react-native-fast-image"
 
 const SignInScreen = () => {
   const [username, setUsername] = useState("")
@@ -53,7 +54,7 @@ const SignInScreen = () => {
     <ScrollView keyboardShouldPersistTaps={"handled"}>
 
       <View style={styles.root}>
-        <Image
+        <FastImage
           source={Logo}
           style={[styles.logo, { height: height * 0.3 }]}
           resizeMode="contain"

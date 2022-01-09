@@ -1,10 +1,12 @@
 import React from "react"
 
-import { FlatList, Image, Text, View, StyleSheet } from "react-native"
+import { FlatList, Text, View, StyleSheet } from "react-native"
+import FastImage from "react-native-fast-image"
 import Colors from "../constants/Color"
 
 import moment from "moment"
 import { Message } from "../../types"
+import Pictograms from "../../data/Pictograms"
 
 export type ChatMessageProps = {
   message: Message,
@@ -27,10 +29,19 @@ const ChatMessage = (props: ChatMessageProps) => {
         <Text style={styles.message}>{message?.content}</Text>
         <FlatList
           data={message?.urls}
-          renderItem={({ item }) => <Image
-            style={styles.image}
-            source={{ uri: item }}
-          />}
+          renderItem={({ item }) => {
+            if (item[0] === "_") {
+              return (<FastImage
+                style={styles.image}
+                source={Pictograms[item]}
+              />)
+            } else {
+              return (<FastImage
+                style={styles.image}
+                source={{ uri: item }}
+              />)
+            }
+          }}
           horizontal={true}
         />
         <Text style={styles.time}>{moment(message?.createdAt).fromNow()}</Text>
@@ -50,7 +61,7 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   messageSentBox: {
-    backgroundColor: "#d5ffa5",
+    backgroundColor: "#dabcf7",
     marginLeft: 50,
     padding: 10,
     borderRadius: 10

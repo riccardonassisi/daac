@@ -9,18 +9,20 @@ import ChatMessage from "../components/ChatMessage"
 import InputBox from "../components/InputBox"
 import {
   API,
-  graphqlOperation,
-  Auth
+  graphqlOperation
 } from "aws-amplify"
 import { listMessageFromChatRoom } from "../graphql/customQueries"
 
+import { useKeyboard } from "../keyboard/keyboard.context"
+import CaaKeyboard from "../components/caakeyboard"
 
 const ChatRoomScreen = () => {
 
   const [messages, setMessages] = useState([])
-  const [myId, setMyId] = useState("")
+  const caaKeyboard = useKeyboard()
 
   const route = useRoute()
+  const currentUserId = route?.params?.currentUserId
 
   useEffect(() => {
     const fetchMessage = async() => {
@@ -28,26 +30,15 @@ const ChatRoomScreen = () => {
         const messagesData = await API.graphql(
           graphqlOperation(
             listMessageFromChatRoom, {
-              id: route.params.id
+              id: route?.params?.id
             }
           )
         )
-        setMessages(messagesData.data.listMessages.items)
+        setMessages(messagesData?.data?.listMessages?.items)
       } catch (error) {
       }
     }
     fetchMessage()
-  })
-
-  useEffect(() => {
-    const fetchMyId = async() => {
-      try {
-        const userInfo = await Auth.currentAuthenticatedUser()
-        setMyId(userInfo.attributes.sub)
-      } catch (error) {
-      }
-    }
-    fetchMyId()
   })
 
   return (
@@ -55,17 +46,22 @@ const ChatRoomScreen = () => {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       style={styles.container}>
       <FlatList
-        data={messages.sort((a, b) => new moment(a?.createdAt) - new moment(b?.createdAt))}
-        renderItem={({ item }) => <ChatMessage message={item} ownerId={myId}/>}
+        data={messages.sort((a, b) => new moment(b?.createdAt) - new moment(a?.createdAt))}
+        renderItem={({ item }) => <ChatMessage message={item} ownerId={currentUserId}/>}
+        inverted
       />
-      <InputBox chatRoomId={route?.params?.id} />
+      {caaKeyboard.visible
+        ? (<CaaKeyboard currentUserId={currentUserId} chatRoomId={route?.params?.id}/>)
+        : (<InputBox currentUserId={currentUserId} chatRoomId={route?.params?.id} />)
+      }
     </KeyboardAvoidingView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: "#fff"
   }
 })
 

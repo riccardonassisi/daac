@@ -1,16 +1,24 @@
 import React from "react"
-import { Pressable, View, StyleSheet, TouchableOpacity } from "react-native"
+import { View, StyleSheet, TouchableOpacity } from "react-native"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
 import { useNavigation } from "@react-navigation/native"
 import Colors from "../constants/Color"
 
-const NewMessageButton = () => {
+export type NewMessageButtonProps = {
+  currentUserId: string
+}
+
+const NewMessageButton = (props: NewMessageButtonProps) => {
+
+  const { currentUserId } = props
 
   const navigation = useNavigation()
 
   const onPress = () => {
-    navigation.navigate("Contacts")
+    navigation.navigate("Contacts", {
+      currentUserId
+    })
   }
 
   return (

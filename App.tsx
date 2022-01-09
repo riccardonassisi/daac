@@ -6,15 +6,18 @@ import {
 import Navigation from "./src/navigation"
 import { Auth } from "aws-amplify"
 import Colors from "./src/constants/Color"
+import { KeyboardContextProvider } from "./src/keyboard/keyboard.context"
 
 const App = () => {
 
   const [logged, setLogged] = useState()
+  const [userid, setUserid] = useState("")
 
   useEffect(() => {
     const fetchUser = async() => {
       try {
-        await Auth.currentAuthenticatedUser()
+        const user = await Auth.currentAuthenticatedUser()
+        setUserid(user.attributes.sub)
         setLogged(true)
       } catch (error) {
         setLogged(false)
@@ -28,9 +31,11 @@ const App = () => {
     return null
   } else {
     return (
-      <SafeAreaView style={styles.root}>
-        <Navigation isLoggedIn={logged}/>
-      </SafeAreaView>
+      <KeyboardContextProvider>
+        <SafeAreaView style={styles.root}>
+          <Navigation currentUserId={userid} isLoggedIn={logged}/>
+        </SafeAreaView>
+      </KeyboardContextProvider>
     )
   }
 
@@ -39,7 +44,7 @@ const App = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: Colors.lightPurple
+    backgroundColor: "#fff"
   }
 })
 

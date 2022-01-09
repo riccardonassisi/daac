@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { FlatList, Image, Pressable, Text, View, StyleSheet, TouchableOpacity } from "react-native"
+import { FlatList, Image, Text, View, StyleSheet, TouchableOpacity } from "react-native"
 
 import { StandardMessage } from "../../types"
 

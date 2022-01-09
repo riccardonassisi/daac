@@ -5,21 +5,27 @@ import moment from "moment"
 
 import ChatListItem from "../components/ChatListItem"
 import NewMessageButton from "../components/NewMessageButton"
-import { API, Auth, graphqlOperation } from "aws-amplify"
+import { API, graphqlOperation } from "aws-amplify"
 
 import { getUser } from "../graphql/customQueries"
 
-const HomeScreen = () => {
+export type HomeScreenProps = {
+  currentUserId: string
+}
+
+const HomeScreen = (props: HomeScreenProps) => {
+
+  const { currentUserId } = props
+
   const [chatRooms, setChatRooms] = useState([])
 
   useEffect(() => {
     const fetchChatRooms = async() => {
       try {
-        const userInfo = await Auth.currentAuthenticatedUser()
         const userData = await API.graphql(
           graphqlOperation(
             getUser, {
-              id: userInfo.attributes.sub
+              id: currentUserId
             }
           )
         )
@@ -42,13 +48,13 @@ const HomeScreen = () => {
             width: "100%"
           }}
           data={chatRooms}
-          renderItem={({ item }) => <ChatListItem chatRoom={item?.chatRoom} />}
-          keyExtractor={(item) => item?.chatRoom.id}
+          renderItem={({ item }) => <ChatListItem currentUserId={currentUserId} chatRoom={item?.chatRoom} />}
+          keyExtractor={(item) => item?.chatRoom?.id}
         />) : (
-          <Text style={styles.empty}>Such empty</Text>
+          <Text style={styles.empty}>Non ci sono ancora chat</Text>
         )}
 
-      <NewMessageButton />
+      <NewMessageButton currentUserId={currentUserId}/>
     </View>
   )
 }
@@ -59,13 +65,15 @@ const styles = StyleSheet.create({
     height: "100%",
     alignItems: "center",
     textAlignVertical: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "#fff"
   },
   empty: {
     fontWeight: "bold",
-    padding: 10,
+    padding: 15,
     borderColor: "grey",
-    borderWidth: 0.5
+    borderWidth: 0.5,
+    borderRadius: 15
   }
 })
 

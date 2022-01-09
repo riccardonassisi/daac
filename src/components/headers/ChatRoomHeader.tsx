@@ -1,26 +1,32 @@
 import React from "react"
-import { StyleSheet, Text, View, Image, Pressable } from "react-native"
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native"
+import FastImage from "react-native-fast-image"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
 import Colors from "../../constants/Color"
 
-const ChatRoomHeader = (props) => {
+export type ChatRoomHeaderProps ={
+name: string,
+image: string
+}
+
+const ChatRoomHeader = (props: ChatRoomHeaderProps) => {
 
   const { name, image } = props
 
   return (
     <View style={styles.container}>
-      <Image
+      <FastImage
         style={styles.image}
         source={{ uri: image }}/>
       <Text style={styles.text}>{name}</Text>
-      {/* <Pressable>
+      {/* <TouchableOpacity>
         <FontAwesome5
           name="ellipsis-v"
           size={20}
           color={"#fff"}
         />
-      </Pressable> */}
+      </TouchableOpacity> */}
     </View>
   )
 }

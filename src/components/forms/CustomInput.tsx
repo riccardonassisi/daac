@@ -10,6 +10,7 @@ const CustomInput = React.forwardRef(({ value, setValue, placeholder, secureText
         value={value}
         onChangeText={setValue}
         placeholder={placeholder}
+        autoCapitalize="none"
         style={styles.input}
         onSubmitEditing={onSubmit ? onSubmit : undefined}
         onEndEditing={() => {}}
