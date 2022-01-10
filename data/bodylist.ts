@@ -1,5 +1,5 @@
 import domande from "@data/domande"
-import mainbody from "@data/mainbody"
+import mainbody from "@data/main"
 import persone from "@data/persone"
 import parlare from "@data/parlare"
 import azioni from "@data/azioni"

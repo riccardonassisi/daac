@@ -14,7 +14,7 @@ import {
 import { listMessageFromChatRoom } from "../graphql/customQueries"
 
 import { useKeyboard } from "../keyboard/keyboard.context"
-import CaaKeyboard from "../components/caakeyboard"
+import CaaKeyboard from "../components/caa_keyboard"
 
 const ChatRoomScreen = () => {
 
