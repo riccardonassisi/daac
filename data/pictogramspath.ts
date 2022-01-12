@@ -1,6 +1,7 @@
 const Pictograms =
   {
     // MAIN ROW
+    _undefined: require("@pictograms/undefined.png"),
     _inizio: require("@pictograms/mainrow/inizio.png"),
     _si: require("@pictograms/mainrow/si.png"),
     _no: require("@pictograms/mainrow/no.png"),

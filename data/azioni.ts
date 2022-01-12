@@ -88,4 +88,8 @@ const azioni: Pictogram[] = [
   }
 ]
 
+const actions: Pictogram[] = [
+  
+]
+
 export default azioni

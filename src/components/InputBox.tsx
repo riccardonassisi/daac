@@ -11,6 +11,9 @@ import { createMessage, updateChatRoom } from "../graphql/mutations"
 
 import { useKeyboard } from "../keyboard/keyboard.context"
 import FastImage from "react-native-fast-image"
+import Pictograms from "../../data/pictogramspath"
+import PictogramList from "data/pictogramslist"
+
 
 export type InputBoxProps = {
   currentUserId: string,
@@ -22,7 +25,7 @@ const InputBox = (props: InputBoxProps) => {
   const { currentUserId, chatRoomId } = props
 
   const [message, setMessage] = useState("")
-  const [urls, setUrls] = useState([])
+  const [urls, setUrls] = useState<string[]>([])
 
   const caaKeyboard = useKeyboard()
 
@@ -30,23 +33,64 @@ const InputBox = (props: InputBoxProps) => {
     caaKeyboard.setKeyboardVisible(true, "AAC")
   }
 
+  // const setNewUrls = async(msg: string)  => {
+  //   if (msg === "") {
+  //     setUrls([])
+  //   } else {
+  //     const wordsArray = msg.split(" ") // splits the text up in chunks
+  //     // eslint-disable-next-line prefer-const
+  //     let res = []
+  //     for (const element of wordsArray) {
+  //       const response = await fetch(`https://api.arasaac.org/api/pictograms/it/search/${element}`)
+  //       const json = await response.json()
+  //       if (json[0]) {
+  //         res.push(`https://api.arasaac.org/api/pictograms/${json[0]._id}?download=false`)
+  //       } else {
+  //         res.push("https://api.arasaac.org/api/pictograms/3418?download=false")
+  //       }
+  //     }
+  //     setUrls(res)
+  //   }
+  // }
 
-  const setNewUrls = async(msg: string)  => {
+  const setNewUrls = (msg: string) => {
     if (msg === "") {
       setUrls([])
     } else {
-      const wordsArray = msg.split(" ") // splits the text up in chunks
-      // eslint-disable-next-line prefer-const
-      let res = []
-      for (const element of wordsArray) {
-        const response = await fetch(`https://api.arasaac.org/api/pictograms/it/search/${element}`)
-        const json = await response.json()
-        if (json[0]) {
-          res.push(`https://api.arasaac.org/api/pictograms/${json[0]._id}?download=false`)
-        } else {
-          res.push("https://api.arasaac.org/api/pictograms/3418?download=false")
+      console.log("hello")
+
+      const res: string[] = []
+      let main = msg.replace(/[^a-zA-Z0-9 ?]/g, "").toLowerCase()
+      while (main.length > 0) {
+        // copio la stringa completa in una var temporanea
+        let check = main
+        // itero finché la var temp non è vuota
+        while (check.length > 0) {
+          // per ogni elemento nel db itero e cerco una compatibilità
+          PictogramList.every((item) => {
+            // trovato la compatibilità
+            if (item.text === check) {
+              // pusho nell'array degli id quello trovato
+              res.push(item.uri)
+              // modifico la stringa main togliendo dall'inizio le parole che ho trovato (check)
+              main = main.substring(check.length + 1, main.length)
+              check = ""
+              return false
+            }
+            // uso every invece che foreach così posso breakare una volta trovato
+            return true
+          })
+          const index = check.lastIndexOf(" ")
+          if (index === -1 && check.length > 0) {
+            res.push("_undefined")
+            main = main.substring(check.length + 1, main.length)
+            check = ""
+          } else {
+            check = check.substring(0, index)
+          }
         }
       }
+      console.log(res)
       setUrls(res)
     }
   }
@@ -112,10 +156,19 @@ const InputBox = (props: InputBoxProps) => {
         <View style={styles.preview}>
           <FlatList
             data={urls}
-            renderItem={({ item }) => <FastImage
-              style={styles.image}
-              source={{ uri: item }}
-            />}
+            renderItem={({ item }) => {
+              if (item[0] === "_") {
+                return (<FastImage
+                  style={styles.image}
+                  source={Pictograms[item]}
+                />)
+              } else {
+                return (<FastImage
+                  style={styles.image}
+                  source={{ uri: item }}
+                />)
+              }
+            }}
             horizontal={true} />
         </View>
         <TextInput

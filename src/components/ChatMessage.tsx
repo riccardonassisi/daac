@@ -6,7 +6,7 @@ import Colors from "../constants/Color"
 
 import moment from "moment"
 import { Message } from "../../types"
-import Pictograms from "../../data/Pictograms"
+import Pictograms from "../../data/pictogramspath"
 
 export type ChatMessageProps = {
   message: Message,
