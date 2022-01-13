@@ -13,12 +13,7 @@
           },
           "additionalAuthenticationProviders": [
             {
-              "authenticationType": "API_KEY",
-              "apiKeyConfig": {
-                "apiKeyExpirationDays": 365,
-                "apiKeyExpirationDate": "2023-01-06T10:05:27.348Z",
-                "description": "api key for daac project"
-              }
+              "authenticationType": "AWS_IAM"
             }
           ]
         }
@@ -29,7 +24,17 @@
     "daacabc029e3": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
-      "dependsOn": [],
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "daacabc029e3PostConfirmation",
+          "triggerProvider": "Cognito",
+          "attributes": [
+            "Arn",
+            "Name"
+          ]
+        }
+      ],
       "customAuth": false,
       "frontendAuthConfig": {
         "socialProviders": [],
@@ -49,6 +54,13 @@
           "EMAIL"
         ]
       }
+    }
+  },
+  "function": {
+    "daacabc029e3PostConfirmation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   }
 }

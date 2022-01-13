@@ -5,18 +5,18 @@ import {
 } from "react-native"
 import Navigation from "./src/navigation"
 import { Auth } from "aws-amplify"
-import Colors from "./src/constants/Color"
 import { KeyboardContextProvider } from "./src/keyboard/keyboard.context"
 
 const App = () => {
 
-  const [logged, setLogged] = useState()
+  const [logged, setLogged] = useState<boolean>()
   const [userid, setUserid] = useState("")
 
   useEffect(() => {
     const fetchUser = async() => {
       try {
         const user = await Auth.currentAuthenticatedUser()
+        console.log(user)
         setUserid(user.attributes.sub)
         setLogged(true)
       } catch (error) {
@@ -25,7 +25,7 @@ const App = () => {
     }
 
     fetchUser()
-  })
+  }, [])
 
   if (logged === undefined) {
     return null

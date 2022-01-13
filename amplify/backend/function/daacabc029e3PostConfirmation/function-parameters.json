@@ -1,0 +1,17 @@
+{
+  "trigger": true,
+  "modules": [
+    "custom"
+  ],
+  "parentResource": "daacabc029e3",
+  "functionName": "daacabc029e3PostConfirmation",
+  "resourceName": "daacabc029e3PostConfirmation",
+  "parentStack": "auth",
+  "triggerEnvs": [],
+  "triggerDir": "/Users/riccardonassisi/.nvm/versions/node/v14.18.2/lib/node_modules/@aws-amplify/cli/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/PostConfirmation",
+  "triggerTemplate": "PostConfirmation.json.ejs",
+  "triggerEventPath": "PostConfirmation.event.json",
+  "roleName": "daacabc029e3PostConfirmation",
+  "skipEdit": true,
+  "enableCors": false
+}

@@ -7,28 +7,33 @@ import CustomErrorMessage from "../components/forms/CustomErrorMessage"
 
 import Colors from "../constants/Color"
 
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation, useRoute } from "@react-navigation/native"
 import { Auth } from "aws-amplify"
 
 const ConfirmEmailScreen = () => {
-  const [username, setUsername] = useState("")
+
+  const route = useRoute()
+  const navigation = useNavigation()
+
+  const [username, setUsername] = useState(route?.params?.username)
   const [confirmationCode, setConfirmationCode] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
 
-  const navigation = useNavigation()
-
   const onConfirmPressed = async() => {
     try {
-      await Auth.confirmSignUp(username, confirmationCode)
+      const res = await Auth.confirmSignUp(username, confirmationCode)
+
+      navigation.navigate("SignIn")
     } catch (error) {
       setErrorMessage(error.message)
     }
 
-    navigation.navigate("SignIn")
   }
+
   const onSignInPressed = () => {
     navigation.navigate("SignIn")
   }
+
   const onResendPress = async() => {
     try {
       await Auth.resendSignUp(username)

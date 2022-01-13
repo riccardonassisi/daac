@@ -18,7 +18,7 @@ const HomeHeader = (props: HomeHeaderProps) => {
   const [currentUser, setCurrentUser] = useState()
   const navigation = useNavigation()
 
-  let { currentUserId } = props
+  const { currentUserId } = props
 
   // if (!currentUserId) {
   //   const route = useRoute()
@@ -40,7 +40,7 @@ const HomeHeader = (props: HomeHeaderProps) => {
       }
     }
     fetchMyData()
-  })
+  }, [])
 
   async function signOut() {
     try {

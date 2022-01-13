@@ -2,11 +2,11 @@
   "AppSyncApiName": "daac",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
   "DynamoDBEnableServerSideEncryption": false,
-  "AuthModeLastUpdated": "2022-01-06T10:05:31.257Z",
   "AuthCognitoUserPoolId": {
     "Fn::GetAtt": [
       "authdaacabc029e3",
       "Outputs.UserPoolId"
     ]
-  }
+  },
+  "AuthModeLastUpdated": "2022-01-13T18:09:55.098Z"
 }

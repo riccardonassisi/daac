@@ -1,32 +1,26 @@
 type User @model @auth(rules: [
-    { allow: private, provider: userPools }
-    { allow: public, operations: [create] }
+    { allow: owner, ownerField: "id" }
   ]) {
   id: ID!
-  name: String!
+  name: String
   imageUri: String
   status: String
-  chatRoomUser: [ChatRoom] @manyToMany(relationName: "ChatRoomUsers")
+  Messages: [Message] @hasMany(indexName: "byUser", fields: ["id"])
+  ChatRooms: [ChatRoom] @manyToMany(relationName: "UserChatRoom")
 }
 
-type ChatRoom @model @auth(rules: [ { allow: private, provider: userPools } ]) {
+type ChatRoom @model @auth(rules: [{allow: private}]) {
   id: ID!
-  users: [User] @manyToMany(relationName: "ChatRoomUsers")
-  messages: [Message] @hasMany
-  lastMessage: Message @hasOne
+  newMessages: Int
+  LastMessage: Message @hasOne
+  Messages: [Message] @hasMany(indexName: "byChatRoom", fields: ["id"])
+  ChatRoomUsers: [User] @manyToMany(relationName: "UserChatRoom")
 }
 
-type Message @model @auth(rules: [ { allow: private, provider: userPools } ]) {
+type Message @model @auth(rules: [{allow: private}]) {
   id: ID!
-  content: String!
-  urls: [String]
-  createdAt: String!
-  user: User @hasOne
-  chatRoom: ChatRoom @belongsTo
-}
-
-type DefaultMessage @model @auth(rules: [ { allow: private, provider: userPools } ]) {
-  id: ID!
-  content: String!
-  urls: [String]
+  content: String
+  urls: String
+  userID: ID @index(name: "byUser")
+  chatroomID: ID @index(name: "byChatRoom")
 }
