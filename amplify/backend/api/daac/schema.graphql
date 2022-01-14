@@ -1,12 +1,10 @@
-type User @model @auth(rules: [
-    { allow: owner, ownerField: "id" }
-  ]) {
+type User @model @auth(rules: [{allow: owner, ownerField: "id"}, {allow: private}]) {
   id: ID!
   name: String
   imageUri: String
   status: String
   Messages: [Message] @hasMany(indexName: "byUser", fields: ["id"])
-  ChatRooms: [ChatRoom] @manyToMany(relationName: "UserChatRoom")
+  chatrooms: [ChatRoom] @manyToMany(relationName: "ChatRoomUser")
 }
 
 type ChatRoom @model @auth(rules: [{allow: private}]) {
@@ -14,7 +12,7 @@ type ChatRoom @model @auth(rules: [{allow: private}]) {
   newMessages: Int
   LastMessage: Message @hasOne
   Messages: [Message] @hasMany(indexName: "byChatRoom", fields: ["id"])
-  ChatRoomUsers: [User] @manyToMany(relationName: "UserChatRoom")
+  ChatRoomUsers: [User] @manyToMany(relationName: "ChatRoomUser")
 }
 
 type Message @model @auth(rules: [{allow: private}]) {
@@ -24,3 +22,4 @@ type Message @model @auth(rules: [{allow: private}]) {
   userID: ID @index(name: "byUser")
   chatroomID: ID @index(name: "byChatRoom")
 }
+ 

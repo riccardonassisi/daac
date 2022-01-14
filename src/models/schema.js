@@ -45,11 +45,11 @@ export const schema = {
                         "associatedWith": "userID"
                     }
                 },
-                "ChatRooms": {
-                    "name": "ChatRooms",
+                "chatrooms": {
+                    "name": "chatrooms",
                     "isArray": true,
                     "type": {
-                        "model": "UserChatRoom"
+                        "model": "ChatRoomUser"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -87,6 +87,18 @@ export const schema = {
                     "type": "auth",
                     "properties": {
                         "rules": [
+                            {
+                                "provider": "userPools",
+                                "ownerField": "id",
+                                "allow": "owner",
+                                "identityClaim": "cognito:username",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
                             {
                                 "allow": "private",
                                 "operations": [
@@ -248,7 +260,7 @@ export const schema = {
                     "name": "ChatRoomUsers",
                     "isArray": true,
                     "type": {
-                        "model": "UserChatRoom"
+                        "model": "ChatRoomUser"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -307,8 +319,8 @@ export const schema = {
                 }
             ]
         },
-        "UserChatRoom": {
-            "name": "UserChatRoom",
+        "ChatRoomUser": {
+            "name": "ChatRoomUser",
             "fields": {
                 "id": {
                     "name": "id",
@@ -375,7 +387,7 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "UserChatRooms",
+            "pluralName": "ChatRoomUsers",
             "attributes": [
                 {
                     "type": "model",
@@ -386,5 +398,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "7bd0e0c47f9978034fad3266df3b3b73"
+    "version": "45d47433ca8d40390da8ddf038cc4910"
 };

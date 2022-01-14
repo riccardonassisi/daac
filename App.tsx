@@ -16,7 +16,6 @@ const App = () => {
     const fetchUser = async() => {
       try {
         const user = await Auth.currentAuthenticatedUser()
-        console.log(user)
         setUserid(user.attributes.sub)
         setLogged(true)
       } catch (error) {

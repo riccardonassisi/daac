@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react"
 import { View, StyleSheet, FlatList, Text } from "react-native"
 import { useRoute } from "@react-navigation/native"
 
-import moment from "moment"
 
 import ChatListItem from "../components/ChatListItem"
 import NewMessageButton from "../components/NewMessageButton"
-import { API, graphqlOperation } from "aws-amplify"
+import { DataStore } from "aws-amplify"
 
-import { getUser } from "../graphql/customQueries"
+import { ChatRoom, ChatRoomUser } from "src/models"
 
 export type HomeScreenProps = {
   currentUserId: string
@@ -16,7 +15,7 @@ export type HomeScreenProps = {
 
 const HomeScreen = (props: HomeScreenProps) => {
 
-  const [chatRooms, setChatRooms] = useState([])
+  const [chatRooms, setChatRooms] = useState<ChatRoom[]>([])
 
   let { currentUserId } = props
 
@@ -28,23 +27,23 @@ const HomeScreen = (props: HomeScreenProps) => {
   useEffect(() => {
     const fetchChatRooms = async() => {
       try {
-        const userData = await API.graphql(
-          graphqlOperation(
-            getUser, {
-              id: currentUserId
-            }
-          )
-        )
-        if (userData.data?.getUser?.chatRoomUser !== null) {
-          const content = userData?.data?.getUser?.chatRoomUser?.items
-          setChatRooms(content.sort((a, b) => new moment(b?.chatRoom?.lastMessage?.createdAt) - new moment(a?.chatRoom?.lastMessage?.createdAt)))
-        }
+
+        const chats = (await DataStore.query(ChatRoomUser))
+          .filter(userChatRoom => userChatRoom.user.id === currentUserId)
+          .map(userChatRoom => userChatRoom.chatRoom)
+
+        setChatRooms(chats)
+
+        // if (userData.data?.getUser?.chatRoomUser !== null) {
+        //   const content = userData?.data?.getUser?.chatRoomUser?.items
+        //   setChatRooms(content.sort((a, b) => new moment(b?.chatRoom?.lastMessage?.createdAt) - new moment(a?.chatRoom?.lastMessage?.createdAt)))
+        // }
       } catch (e) {
         console.error(e)
       }
     }
     fetchChatRooms()
-  })
+  }, [])
 
   return (
     <View style={styles.root}>
@@ -54,8 +53,8 @@ const HomeScreen = (props: HomeScreenProps) => {
             width: "100%"
           }}
           data={chatRooms}
-          renderItem={({ item }) => <ChatListItem currentUserId={currentUserId} chatRoom={item?.chatRoom} />}
-          keyExtractor={(item) => item?.chatRoom?.id}
+          renderItem={({ item }) => <ChatListItem currentUserId={currentUserId} chatRoom={item} />}
+          keyExtractor={(item) => item.id}
         />) : (
           <Text style={styles.empty}>Non ci sono ancora chat</Text>
         )}

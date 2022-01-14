@@ -1,6 +1,7 @@
 export type AmplifyDependentResourcesAttributes = {
     "api": {
         "daac": {
+            "GraphQLAPIKeyOutput": "string",
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
         }

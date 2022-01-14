@@ -4,10 +4,10 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import Colors from "../../constants/Color"
 
-import { API, Auth, graphqlOperation } from "aws-amplify"
-import { getUserInfo } from "../../graphql/customQueries"
-import { StackActions, useNavigation, useRoute } from "@react-navigation/native"
+import { Auth, DataStore } from "aws-amplify"
+import { StackActions, useNavigation } from "@react-navigation/native"
 import FastImage from "react-native-fast-image"
+import { User } from "src/models"
 
 export type HomeHeaderProps = {
   currentUserId: string
@@ -15,7 +15,7 @@ export type HomeHeaderProps = {
 
 const HomeHeader = (props: HomeHeaderProps) => {
 
-  const [currentUser, setCurrentUser] = useState()
+  const [currentUser, setCurrentUser] = useState<User>()
   const navigation = useNavigation()
 
   const { currentUserId } = props
@@ -26,21 +26,9 @@ const HomeHeader = (props: HomeHeaderProps) => {
   // }
 
   useEffect(() => {
-    const fetchMyData = async() => {
-      try {
-        const myData = await API.graphql(
-          graphqlOperation(
-            getUserInfo, {
-              id: currentUserId
-            }
-          )
-        )
-        setCurrentUser(myData?.data?.getUser)
-      } catch (error) {
-      }
-    }
-    fetchMyData()
+    DataStore.query(User, currentUserId).then(setCurrentUser)
   }, [])
+
 
   async function signOut() {
     try {

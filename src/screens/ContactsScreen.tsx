@@ -5,37 +5,24 @@ import ContactListItem from "../components/ContactListItem"
 
 import { useEffect, useState } from "react"
 import {
-  API,
-  graphqlOperation
+  DataStore
 } from "aws-amplify"
+import { User } from "src/models"
 
-import { listUsers } from "../graphql/queries"
 import { useRoute } from "@react-navigation/native"
 
 const ContactsScreen = () => {
 
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState<User[]>([])
   const route = useRoute()
 
   const currentUserId = route?.params?.currentUserId
 
   useEffect(() => {
     const fetchUsers = async() => {
-      try {
-        const usersData = await API.graphql(
-          graphqlOperation(
-            listUsers
-          )
-        )
-
-        const otherUsers = usersData?.data?.listUsers?.items?.filter(e => e.id !== currentUserId)
-
-        setUsers(otherUsers)
-      } catch (error) {
-        console.warn(error)
-      }
+      const otherUsers = (await DataStore.query(User)).filter(user => user.id !== currentUserId)
+      setUsers(otherUsers)
     }
-
     fetchUsers()
   }, [])
 
@@ -46,7 +33,7 @@ const ContactsScreen = () => {
           width: "100%"
         }}
         data={users}
-        renderItem={({ item }) => <ContactListItem currentUserId={currentUserId} user={item} />}
+        renderItem={({ item }) => <ContactListItem currentUserId={currentUserId} otherUser={item} />}
         keyExtractor={(item) => item.id}
       />
     </View>

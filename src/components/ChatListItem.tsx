@@ -1,39 +1,42 @@
 import React from "react"
 import { useEffect, useState } from "react"
 
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native"
 import FastImage from "react-native-fast-image"
 
 import moment from "moment"
 import { useNavigation } from "@react-navigation/native"
 
 import Colors from "../constants/Color"
+import { ChatRoom, User, ChatRoomUser } from "src/models"
+import { DataStore } from "aws-amplify"
 
 export type ChatListItemsProps = {
   currentUserId: string,
-  chatRoom: string
+  chatRoom: ChatRoom
 }
 
 const ChatListItem = (props: ChatListItemsProps) => {
   const { currentUserId, chatRoom } = props
-  const [otherUser, setOtherUser] = useState(null)
+  const [otherUser, setOtherUser] = useState<User|null>(null)
 
   const navigation = useNavigation()
 
   useEffect(() => {
     const getOtherUser = async() => {
-      if (chatRoom?.users?.items[1]?.user?.id === currentUserId) {
-        setOtherUser(chatRoom?.users?.items[0]?.user)
-      } else {
-        setOtherUser(chatRoom?.users?.items[1]?.user)
-      }
+
+      const users = (await DataStore.query(ChatRoomUser))
+        .filter(chatRoomUser => chatRoomUser.chatRoom.id === chatRoom.id)
+        .map(chatRoomUser => chatRoomUser.user)
+
+      setOtherUser(users.find(user => user.id !== currentUserId) || null)
     }
 
     getOtherUser()
-  })
+  }, [])
 
   if (!otherUser) {
-    return null
+    return <ActivityIndicator />
   }
 
   const onClick = () => {
@@ -50,21 +53,17 @@ const ChatListItem = (props: ChatListItemsProps) => {
       <View style={styles.container}>
         <View style={styles.leftContainer} >
           <FastImage source={{ uri: otherUser?.imageUri }} style={styles.avatar} />
-          {/* <View style={styles.badgeContainer}>
-            <Text style={styles.badgeText}>4</Text>
-          </View> */}
+          {!!chatRoom.newMessages && <View style={styles.badgeContainer}>
+            <Text style={styles.badgeText}>{chatRoom?.newMessages}</Text>
+          </View>}
           <View style={styles.midContainer}>
             <Text style={styles.username}>{otherUser?.name}</Text>
-            <Text style={styles.lastMessage}>{
-              chatRoom?.lastMessage && chatRoom?.lastMessage?.user?.id === otherUser?.id ? `${otherUser?.name}: ${chatRoom?.lastMessage?.content}`
-                : chatRoom?.lastMessage && chatRoom.lastMessage?.user?.id !== otherUser?.id ? chatRoom?.lastMessage?.content
-                  : ""
-            }</Text>
+            <Text style={styles.lastMessage}>{chatRoom?.LastMessage?.content}</Text>
           </View>
         </View>
 
         <Text style={styles.time}>
-          {chatRoom?.lastMessage && moment(chatRoom?.lastMessage?.createdAt).format("DD/MM/YYYY")}
+          {chatRoom?.LastMessage && moment(chatRoom?.LastMessage?.createdAt).format("DD/MM/YYYY")}
         </Text>
 
       </View>

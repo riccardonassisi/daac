@@ -2,112 +2,66 @@ import React from "react"
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
 import FastImage from "react-native-fast-image"
 
-import { User } from "../../types"
-
 import { useNavigation } from "@react-navigation/native"
 
-import { API, graphqlOperation } from "aws-amplify"
-import { listUsersFromChatRoom } from "../graphql/customQueries"
-import { createChatRoom, createChatRoomUsers } from "../graphql/mutations"
+import { DataStore } from "aws-amplify"
+import { ChatRoom, ChatRoomUser, User } from "src/models"
 
-export type ChatMessageProps = {
+
+export type ContactListProps = {
   currentUserId: string,
-  user: User
+  otherUser: User
 }
 
-const ContactListItem = (props: ChatMessageProps) => {
-  const { currentUserId, user } = props
+const ContactListItem = (props: ContactListProps) => {
+  const { currentUserId, otherUser } = props
 
   const navigation = useNavigation<any>()
 
   const onClick = async() => {
-    try {
-      const userFromChatRoom = await API.graphql(
-        graphqlOperation(
-          listUsersFromChatRoom, {
-            id: currentUserId
-          }
-        )
-      )
 
-      const chatRooms = userFromChatRoom?.data?.listChatRoomUsers?.items
+    // IF ALREADY EXIST GO TO EXISTING CHATROOM
 
-      let existingChatRoomID
+    const newChatRoom = await DataStore.save(new ChatRoom({ newMessages: 0 }))
 
-      chatRooms.forEach(element => {
-        if (user.id === element?.chatRoom?.users?.items[0]?.userID || user.id === element?.chatRoom?.users?.items[1]?.userID) {
-          existingChatRoomID = element?.chatRoom?.id
-        }
-      })
+    const currentUser = await DataStore.query(User, currentUserId)
 
-      if (existingChatRoomID) {
-        navigation.replace("ChatRoom", {
-          id: existingChatRoomID,
-          name: user.name,
-          image: user.imageUri,
-          currentUserId
-        })
+    await DataStore.save(new ChatRoomUser({
+      userId: currentUserId,
+      user: currentUser,
+      chatRoom: newChatRoom,
+      chatRoomID: newChatRoom.id
+    }))
 
-      }
-    } catch (e) {
-      console.error(e)
-    }
 
-    const newChatRoomData = await API.graphql(
-      graphqlOperation(
-        createChatRoom, {
-          input: {}
-        }
-      )
-    )
+    await DataStore.save(new ChatRoomUser({
+      userID: otherUser.id,
+      user: otherUser,
+      chatRoom: newChatRoom,
+      chatRoomID: newChatRoom.id
+    }))
 
-    if (!newChatRoomData) {
-      return
-    }
-
-    const newChatRoom = newChatRoomData?.data?.createChatRoom
-
-    await API.graphql(
-      graphqlOperation(
-        createChatRoomUsers, {
-          input: {
-            userID: user.id,
-            chatRoomID: newChatRoom.id
-          }
-        }
-      )
-    )
-
-    await API.graphql(
-      graphqlOperation(
-        createChatRoomUsers, {
-          input: {
-            userID: currentUserId,
-            chatRoomID: newChatRoom.id
-          }
-        }
-      )
-    )
 
     navigation.replace("ChatRoom", {
       id: newChatRoom.id,
-      name: user.name,
-      image: user.imageUri,
+      name: otherUser.name,
+      image: otherUser.imageUri,
       currentUserId
     })
 
   }
+
 
   return (
     <TouchableOpacity onPress={onClick}>
 
       <View style={styles.container}>
 
-        <FastImage source={{ uri: user.imageUri }} style={styles.avatar} />
+        <FastImage source={{ uri: otherUser.imageUri }} style={styles.avatar} />
 
         <View style={styles.midContainer}>
-          <Text style={styles.username}>{user.name}</Text>
-          <Text numberOfLines={1} style={styles.status}>{user.status}</Text>
+          <Text style={styles.username}>{otherUser.name}</Text>
+          <Text numberOfLines={1} style={styles.status}>{otherUser.status}</Text>
         </View>
 
       </View>
