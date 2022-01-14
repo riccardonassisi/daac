@@ -5,8 +5,9 @@ import FastImage from "react-native-fast-image"
 import Colors from "../constants/Color"
 
 import moment from "moment"
-import { Message } from "../../types"
+
 import Pictograms from "../../data/pictogramspath"
+import { Message } from "src/models"
 
 export type ChatMessageProps = {
   message: Message,
@@ -17,7 +18,7 @@ const ChatMessage = (props: ChatMessageProps) => {
   const { message, ownerId } = props
 
   const isMyMessage = () => {
-    return message.user.id === ownerId
+    return message?.userID === ownerId
   }
 
   return (
@@ -25,7 +26,7 @@ const ChatMessage = (props: ChatMessageProps) => {
       <View style={[
         isMyMessage() ? styles.messageSentBox : styles.messageReceivedBox
       ]}>
-        {!isMyMessage() && <Text style={styles.name}>{message?.user?.name}</Text>}
+        {/* {!isMyMessage() && <Text style={styles.name}>{message?.user?.name}</Text>} */}
         <Text style={styles.message}>{message?.content}</Text>
         <FlatList
           data={message?.urls}
@@ -55,13 +56,13 @@ const styles = StyleSheet.create({
     padding: 5
   },
   messageReceivedBox: {
-    backgroundColor: "#e5e5e5",
+    backgroundColor: "#dabcf7",
     marginRight: 50,
     padding: 10,
     borderRadius: 10
   },
   messageSentBox: {
-    backgroundColor: "#dabcf7",
+    backgroundColor: "#e5e5e5",
     marginLeft: 50,
     padding: 10,
     borderRadius: 10

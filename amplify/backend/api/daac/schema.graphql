@@ -18,7 +18,7 @@ type ChatRoom @model @auth(rules: [{allow: private}]) {
 type Message @model @auth(rules: [{allow: private}]) {
   id: ID!
   content: String
-  urls: String
+  urls: [String]
   userID: ID @index(name: "byUser")
   chatroomID: ID @index(name: "byChatRoom")
 }

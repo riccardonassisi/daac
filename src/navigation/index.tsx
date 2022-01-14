@@ -64,7 +64,7 @@ const Navigation = (props: NavProps) => {
             name="ChatRoom"
             component={ChatRoomScreen}
             options={({ route }) => ({
-              headerTitle: () => (<ChatRoomHeader name={route?.params?.name} image={route?.params?.imageUri} />)
+              headerTitle: () => (<ChatRoomHeader name={route?.params?.name} image={route?.params?.image} />)
             })}
           />
         </Stack.Navigator>

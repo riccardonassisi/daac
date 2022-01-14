@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity, View, Text } from "react-native"
 import FastImage from "react-native-fast-image"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
-import Colors from "@constants/Color"
+import Colors from "src/constants/Color"
 import caaLogo from "@pictograms/CAA.png"
 import bodyList from "@data/bodylist"
 
@@ -12,14 +12,14 @@ import CaaKeyboardComponent from "./CaaKeyboardComponent"
 import { useKeyboard } from "../../keyboard/keyboard.context"
 import { InputBoxProps } from "../InputBox"
 
-import { API, graphqlOperation } from "aws-amplify"
-import { createMessage, updateChatRoom } from "../../graphql/mutations"
+import { DataStore } from "aws-amplify"
+import { ChatRoom, Message } from "src/models"
 
 const CaaKeyboard = (props: InputBoxProps) => {
-  const { currentUserId, chatRoomId } = props
+  const { currentUserId, chatRoom } = props
 
-  const [message, setMessage] = useState("")
-  const [urls, setUrls] = useState([])
+  const [message, setMessage] = useState<string>("")
+  const [urls, setUrls] = useState<string[]>([])
 
   const [body, setBody] = useState(bodyList.mainbody)
   const caaKeyboard = useKeyboard()
@@ -64,40 +64,21 @@ const CaaKeyboard = (props: InputBoxProps) => {
     }
   }
 
-  const updateLastMessage = async(chatId: string, messageId: string) => {
-    try {
-      await API.graphql(
-        graphqlOperation(
-          updateChatRoom, {
-            input: {
-              id: chatId,
-              chatRoomLastMessageId: messageId
-            }
-          }
-        )
-      )
-    } catch (error) {
-      console.error(error)
-    }
+  const updateLastMessage = async(newMessage: Message) => {
+    DataStore.save(ChatRoom.copyOf(chatRoom, updatedChatRoom => {
+      updatedChatRoom.LastMessage = newMessage
+    }))
   }
 
   const onSendPress = async() => {
-    try {
-      const newMessageData = await API.graphql(
-        graphqlOperation(
-          createMessage, {
-            input: {
-              content: message,
-              urls,
-              messageUserId: currentUserId,
-              chatRoomMessagesId: chatRoomId
-            }
-          }
-        )
-      )
-      await updateLastMessage(chatRoomId, newMessageData?.data?.createMessage?.id)
-    } catch (error) {
-    }
+    const newMessage = await DataStore.save(new Message({
+      content: message,
+      urls,
+      userID: currentUserId,
+      chatroomID: chatRoom.id
+    }))
+
+    updateLastMessage(newMessage)
   }
 
   const onPress = async() => {
@@ -215,7 +196,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 8,
     alignItems: "center",
-    backgroundColor: Colors.lightPurple  
+    backgroundColor: Colors.lightPurple
   },
   buttonContainer: {
     backgroundColor: Colors.mainPurple,

@@ -132,10 +132,11 @@ export const schema = {
                 },
                 "urls": {
                     "name": "urls",
-                    "isArray": false,
+                    "isArray": true,
                     "type": "String",
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true
                 },
                 "userID": {
                     "name": "userID",
@@ -398,5 +399,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "45d47433ca8d40390da8ddf038cc4910"
+    "version": "459ca8785657ce450622bd9caa94ac91"
 };

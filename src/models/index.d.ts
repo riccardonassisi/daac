@@ -36,7 +36,7 @@ export declare class User {
 export declare class Message {
   readonly id: string;
   readonly content?: string;
-  readonly urls?: string;
+  readonly urls?: (string | null)[];
   readonly userID?: string;
   readonly chatroomID?: string;
   readonly createdAt?: string;

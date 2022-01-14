@@ -1,7 +1,7 @@
 import React from "react"
 import { StyleSheet, TouchableOpacity, Text } from "react-native"
 import Pictograms from "../../../data/pictogramspath"
-import { CaaKeyboardComponentParamList } from "@root/types"
+import { CaaKeyboardComponentParamList } from "root/types"
 import FastImage from "react-native-fast-image"
 
 const CaaKeyboardComponent = ({ text, uri, onPress, type }: CaaKeyboardComponentParamList) => {

@@ -8,7 +8,7 @@ import moment from "moment"
 import { useNavigation } from "@react-navigation/native"
 
 import Colors from "../constants/Color"
-import { ChatRoom, User, ChatRoomUser } from "src/models"
+import { ChatRoom, User, ChatRoomUser, Message } from "src/models"
 import { DataStore } from "aws-amplify"
 
 export type ChatListItemsProps = {
@@ -19,6 +19,7 @@ export type ChatListItemsProps = {
 const ChatListItem = (props: ChatListItemsProps) => {
   const { currentUserId, chatRoom } = props
   const [otherUser, setOtherUser] = useState<User|null>(null)
+  const [lastMessage, setLastMessage] = useState<Message|undefined>()
 
   const navigation = useNavigation()
 
@@ -34,6 +35,14 @@ const ChatListItem = (props: ChatListItemsProps) => {
 
     getOtherUser()
   }, [])
+
+  useEffect(() => {
+    if (!chatRoom.chatRoomLastMessageId) {
+      return
+    }
+    DataStore.query(Message, chatRoom.chatRoomLastMessageId).then(setLastMessage)
+  }, [])
+
 
   if (!otherUser) {
     return <ActivityIndicator />
@@ -58,12 +67,12 @@ const ChatListItem = (props: ChatListItemsProps) => {
           </View>}
           <View style={styles.midContainer}>
             <Text style={styles.username}>{otherUser?.name}</Text>
-            <Text style={styles.lastMessage}>{chatRoom?.LastMessage?.content}</Text>
+            <Text style={styles.lastMessage}>{lastMessage?.content}</Text>
           </View>
         </View>
 
         <Text style={styles.time}>
-          {chatRoom?.LastMessage && moment(chatRoom?.LastMessage?.createdAt).format("DD/MM/YYYY")}
+          {lastMessage && moment(lastMessage?.createdAt).format("DD/MM/YYYY")}
         </Text>
 
       </View>

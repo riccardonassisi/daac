@@ -5,7 +5,7 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import Colors from "@constants/Color"
 import caaLogo from "@pictograms/CAA.png"
 
-import { API, graphqlOperation } from "aws-amplify"
+import { API, DataStore, graphqlOperation } from "aws-amplify"
 
 import { createMessage, updateChatRoom } from "../graphql/mutations"
 
@@ -13,16 +13,17 @@ import { useKeyboard } from "../keyboard/keyboard.context"
 import FastImage from "react-native-fast-image"
 import Pictograms from "../../data/pictogramspath"
 import PictogramList from "data/pictogramslist"
+import { ChatRoom, Message } from "src/models"
 
 
 export type InputBoxProps = {
   currentUserId: string,
-  chatRoomId: string
+  chatRoom: ChatRoom
 }
 
 const InputBox = (props: InputBoxProps) => {
 
-  const { currentUserId, chatRoomId } = props
+  const { currentUserId, chatRoom } = props
 
   const [message, setMessage] = useState("")
   const [urls, setUrls] = useState<string[]>([])
@@ -57,8 +58,6 @@ const InputBox = (props: InputBoxProps) => {
     if (msg === "") {
       setUrls([])
     } else {
-      console.log("hello")
-
       const res: string[] = []
       let main = msg.replace(/[^a-zA-Z0-9 ?]/g, "").toLowerCase()
       while (main.length > 0) {
@@ -90,44 +89,25 @@ const InputBox = (props: InputBoxProps) => {
           }
         }
       }
-      console.log(res)
       setUrls(res)
     }
   }
 
-  const updateLastMessage = async(chatId: string, messageId: string) => {
-    try {
-      await API.graphql(
-        graphqlOperation(
-          updateChatRoom, {
-            input: {
-              id: chatId,
-              chatRoomLastMessageId: messageId
-            }
-          }
-        )
-      )
-    } catch (error) {
-    }
+  const updateLastMessage = async(newMessage: Message) => {
+    DataStore.save(ChatRoom.copyOf(chatRoom, updatedChatRoom => {
+      updatedChatRoom.LastMessage = newMessage
+    }))
   }
 
   const onSendPress = async() => {
-    try {
-      const newMessageData = await API.graphql(
-        graphqlOperation(
-          createMessage, {
-            input: {
-              content: message,
-              urls,
-              messageUserId: currentUserId,
-              chatRoomMessagesId: chatRoomId
-            }
-          }
-        )
-      )
-      await updateLastMessage(chatRoomId, newMessageData?.data?.createMessage?.id)
-    } catch (error) {
-    }
+    const newMessage = await DataStore.save(new Message({
+      content: message,
+      urls,
+      userID: currentUserId,
+      chatroomID: chatRoom.id
+    }))
+
+    updateLastMessage(newMessage)
   }
 
   const onPress = () => {

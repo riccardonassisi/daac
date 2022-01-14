@@ -7,39 +7,43 @@ import moment from "moment"
 
 import ChatMessage from "../components/ChatMessage"
 import InputBox from "../components/InputBox"
-import {
-  API,
-  graphqlOperation
-} from "aws-amplify"
-import { listMessageFromChatRoom } from "../graphql/customQueries"
+import { Message, ChatRoom } from "src/models"
+import { DataStore } from "aws-amplify"
 
 import { useKeyboard } from "../keyboard/keyboard.context"
 import CaaKeyboard from "../components/caa_keyboard"
 
 const ChatRoomScreen = () => {
 
-  const [messages, setMessages] = useState([])
+  const [messages, setMessages] = useState<Message[]>([])
+  const [chatRoom, setChatRoom] = useState<ChatRoom>()
   const caaKeyboard = useKeyboard()
 
   const route = useRoute()
   const currentUserId = route?.params?.currentUserId
 
   useEffect(() => {
+    DataStore.query(ChatRoom, route?.params?.id).then(setChatRoom)
+  }, [])
+
+  useEffect(() => {
     const fetchMessage = async() => {
-      try {
-        const messagesData = await API.graphql(
-          graphqlOperation(
-            listMessageFromChatRoom, {
-              id: route?.params?.id
-            }
-          )
-        )
-        setMessages(messagesData?.data?.listMessages?.items)
-      } catch (error) {
-      }
+      const fetchedMessage = await DataStore.query(Message,
+        message => message.chatroomID("eq", route?.params?.id))
+      setMessages(fetchedMessage)
     }
     fetchMessage()
-  })
+  }, [])
+
+  useEffect(() => {
+    const subscription = DataStore.observe(Message).subscribe(msg => {
+      if (msg.model === Message && msg.opType === "INSERT") {
+        setMessages(existingMessages => [msg.element, ...existingMessages])
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
 
   return (
     <KeyboardAvoidingView
@@ -51,8 +55,8 @@ const ChatRoomScreen = () => {
         inverted
       />
       {caaKeyboard.visible
-        ? (<CaaKeyboard currentUserId={currentUserId} chatRoomId={route?.params?.id}/>)
-        : (<InputBox currentUserId={currentUserId} chatRoomId={route?.params?.id} />)
+        ? (<CaaKeyboard currentUserId={currentUserId} chatRoom={chatRoom}/>)
+        : (<InputBox currentUserId={currentUserId} chatRoom={chatRoom}/>)
       }
     </KeyboardAvoidingView>
   )
