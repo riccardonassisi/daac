@@ -20,35 +20,52 @@ const ContactListItem = (props: ContactListProps) => {
 
   const onClick = async() => {
 
-    // IF ALREADY EXIST GO TO EXISTING CHATROOM
+    const mychats = (await DataStore.query(ChatRoomUser))
+      .filter(userChatRoom => userChatRoom.user.id === currentUserId)
+      .map(chatRoomUser => chatRoomUser.chatRoom.id)
 
-    const newChatRoom = await DataStore.save(new ChatRoom({ newMessages: 0 }))
+    const otherchats = (await DataStore.query(ChatRoomUser))
+      .filter(userChatRoom => userChatRoom.user.id === otherUser.id)
+      .map(chatRoomUser => chatRoomUser.chatRoom.id)
 
-    const currentUser = await DataStore.query(User, currentUserId)
+    const existingChatId = mychats.filter(value => otherchats.includes(value))
 
-    await DataStore.save(new ChatRoomUser({
-      userId: currentUserId,
-      user: currentUser,
-      chatRoom: newChatRoom,
-      chatRoomID: newChatRoom.id
-    }))
+    if (existingChatId.length === 1) {
+      navigation.replace("ChatRoom", {
+        id: existingChatId[0],
+        name: otherUser.name,
+        image: otherUser.imageUri,
+        currentUserId
+      })
+    } else {
+
+      const newChatRoom = await DataStore.save(new ChatRoom({ newMessages: 0 }))
+
+      const currentUser = await DataStore.query(User, currentUserId)
+
+      await DataStore.save(new ChatRoomUser({
+        userId: currentUserId,
+        user: currentUser,
+        chatRoom: newChatRoom,
+        chatRoomID: newChatRoom.id
+      }))
 
 
-    await DataStore.save(new ChatRoomUser({
-      userID: otherUser.id,
-      user: otherUser,
-      chatRoom: newChatRoom,
-      chatRoomID: newChatRoom.id
-    }))
+      await DataStore.save(new ChatRoomUser({
+        userID: otherUser.id,
+        user: otherUser,
+        chatRoom: newChatRoom,
+        chatRoomID: newChatRoom.id
+      }))
 
 
-    navigation.replace("ChatRoom", {
-      id: newChatRoom.id,
-      name: otherUser.name,
-      image: otherUser.imageUri,
-      currentUserId
-    })
-
+      navigation.replace("ChatRoom", {
+        id: newChatRoom.id,
+        name: otherUser.name,
+        image: otherUser.imageUri,
+        currentUserId
+      })
+    }
   }
 
 
