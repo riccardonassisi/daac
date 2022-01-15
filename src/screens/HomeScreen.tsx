@@ -8,6 +8,7 @@ import NewMessageButton from "../components/NewMessageButton"
 import { DataStore } from "aws-amplify"
 
 import { ChatRoom, ChatRoomUser } from "src/models"
+import moment from "moment"
 
 export type HomeScreenProps = {
   currentUserId: string
@@ -24,26 +25,31 @@ const HomeScreen = (props: HomeScreenProps) => {
     currentUserId = route?.params?.currentUserId
   }
 
-  useEffect(() => {
-    const fetchChatRooms = async() => {
-      try {
+  const fetchChatRooms = async() => {
+    try {
 
-        const chats = (await DataStore.query(ChatRoomUser))
-          .filter(userChatRoom => userChatRoom.user.id === currentUserId)
-          .map(userChatRoom => userChatRoom.chatRoom)
-
-        setChatRooms(chats)
-
-        // if (userData.data?.getUser?.chatRoomUser !== null) {
-        //   const content = userData?.data?.getUser?.chatRoomUser?.items
-        //   setChatRooms(content.sort((a, b) => new moment(b?.chatRoom?.lastMessage?.createdAt) - new moment(a?.chatRoom?.lastMessage?.createdAt)))
-        // }
-      } catch (e) {
-        console.error(e)
-      }
+      const chats = (await DataStore.query(ChatRoomUser))
+        .filter(userChatRoom => userChatRoom.user.id === currentUserId)
+        .map(userChatRoom => userChatRoom.chatRoom)
+        .sort((a, b) => new moment(b?.updatedAt) - new moment(a?.updatedAt))
+      setChatRooms(chats)
+    } catch (e) {
+      console.error(e)
     }
+  }
+
+  useEffect(() => {
     fetchChatRooms()
-  }, [])
+    const subscription = DataStore.observe(ChatRoom).subscribe(msg => {
+
+      if (msg.model === ChatRoom && msg.opType === "UPDATE") {
+        fetchChatRooms()
+      }
+    })
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [chatRooms])
 
   return (
     <View style={styles.root}>

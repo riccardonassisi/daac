@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 
 import { FlatList, Text, View, StyleSheet } from "react-native"
 import FastImage from "react-native-fast-image"
@@ -8,17 +8,45 @@ import moment from "moment"
 
 import Pictograms from "../../data/pictogramspath"
 import { Message } from "src/models"
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
+import { DataStore } from "aws-amplify"
 
 export type ChatMessageProps = {
-  message: Message,
+  messageProp: Message,
   ownerId: string
 }
 
 const ChatMessage = (props: ChatMessageProps) => {
-  const { message, ownerId } = props
+  const { messageProp, ownerId } = props
+
+  const [message, setMessage] = useState<Message>(messageProp)
 
   const isMyMessage = () => {
     return message?.userID === ownerId
+  }
+
+  useEffect(() => {
+    const subscription = DataStore.observe(Message, message.id).subscribe(msg => {
+      if (msg.model === Message && msg.opType === "UPDATE") {
+        setMessage((message) => ({ ...message, ...msg.element }))
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  useEffect(() => {
+    setAsRead()
+  }, [isMyMessage(), message])
+
+  const setAsRead = async() => {
+    if (isMyMessage() === false && message.status !== "READ") {
+      await DataStore.save(
+        Message.copyOf(message, (updated) => {
+          updated.status = "READ"
+        })
+      )
+    }
   }
 
   return (
@@ -26,7 +54,6 @@ const ChatMessage = (props: ChatMessageProps) => {
       <View style={[
         isMyMessage() ? styles.messageSentBox : styles.messageReceivedBox
       ]}>
-        {/* {!isMyMessage() && <Text style={styles.name}>{message?.user?.name}</Text>} */}
         <Text style={styles.message}>{message?.content}</Text>
         <FlatList
           data={message?.urls}
@@ -45,7 +72,14 @@ const ChatMessage = (props: ChatMessageProps) => {
           }}
           horizontal={true}
         />
-        <Text style={styles.time}>{moment(message?.createdAt).fromNow()}</Text>
+        <View style={styles.bottom}>
+          <Text style={styles.time}>{moment(message?.createdAt).fromNow()}</Text>
+          {isMyMessage() && <FontAwesome5
+            name={message.status === "SENT" ? "check" : "check-double"}
+            size={10}
+            color={message.status === "READ" ? Colors.mainPurple : "grey"}
+          />}
+        </View>
       </View>
     </View>
   )
@@ -76,10 +110,15 @@ const styles = StyleSheet.create({
   message: {
     color: "black"
   },
+  bottom: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end"
+  },
   time: {
     fontSize: 11,
-    textAlign: "right",
-    color: "grey"
+    color: "grey",
+    paddingRight: 5
   },
   image: {
     width: 50,

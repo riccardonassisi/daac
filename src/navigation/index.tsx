@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { View } from "react-native"
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
@@ -14,6 +14,8 @@ import ContactsScreen from "../screens/ContactsScreen"
 import HomeHeader from "../components/headers/HomeHeader"
 import ChatRoomHeader from "../components/headers/ChatRoomHeader"
 import Colors from "../constants/Color"
+import { DataStore, Hub } from "aws-amplify"
+import { Message } from "src/models"
 
 export type NavProps = {
   currentUserId: string,
@@ -25,6 +27,26 @@ const Stack = createNativeStackNavigator()
 const Navigation = (props: NavProps) => {
 
   const { currentUserId, isLoggedIn } = props
+
+  useEffect(() => {
+    const listener = Hub.listen("datastore", async hubData => {
+      const { event, data } = hubData.payload
+      if (
+        event === "outboxMutationProcessed" &&
+        data.model === Message &&
+        !["DELIVERED", "READ"].includes(data.element.status)
+      ) {
+        // set the message status to delivered
+        DataStore.save(
+          Message.copyOf(data.element, (updated) => {
+            updated.status = "DELIVERED"
+          })
+        )
+      }
+    })
+
+    listener()
+  }, [])
 
   return (
 

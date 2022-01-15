@@ -104,7 +104,8 @@ const InputBox = (props: InputBoxProps) => {
       content: message,
       urls,
       userID: currentUserId,
-      chatroomID: chatRoom.id
+      chatroomID: chatRoom.id,
+      status: "SENT"
     }))
 
     updateLastMessage(newMessage)

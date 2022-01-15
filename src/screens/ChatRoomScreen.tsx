@@ -51,7 +51,7 @@ const ChatRoomScreen = () => {
       style={styles.container}>
       <FlatList
         data={messages.sort((a, b) => new moment(b?.createdAt) - new moment(a?.createdAt))}
-        renderItem={({ item }) => <ChatMessage message={item} ownerId={currentUserId}/>}
+        renderItem={({ item }) => <ChatMessage messageProp={item} ownerId={currentUserId}/>}
         inverted
       />
       {caaKeyboard.visible

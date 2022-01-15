@@ -50,8 +50,8 @@ const CaaKeyboard = (props: InputBoxProps) => {
 
   const clearPicto = () => {
     setMessage("")
-    const r: [] = urls.splice(0, urls.length)
-    setUrls(r)
+    // const r: [] = urls.splice(0, urls.length)
+    // setUrls(r)
   }
 
   const showInitialBody = () => {
@@ -75,17 +75,19 @@ const CaaKeyboard = (props: InputBoxProps) => {
       content: message,
       urls,
       userID: currentUserId,
-      chatroomID: chatRoom.id
+      chatroomID: chatRoom.id,
+      status: "SENT"
     }))
 
     updateLastMessage(newMessage)
+    onHideCaaKeyboard()
+
+    clearPicto()
   }
 
   const onPress = async() => {
     if (message) {
       await onSendPress()
-      clearPicto()
-      caaKeyboard.dismissKeyboard()
     }
   }
 

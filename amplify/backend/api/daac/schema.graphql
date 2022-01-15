@@ -1,3 +1,9 @@
+enum MessageStatus {
+  SENT
+  DELIVERED
+  READ
+}
+
 type User @model @auth(rules: [{allow: owner, ownerField: "id"}, {allow: private}]) {
   id: ID!
   name: String
@@ -21,5 +27,6 @@ type Message @model @auth(rules: [{allow: private}]) {
   urls: [String]
   userID: ID @index(name: "byUser")
   chatroomID: ID @index(name: "byChatRoom")
+  status: MessageStatus
 }
  
