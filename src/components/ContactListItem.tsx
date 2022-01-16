@@ -1,5 +1,5 @@
 import React from "react"
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
+import { View, Text, StyleSheet, Pressable } from "react-native"
 import FastImage from "react-native-fast-image"
 
 import { useNavigation } from "@react-navigation/native"
@@ -70,7 +70,7 @@ const ContactListItem = (props: ContactListProps) => {
 
 
   return (
-    <TouchableOpacity onPress={onClick}>
+    <Pressable onPress={onClick}>
 
       <View style={styles.container}>
 
@@ -82,7 +82,7 @@ const ContactListItem = (props: ContactListProps) => {
         </View>
 
       </View>
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { StyleSheet, TouchableOpacity, View, Text } from "react-native"
+import { StyleSheet, Pressable, View, Text } from "react-native"
 import FastImage from "react-native-fast-image"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
@@ -95,19 +95,19 @@ const CaaKeyboard = (props: InputBoxProps) => {
     <View style={styles.container}>
 
       <View style={styles.header}>
-        <TouchableOpacity onPress={onHideCaaKeyboard}>
+        <Pressable onPress={onHideCaaKeyboard}>
           <View style={styles.caaContainer}>
             <FastImage source={caaLogo} style={styles.caaIcon} />
           </View>
-        </TouchableOpacity>
+        </Pressable>
         <View style={styles.preview}>
           <Text style={styles.previewText}>{message}</Text>
         </View>
-        <TouchableOpacity onPress={onPress}>
+        <Pressable onPress={onPress}>
           <View style={styles.buttonContainer}>
             <FontAwesome5 name="paper-plane" size={25} color={"white"} />
           </View>
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
       <View style={styles.mainRow}>

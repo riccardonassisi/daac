@@ -1,5 +1,5 @@
 import React from "react"
-import { StyleSheet, TouchableOpacity, Text } from "react-native"
+import { StyleSheet, Pressable, Text } from "react-native"
 import Pictograms from "../../../data/pictogramspath"
 import { CaaKeyboardComponentParamList } from "root/types"
 import FastImage from "react-native-fast-image"
@@ -7,7 +7,7 @@ import FastImage from "react-native-fast-image"
 const CaaKeyboardComponent = ({ text, uri, onPress, type }: CaaKeyboardComponentParamList) => {
 
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={onPress}
       style={[styles.container, styles[`type_${type}`]]}>
       <FastImage
@@ -16,7 +16,7 @@ const CaaKeyboardComponent = ({ text, uri, onPress, type }: CaaKeyboardComponent
         resizeMode="contain"
       />
       <Text style={styles.text}>{text}</Text>
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 

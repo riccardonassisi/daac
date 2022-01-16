@@ -27,7 +27,6 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   const fetchChatRooms = async() => {
     try {
-
       const chats = (await DataStore.query(ChatRoomUser))
         .filter(userChatRoom => userChatRoom.user.id === currentUserId)
         .map(userChatRoom => userChatRoom.chatRoom)
@@ -40,15 +39,15 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   useEffect(() => {
     fetchChatRooms()
-    const subscription = DataStore.observe(ChatRoom).subscribe(msg => {
+    // const subscription = DataStore.observe(ChatRoom).subscribe(msg => {
 
-      if (msg.model === ChatRoom && msg.opType === "UPDATE") {
-        fetchChatRooms()
-      }
-    })
-    return () => {
-      subscription.unsubscribe()
-    }
+    //   if (msg.model === ChatRoom && msg.opType === "UPDATE") {
+    //     fetchChatRooms()
+    //   }
+    // })
+    // return () => {
+    //   subscription.unsubscribe()
+    // }
   }, [chatRooms])
 
   return (

@@ -45,7 +45,12 @@ const Navigation = (props: NavProps) => {
       }
     })
 
-    listener()
+    DataStore.start()
+
+    return () => {
+      listener()
+    }
+
   }, [])
 
   return (

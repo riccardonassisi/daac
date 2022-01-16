@@ -1,7 +1,7 @@
 import React from "react"
 import { useEffect, useState } from "react"
 
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native"
+import { View, Text, StyleSheet, Pressable, ActivityIndicator } from "react-native"
 import FastImage from "react-native-fast-image"
 
 import moment from "moment"
@@ -20,31 +20,51 @@ const ChatListItem = (props: ChatListItemsProps) => {
   const { currentUserId, chatRoom } = props
   const [otherUser, setOtherUser] = useState<User|null>(null)
   const [lastMessage, setLastMessage] = useState<Message|undefined>()
+  const [updatedChatRoom, setUpdatedChatRoom] = useState<ChatRoom>(chatRoom)
 
   const navigation = useNavigation()
 
   useEffect(() => {
     const getOtherUser = async() => {
-
       const users = (await DataStore.query(ChatRoomUser))
         .filter(chatRoomUser => chatRoomUser.chatRoom.id === chatRoom.id)
         .map(chatRoomUser => chatRoomUser.user)
-
       setOtherUser(users.find(user => user.id !== currentUserId) || null)
     }
-
     getOtherUser()
   }, [])
 
   useEffect(() => {
-    if (!chatRoom.chatRoomLastMessageId) {
+    if (!updatedChatRoom?.chatRoomLastMessageId) {
       return
     }
-    DataStore.query(Message, chatRoom.chatRoomLastMessageId).then(setLastMessage)
+    DataStore.query(Message, updatedChatRoom?.chatRoomLastMessageId).then(setLastMessage)
   }, [])
 
+  useEffect(() => {
+    const subscription = DataStore.observe(ChatRoom, chatRoom.id).subscribe(msg => {
+      if (msg.model === ChatRoom && msg.opType === "UPDATE") {
+        setUpdatedChatRoom(msg.element)
+        if (msg.element.chatRoomLastMessageId) {
+          DataStore.query(Message, msg.element.chatRoomLastMessageId).then(setLastMessage)
+        }
+      }
+    })
 
-  if (!otherUser) {
+    return () => subscription.unsubscribe()
+  }, [])
+
+  useEffect(() => {
+    const subscription = DataStore.observe(Message, lastMessage?.id).subscribe(msg => {
+      if (msg.model === Message && msg.opType === "UPDATE") {
+        setLastMessage(msg.element)
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  if (!updatedChatRoom || !lastMessage) {
     return <ActivityIndicator />
   }
 
@@ -58,25 +78,33 @@ const ChatListItem = (props: ChatListItemsProps) => {
   }
 
   return (
-    <TouchableOpacity onPress={onClick}>
+    <Pressable onPress={onClick}>
       <View style={styles.container}>
         <View style={styles.leftContainer} >
           <FastImage source={{ uri: otherUser?.imageUri }} style={styles.avatar} />
-          {!!chatRoom.newMessages && <View style={styles.badgeContainer}>
-            <Text style={styles.badgeText}>{chatRoom?.newMessages}</Text>
-          </View>}
           <View style={styles.midContainer}>
             <Text style={styles.username}>{otherUser?.name}</Text>
-            <Text style={styles.lastMessage}>{lastMessage?.content}</Text>
+            <Text style={
+              lastMessage?.userID !== currentUserId && lastMessage?.status !== "READ"
+                ? styles.lastMessageUnread
+                : styles.lastMessage}>
+              {lastMessage?.content}
+            </Text>
           </View>
         </View>
-
-        <Text style={styles.time}>
-          {lastMessage && moment(lastMessage?.createdAt).format("DD/MM/YYYY")}
-        </Text>
+        <View style={styles.rightContainer}>
+          <Text style={lastMessage?.userID !== currentUserId && lastMessage?.status !== "READ"
+            ? styles.lastMessageUnread
+            : styles.lastMessage}>
+            {lastMessage && moment(lastMessage?.createdAt).format("DD/MM/YYYY")}
+          </Text>
+          {lastMessage?.userID !== currentUserId && lastMessage?.status !== "READ" ?
+            <View style={styles.badgeUnread} />
+            : null}
+        </View>
 
       </View>
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 
@@ -90,6 +118,11 @@ const styles = StyleSheet.create({
   },
   leftContainer: {
     flexDirection: "row"
+  },
+  rightContainer: {
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    alignItems: "center"
   },
   midContainer: {
     paddingLeft: 10,
@@ -108,20 +141,18 @@ const styles = StyleSheet.create({
   lastMessage: {
     color: "grey"
   },
+  lastMessageUnread: {
+    color: Colors.mainPurple,
+    fontWeight: "bold"
+  },
   time: {
     color: "grey"
   },
-  badgeContainer: {
+  badgeUnread: {
     backgroundColor: Colors.mainPurple,
     width: 20,
     height: 20,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: Colors.lightPurple,
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    left: 35
+    borderRadius: 10
   },
   badgeText: {
     color: "#fff"
