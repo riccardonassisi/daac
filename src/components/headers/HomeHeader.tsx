@@ -20,19 +20,26 @@ const HomeHeader = (props: HomeHeaderProps) => {
 
   const { currentUserId } = props
 
-  // if (!currentUserId) {
-  //   const route = useRoute()
-  //   currentUserId = route?.params?.currentUserId
-  // }
+  const fetchUser = async() => {
+    await DataStore.query(User, currentUserId).then(setCurrentUser)
+  }
 
   useEffect(() => {
-    DataStore.query(User, currentUserId).then(setCurrentUser)
+    fetchUser()
+    const subscription = DataStore.observe(User, currentUserId).subscribe(msg => {
+      if (msg.model === User && msg.opType === "UPDATE") {
+        setCurrentUser(msg.element)
+      }
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
 
-  async function signOut() {
+  const signOut = async() => {
     try {
       await Auth.signOut()
+      await DataStore.clear()
       navigation.dispatch(
         StackActions.replace("SignIn")
       )

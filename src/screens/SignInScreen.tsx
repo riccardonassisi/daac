@@ -7,7 +7,7 @@ import CustomButton from "../components/forms/CustomButton"
 
 import { StackActions, useNavigation } from "@react-navigation/native"
 
-import { Auth } from "aws-amplify"
+import { Auth, DataStore } from "aws-amplify"
 import CustomErrorMessage from "../components/forms/CustomErrorMessage"
 import FastImage from "react-native-fast-image"
 
@@ -26,6 +26,7 @@ const SignInScreen = () => {
     try {
       const res = await Auth.signIn(username, password)
       const currentUserId = res?.attributes?.sub
+      DataStore.clear()
       navigation.dispatch(
         StackActions.replace("Home",
           { currentUserId })

@@ -19,12 +19,23 @@ const ContactsScreen = () => {
   const currentUserId = route?.params?.currentUserId
 
   useEffect(() => {
+    const subscription = DataStore.observe(User).subscribe(msg => {
+      if (msg.model === User && msg.opType === "INSERT") {
+        setUsers(existingUsers => [msg.element, ...existingUsers])
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  useEffect(() => {
     const fetchUsers = async() => {
       const otherUsers = (await DataStore.query(User)).filter(user => user.id !== currentUserId)
       setUsers(otherUsers)
     }
     fetchUsers()
   }, [])
+
 
   return (
     <View style={styles.container}>

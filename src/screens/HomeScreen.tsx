@@ -39,15 +39,6 @@ const HomeScreen = (props: HomeScreenProps) => {
 
   useEffect(() => {
     fetchChatRooms()
-    // const subscription = DataStore.observe(ChatRoom).subscribe(msg => {
-
-    //   if (msg.model === ChatRoom && msg.opType === "UPDATE") {
-    //     fetchChatRooms()
-    //   }
-    // })
-    // return () => {
-    //   subscription.unsubscribe()
-    // }
   }, [chatRooms])
 
   return (
