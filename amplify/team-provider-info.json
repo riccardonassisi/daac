@@ -19,7 +19,7 @@
       "function": {
         "daacabc029e3PostConfirmation": {
           "deploymentBucketName": "amplify-daac-dev-125109-deployment",
-          "s3Key": "amplify-builds/daacabc029e3PostConfirmation-535a775044752f575469-build.zip"
+          "s3Key": "amplify-builds/daacabc029e3PostConfirmation-725a5834424273333671-build.zip"
         }
       }
     }
