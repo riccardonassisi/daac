@@ -50,8 +50,6 @@ const CaaKeyboard = (props: InputBoxProps) => {
 
   const clearPicto = () => {
     setMessage("")
-    // const r: [] = urls.splice(0, urls.length)
-    // setUrls(r)
   }
 
   const showInitialBody = () => {
@@ -67,6 +65,7 @@ const CaaKeyboard = (props: InputBoxProps) => {
   const updateLastMessage = async(newMessage: Message) => {
     DataStore.save(ChatRoom.copyOf(chatRoom, updatedChatRoom => {
       updatedChatRoom.LastMessage = newMessage
+      updatedChatRoom.newMessages = updatedChatRoom.newMessages + 1
     }))
   }
 

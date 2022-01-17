@@ -24,6 +24,20 @@ const ChatListItem = (props: ChatListItemsProps) => {
 
   const navigation = useNavigation()
 
+  const isLastMessageMine = () => {
+    if (lastMessage?.userID === currentUserId) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  const clearNewMessages = async() => {
+    await DataStore.save(ChatRoom.copyOf(chatRoom, updatedChatRoom => {
+      updatedChatRoom.newMessages = 0
+    }))
+  }
+
   useEffect(() => {
     const getOtherUser = async() => {
       const users = (await DataStore.query(ChatRoomUser))
@@ -64,17 +78,21 @@ const ChatListItem = (props: ChatListItemsProps) => {
     return () => subscription.unsubscribe()
   }, [])
 
-  if (!updatedChatRoom || !lastMessage) {
-    return <ActivityIndicator />
-  }
-
   const onClick = () => {
+    if (!isLastMessageMine()) {
+      clearNewMessages()
+    }
+
     navigation.navigate("ChatRoom", {
       id: chatRoom?.id,
       name: otherUser?.name,
       image: otherUser?.imageUri,
       currentUserId
     })
+  }
+
+  if (!updatedChatRoom || !lastMessage) {
+    return <ActivityIndicator />
   }
 
   return (
@@ -85,7 +103,7 @@ const ChatListItem = (props: ChatListItemsProps) => {
           <View style={styles.midContainer}>
             <Text style={styles.username}>{otherUser?.name}</Text>
             <Text style={
-              lastMessage?.userID !== currentUserId && lastMessage?.status !== "READ"
+              !isLastMessageMine() && lastMessage?.status !== "READ"
                 ? styles.lastMessageUnread
                 : styles.lastMessage}>
               {lastMessage?.content}
@@ -93,13 +111,13 @@ const ChatListItem = (props: ChatListItemsProps) => {
           </View>
         </View>
         <View style={styles.rightContainer}>
-          <Text style={lastMessage?.userID !== currentUserId && lastMessage?.status !== "READ"
+          <Text style={!isLastMessageMine() && lastMessage?.status !== "READ"
             ? styles.lastMessageUnread
             : styles.lastMessage}>
             {lastMessage && moment(lastMessage?.createdAt).format("DD/MM/YYYY")}
           </Text>
-          {lastMessage?.userID !== currentUserId && lastMessage?.status !== "READ" ?
-            <View style={styles.badgeUnread} />
+          {!isLastMessageMine() && chatRoom?.newMessages > 0 ?
+            <View style={styles.badgeUnread}><Text style={styles.badgeText}>{chatRoom?.newMessages}</Text></View>
             : null}
         </View>
 
@@ -152,10 +170,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.mainPurple,
     width: 20,
     height: 20,
-    borderRadius: 10
+    borderRadius: 10,
+    alignItems: "center"
   },
   badgeText: {
-    color: "#fff"
+    color: "#fff",
+    fontWeight: "bold"
   }
 })
 

@@ -1,6 +1,6 @@
 import React from "react"
 import { useEffect, useState } from "react"
-import { StyleSheet, FlatList, KeyboardAvoidingView, Platform } from "react-native"
+import { StyleSheet, FlatList, KeyboardAvoidingView, Platform, ActivityIndicator } from "react-native"
 
 import { useRoute } from "@react-navigation/native"
 import moment from "moment"
@@ -22,20 +22,30 @@ const ChatRoomScreen = () => {
   const route = useRoute()
   const currentUserId = route?.params?.currentUserId
 
-  useEffect(() => {
+  const fetchChatRoom = () => {
     DataStore.query(ChatRoom, route?.params?.id).then(setChatRoom)
+  }
+
+  const fetchMessage = async() => {
+    const fetchedMessage = await DataStore.query(Message,
+      message => message.chatroomID("eq", route?.params?.id))
+    setMessages(fetchedMessage)
+  }
+
+  useEffect(() => {
+    fetchChatRoom()
+    const subscription = DataStore.observe(ChatRoom, chatRoom?.id).subscribe(msg => {
+      if (msg.model === ChatRoom && msg.opType === "UPDATE") {
+        setChatRoom(msg.element)
+      }
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
   useEffect(() => {
-    const fetchMessage = async() => {
-      const fetchedMessage = await DataStore.query(Message,
-        message => message.chatroomID("eq", route?.params?.id))
-      setMessages(fetchedMessage)
-    }
     fetchMessage()
-  }, [])
 
-  useEffect(() => {
     const subscription = DataStore.observe(Message).subscribe(msg => {
       if (msg.model === Message && msg.opType === "INSERT") {
         setMessages(existingMessages => [msg.element, ...existingMessages])
@@ -44,6 +54,10 @@ const ChatRoomScreen = () => {
 
     return () => subscription.unsubscribe()
   }, [])
+
+  if (chatRoom === undefined) {
+    return <ActivityIndicator />
+  }
 
   return (
     <KeyboardAvoidingView

@@ -5,9 +5,8 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import Colors from "@constants/Color"
 import caaLogo from "@pictograms/CAA.png"
 
-import { API, DataStore, graphqlOperation } from "aws-amplify"
+import { DataStore } from "aws-amplify"
 
-import { createMessage, updateChatRoom } from "../graphql/mutations"
 
 import { useKeyboard } from "../keyboard/keyboard.context"
 import FastImage from "react-native-fast-image"
@@ -94,8 +93,9 @@ const InputBox = (props: InputBoxProps) => {
   }
 
   const updateLastMessage = async(newMessage: Message) => {
-    DataStore.save(ChatRoom.copyOf(chatRoom, updatedChatRoom => {
+    await DataStore.save(ChatRoom.copyOf(chatRoom, updatedChatRoom => {
       updatedChatRoom.LastMessage = newMessage
+      updatedChatRoom.newMessages++
     }))
   }
 
