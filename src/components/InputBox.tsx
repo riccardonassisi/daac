@@ -153,6 +153,7 @@ const InputBox = (props: InputBoxProps) => {
             horizontal={true} />
         </View>
         <TextInput
+          style={styles.textinput}
           placeholder="Scrivi un messaggio..."
           placeholderTextColor={"grey"}
           multiline
@@ -229,6 +230,9 @@ const styles = StyleSheet.create({
   image: {
     width: 50,
     height: 50
+  },
+  textinput: {
+    color: "#000"
   }
 })
 

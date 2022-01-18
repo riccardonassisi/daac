@@ -8,7 +8,7 @@ import moment from "moment"
 import ChatMessage from "../components/ChatMessage"
 import InputBox from "../components/InputBox"
 import { Message, ChatRoom } from "src/models"
-import { DataStore } from "aws-amplify"
+import { DataStore, SortDirection } from "aws-amplify"
 
 import { useKeyboard } from "../keyboard/keyboard.context"
 import CaaKeyboard from "../components/caa_keyboard"
@@ -19,6 +19,7 @@ const ChatRoomScreen = () => {
 
   const [messages, setMessages] = useState<Message[]>([])
   const [chatRoom, setChatRoom] = useState<ChatRoom>()
+  const [nextLimit, setNextLimit] = useState(10)
   const caaKeyboard = useKeyboard()
 
   const colorScheme = useColorScheme()
@@ -31,9 +32,19 @@ const ChatRoomScreen = () => {
   }
 
   const fetchMessage = async() => {
-    const fetchedMessage = await DataStore.query(Message,
-      message => message.chatroomID("eq", route?.params?.id))
-    setMessages(fetchedMessage)
+    try {
+      const fetchedMessage = await DataStore.query(Message,
+        message => message.chatroomID("eq", route?.params?.id), {
+          sort: m => m.createdAt(SortDirection.DESCENDING),
+          page: 0,
+          limit: nextLimit
+        })
+      setMessages(fetchedMessage)
+      setNextLimit(nextLimit + 5)
+    } catch (error) {
+      console.warn(error)
+
+    }
   }
 
   useEffect(() => {
@@ -68,9 +79,11 @@ const ChatRoomScreen = () => {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       style={styles[`${colorScheme}_container`]}>
       <FlatList
-        data={messages.sort((a, b) => new moment(b?.createdAt) - new moment(a?.createdAt))}
+        data={messages}
         renderItem={({ item }) => <ChatMessage messageProp={item} ownerId={currentUserId}/>}
         inverted
+        onEndReached={fetchMessage}
+        onEndReachedThreshold={2.5}
       />
       {caaKeyboard.visible
         ? (<CaaKeyboard currentUserId={currentUserId} chatRoom={chatRoom}/>)
