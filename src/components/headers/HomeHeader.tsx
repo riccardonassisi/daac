@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { View, Text, StyleSheet, Pressable } from "react-native"
+import { View, Text, StyleSheet, Pressable, ActivityIndicator } from "react-native"
 
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import Colors from "../../constants/Color"
@@ -15,7 +15,7 @@ export type HomeHeaderProps = {
 
 const HomeHeader = (props: HomeHeaderProps) => {
 
-  const [currentUser, setCurrentUser] = useState<User>()
+  const [currentUser, setCurrentUser] = useState<User|undefined>()
   const navigation = useNavigation()
 
   const { currentUserId } = props
@@ -50,9 +50,11 @@ const HomeHeader = (props: HomeHeaderProps) => {
 
   return (
     <View style={styles.container}>
-      <FastImage
-        style={styles.image}
-        source={{ uri: currentUser?.imageUri }}/>
+      {currentUser
+        ? <FastImage
+          style={styles.image}
+          source={{ uri: currentUser?.imageUri }}/>
+        : <ActivityIndicator />}
       <Text style={styles.text}>DAAC</Text>
       <Pressable onPress={ () => signOut() }>
         <FontAwesome5

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { View } from "react-native"
-import { NavigationContainer } from "@react-navigation/native"
+import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
 import HomeScreen from "../screens/HomeScreen"
@@ -19,14 +19,16 @@ import { Message } from "src/models"
 
 export type NavProps = {
   currentUserId: string,
-  isLoggedIn: boolean
+  isLoggedIn: boolean,
+  colorScheme: "light" | "dark"
+
 }
 
 const Stack = createNativeStackNavigator()
 
 const Navigation = (props: NavProps) => {
 
-  const { currentUserId, isLoggedIn } = props
+  const { currentUserId, isLoggedIn, colorScheme } = props
 
   useEffect(() => {
     const listener = Hub.listen("datastore", async hubData => {
@@ -56,7 +58,7 @@ const Navigation = (props: NavProps) => {
   return (
 
     <View style={{ flex: 1 }}>
-      <NavigationContainer>
+      <NavigationContainer theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack.Navigator
           initialRouteName={isLoggedIn ? "Home" : "SignIn"}
           screenOptions={{

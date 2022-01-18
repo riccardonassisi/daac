@@ -10,6 +10,7 @@ import { useNavigation } from "@react-navigation/native"
 import Colors from "../constants/Color"
 import { ChatRoom, User, ChatRoomUser, Message } from "src/models"
 import { DataStore } from "aws-amplify"
+import useColorScheme from "src/hooks/useColorScheme"
 
 export type ChatListItemsProps = {
   currentUserId: string,
@@ -23,6 +24,7 @@ const ChatListItem = (props: ChatListItemsProps) => {
   const [updatedChatRoom, setUpdatedChatRoom] = useState<ChatRoom>(chatRoom)
 
   const navigation = useNavigation()
+  const colorScheme = useColorScheme()
 
   const isLastMessageMine = () => {
     if (lastMessage?.userID === currentUserId) {
@@ -101,7 +103,7 @@ const ChatListItem = (props: ChatListItemsProps) => {
         <View style={styles.leftContainer} >
           <FastImage source={{ uri: otherUser?.imageUri }} style={styles.avatar} />
           <View style={styles.midContainer}>
-            <Text style={styles.username}>{otherUser?.name}</Text>
+            <Text style={styles[`${colorScheme}_username`]}>{otherUser?.name}</Text>
             <Text style={
               !isLastMessageMine() && lastMessage?.status !== "READ"
                 ? styles.lastMessageUnread
@@ -151,10 +153,15 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 50
   },
-  username: {
+  light_username: {
     fontWeight: "bold",
     fontSize: 16,
     color: "#000"
+  },
+  dark_username: {
+    fontWeight: "bold",
+    fontSize: 16,
+    color: Colors.lightPurple
   },
   lastMessage: {
     color: "grey"

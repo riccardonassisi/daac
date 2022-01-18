@@ -10,6 +10,7 @@ import Colors from "../constants/Color"
 import { useNavigation } from "@react-navigation/native"
 
 import { Auth } from "aws-amplify"
+import useColorScheme from "src/hooks/useColorScheme"
 
 const SignUpScreen = () => {
   const [username, setUsername] = useState("")
@@ -20,6 +21,8 @@ const SignUpScreen = () => {
   const [errorMessage, setErrorMessage] = useState("")
 
   const navigation = useNavigation()
+
+  const colorScheme = useColorScheme()
 
   const onSignUpPressed = async() => {
 
@@ -63,7 +66,7 @@ const SignUpScreen = () => {
     <ScrollView>
       <View style={styles.root}>
 
-        <Text style={styles.title}>
+        <Text style={styles[`${colorScheme}_title`]}>
           Crea un account
         </Text>
 
@@ -123,10 +126,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20
   },
-  title: {
+  light_title: {
     fontSize: 26,
     fontWeight: "bold",
     color: Colors.mainPurple,
+    padding: 10
+  },
+  dark_title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: Colors.lightPurple,
     padding: 10
   },
   text: {

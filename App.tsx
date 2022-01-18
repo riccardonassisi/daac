@@ -6,11 +6,14 @@ import {
 import Navigation from "./src/navigation"
 import { Auth } from "aws-amplify"
 import { KeyboardContextProvider } from "./src/keyboard/keyboard.context"
+import useColorScheme from "src/hooks/useColorScheme"
 
 const App = () => {
 
   const [logged, setLogged] = useState<boolean>()
   const [userid, setUserid] = useState("")
+
+  const colorScheme = useColorScheme()
 
   useEffect(() => {
     const fetchUser = async() => {
@@ -32,7 +35,7 @@ const App = () => {
     return (
       <KeyboardContextProvider>
         <SafeAreaView style={styles.root}>
-          <Navigation currentUserId={userid} isLoggedIn={logged}/>
+          <Navigation currentUserId={userid} isLoggedIn={logged} colorScheme={colorScheme}/>
         </SafeAreaView>
       </KeyboardContextProvider>
     )

@@ -12,12 +12,16 @@ import { DataStore } from "aws-amplify"
 
 import { useKeyboard } from "../keyboard/keyboard.context"
 import CaaKeyboard from "../components/caa_keyboard"
+import useColorScheme from "src/hooks/useColorScheme"
+import Colors from "src/constants/Color"
 
 const ChatRoomScreen = () => {
 
   const [messages, setMessages] = useState<Message[]>([])
   const [chatRoom, setChatRoom] = useState<ChatRoom>()
   const caaKeyboard = useKeyboard()
+
+  const colorScheme = useColorScheme()
 
   const route = useRoute()
   const currentUserId = route?.params?.currentUserId
@@ -62,7 +66,7 @@ const ChatRoomScreen = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : undefined}
-      style={styles.container}>
+      style={styles[`${colorScheme}_container`]}>
       <FlatList
         data={messages.sort((a, b) => new moment(b?.createdAt) - new moment(a?.createdAt))}
         renderItem={({ item }) => <ChatMessage messageProp={item} ownerId={currentUserId}/>}
@@ -77,9 +81,13 @@ const ChatRoomScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  light_container: {
     flex: 1,
     backgroundColor: "#fff"
+  },
+  dark_container: {
+    flex: 1,
+    backgroundColor: Colors.darkBackground
   }
 })
 

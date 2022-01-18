@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.mainPurple
   },
   button_SECONDARY: {
-    backgroundColor: "white",
+    backgroundColor: Colors.lightPurple,
     color: Colors.mainPurple,
     borderColor: Colors.mainPurple,
     borderWidth: 2

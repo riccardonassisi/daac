@@ -154,6 +154,7 @@ const InputBox = (props: InputBoxProps) => {
         </View>
         <TextInput
           placeholder="Scrivi un messaggio..."
+          placeholderTextColor={"grey"}
           multiline
           value={message}
           keyboardType="visible-password" // workaround per gli hints

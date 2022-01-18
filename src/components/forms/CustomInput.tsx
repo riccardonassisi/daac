@@ -1,17 +1,22 @@
 import React from "react"
 import { View, TextInput, StyleSheet } from "react-native"
+import Colors from "src/constants/Color"
+import useColorScheme from "src/hooks/useColorScheme"
 import { CustomInputParamList } from "../../../types"
 
 const CustomInput = React.forwardRef(({ value, setValue, placeholder, secureTextEntry, onSubmit }: CustomInputParamList, ref: any) => {
+
+  const colorScheme = useColorScheme()
+
   return (
-    <View style={styles.container}>
+    <View style={styles[`${colorScheme}_container`]}>
       <TextInput
         ref={ref}
         value={value}
         onChangeText={setValue}
         placeholder={placeholder}
         autoCapitalize="none"
-        style={styles.input}
+        style={styles[`${colorScheme}_input`]}
         onSubmitEditing={onSubmit ? onSubmit : undefined}
         onEndEditing={() => {}}
         secureTextEntry={secureTextEntry}
@@ -21,19 +26,31 @@ const CustomInput = React.forwardRef(({ value, setValue, placeholder, secureText
 })
 
 const styles = StyleSheet.create({
-  container: {
+  light_container: {
     backgroundColor: "white",
     width: "100%",
 
-    borderColor: "e8e8e8",
+    borderColor: Colors.lightPurple,
     borderWidth: 1,
     borderRadius: 5,
 
     paddingHorizontal: 10,
     marginVertical: 10
   },
-  input: {
+  dark_container: {
+    backgroundColor: "transparent",
+    width: "100%",
 
+    borderColor: Colors.lightPurple,
+    borderWidth: 1,
+    borderRadius: 5,
+
+    paddingHorizontal: 10,
+    marginVertical: 10
+  },
+  light_input: {
+  },
+  dark_input: {
   }
 })
 

@@ -9,6 +9,8 @@ import { DataStore } from "aws-amplify"
 
 import { ChatRoom, ChatRoomUser } from "src/models"
 import moment from "moment"
+import useColorScheme from "src/hooks/useColorScheme"
+import Colors from "src/constants/Color"
 
 export type HomeScreenProps = {
   currentUserId: string
@@ -17,7 +19,7 @@ export type HomeScreenProps = {
 const HomeScreen = (props: HomeScreenProps) => {
 
   const [chatRooms, setChatRooms] = useState<ChatRoom[]>([])
-
+  const colorScheme = useColorScheme()
   let { currentUserId } = props
 
   if (!currentUserId) {
@@ -42,7 +44,7 @@ const HomeScreen = (props: HomeScreenProps) => {
   }, [chatRooms])
 
   return (
-    <View style={styles.root}>
+    <View style={styles[`${colorScheme}_root`]}>
       {chatRooms.length > 0
         ? (<FlatList
           style= {{
@@ -52,7 +54,7 @@ const HomeScreen = (props: HomeScreenProps) => {
           renderItem={({ item }) => <ChatListItem currentUserId={currentUserId} chatRoom={item} />}
           keyExtractor={(item) => item.id}
         />) : (
-          <Text style={styles.empty}>Non ci sono ancora chat</Text>
+          <Text style={styles[`${colorScheme}_empty`]}>Non ci sono ancora chat</Text>
         )}
 
       <NewMessageButton currentUserId={currentUserId}/>
@@ -61,7 +63,7 @@ const HomeScreen = (props: HomeScreenProps) => {
 }
 
 const styles = StyleSheet.create({
-  root: {
+  light_root: {
     padding: 10,
     height: "100%",
     alignItems: "center",
@@ -69,10 +71,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#fff"
   },
-  empty: {
+  light_empty: {
     fontWeight: "bold",
     padding: 15,
     borderColor: "grey",
+    borderWidth: 0.5,
+    borderRadius: 15
+  },
+  dark_root: {
+    padding: 10,
+    height: "100%",
+    alignItems: "center",
+    textAlignVertical: "center",
+    justifyContent: "center",
+    backgroundColor: Colors.darkBackground
+  },
+  dark_empty: {
+    fontWeight: "bold",
+    padding: 15,
+    borderColor: Colors.lightPurple,
     borderWidth: 0.5,
     borderRadius: 15
   }

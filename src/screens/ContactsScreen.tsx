@@ -10,11 +10,15 @@ import {
 import { User } from "src/models"
 
 import { useRoute } from "@react-navigation/native"
+import useColorScheme from "src/hooks/useColorScheme"
+import Colors from "src/constants/Color"
 
 const ContactsScreen = () => {
 
   const [users, setUsers] = useState<User[]>([])
   const route = useRoute()
+
+  const colorScheme = useColorScheme()
 
   const currentUserId = route?.params?.currentUserId
 
@@ -38,12 +42,12 @@ const ContactsScreen = () => {
 
 
   return (
-    <View style={styles.container}>
+    <View style={styles[`${colorScheme}_container`]}>
       <FlatList
         style= {{
           width: "100%"
         }}
-        data={users}
+        data={users.sort((a, b) => a?.name.localeCompare(b?.name))}
         renderItem={({ item }) => <ContactListItem currentUserId={currentUserId} otherUser={item} />}
         keyExtractor={(item) => item.id}
       />
@@ -52,9 +56,17 @@ const ContactsScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  light_container: {
+    flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "#fff"
+  },
+  dark_container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: Colors.darkBackground
   }
 })
 

@@ -9,11 +9,14 @@ import Colors from "../constants/Color"
 
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { Auth } from "aws-amplify"
+import useColorScheme from "src/hooks/useColorScheme"
 
 const ConfirmEmailScreen = () => {
 
   const route = useRoute()
   const navigation = useNavigation()
+
+  const colorScheme = useColorScheme()
 
   const [username, setUsername] = useState(route?.params?.username)
   const [confirmationCode, setConfirmationCode] = useState("")
@@ -46,7 +49,7 @@ const ConfirmEmailScreen = () => {
     <ScrollView>
       <View style={styles.root}>
 
-        <Text style={styles.title}>Conferma la tua email</Text>
+        <Text style={styles[`${colorScheme}_title`]}>Conferma la tua email</Text>
 
         <CustomInput
           placeholder="Username"
@@ -88,10 +91,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20
   },
-  title: {
+  light_title: {
     fontSize: 26,
     fontWeight: "bold",
     color: Colors.mainPurple,
+    padding: 10,
+    textAlign: "center"
+  },
+  dark_title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: Colors.lightPurple,
     padding: 10,
     textAlign: "center"
   }

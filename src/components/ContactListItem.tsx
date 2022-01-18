@@ -6,6 +6,8 @@ import { useNavigation } from "@react-navigation/native"
 
 import { DataStore } from "aws-amplify"
 import { ChatRoom, ChatRoomUser, User } from "src/models"
+import Colors from "src/constants/Color"
+import useColorScheme from "src/hooks/useColorScheme"
 
 
 export type ContactListProps = {
@@ -17,6 +19,7 @@ const ContactListItem = (props: ContactListProps) => {
   const { currentUserId, otherUser } = props
 
   const navigation = useNavigation<any>()
+  const colorScheme = useColorScheme()
 
   const onClick = async() => {
 
@@ -77,7 +80,7 @@ const ContactListItem = (props: ContactListProps) => {
         <FastImage source={{ uri: otherUser.imageUri }} style={styles.avatar} />
 
         <View style={styles.midContainer}>
-          <Text style={styles.username}>{otherUser.name}</Text>
+          <Text style={styles[`${colorScheme}_username`]}>{otherUser.name}</Text>
           <Text numberOfLines={1} style={styles.status}>{otherUser.status}</Text>
         </View>
 
@@ -103,10 +106,15 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: 0
   },
-  username: {
+  light_username: {
     fontWeight: "bold",
     fontSize: 16,
     color: "#000"
+  },
+  dark_username: {
+    fontWeight: "bold",
+    fontSize: 16,
+    color: Colors.lightPurple
   },
   status: {
     color: "grey"
