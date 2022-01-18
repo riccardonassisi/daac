@@ -7,6 +7,7 @@ import Navigation from "./src/navigation"
 import { Auth } from "aws-amplify"
 import { KeyboardContextProvider } from "./src/keyboard/keyboard.context"
 import useColorScheme from "src/hooks/useColorScheme"
+import RNBootSplash from "react-native-bootsplash"
 
 const App = () => {
 

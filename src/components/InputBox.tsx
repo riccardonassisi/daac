@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View, Keyboard, Platform, TextInput, FlatList, StyleSheet, TouchableOpacity } from "react-native"
+import { View, Keyboard, Platform, TextInput, FlatList, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from "react-native"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
 import Colors from "@constants/Color"
@@ -121,7 +121,7 @@ const InputBox = (props: InputBoxProps) => {
   }
 
   return (
-    <View
+    <KeyboardAvoidingView
       style={
         Platform.OS === "ios" ?
           styles.containerIOS :
@@ -158,7 +158,7 @@ const InputBox = (props: InputBoxProps) => {
           placeholderTextColor={"grey"}
           multiline
           value={message}
-          keyboardType="visible-password" // workaround per gli hints
+          // keyboardType="visible-password" // workaround per gli hints
           onChangeText={(message) => {
             setMessage(message)
             setNewUrls(message)
@@ -174,7 +174,7 @@ const InputBox = (props: InputBoxProps) => {
         </View>
       </TouchableOpacity>
 
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
   containerIOS: {
     flexDirection: "row",
     padding: 10,
-    marginBottom: 15,
+
     alignItems: "center",
     backgroundColor: Colors.lightPurple
   },

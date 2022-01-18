@@ -16,6 +16,8 @@ import ChatRoomHeader from "../components/headers/ChatRoomHeader"
 import Colors from "../constants/Color"
 import { DataStore, Hub } from "aws-amplify"
 import { Message } from "src/models"
+import RNBootSplash from "react-native-bootsplash"
+
 
 export type NavProps = {
   currentUserId: string,
@@ -58,7 +60,7 @@ const Navigation = (props: NavProps) => {
   return (
 
     <View style={{ flex: 1 }}>
-      <NavigationContainer theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <NavigationContainer onReady={() => RNBootSplash.hide({ fade: true })} theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack.Navigator
           initialRouteName={isLoggedIn ? "Home" : "SignIn"}
           screenOptions={{
