@@ -370,6 +370,14 @@ const PictogramList = [
   {
     text: "?",
     uri: "_undefined"
+  },
+  {
+    text: "si",
+    uri: "_si"
+  },
+  {
+    text: "no",
+    uri: "_no"
   }
 ]
 

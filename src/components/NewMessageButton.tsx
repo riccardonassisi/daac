@@ -1,5 +1,5 @@
 import React from "react"
-import { View, StyleSheet, Pressable } from "react-native"
+import { View, StyleSheet, TouchableOpacity } from "react-native"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
 import { useNavigation } from "@react-navigation/native"
@@ -23,13 +23,13 @@ const NewMessageButton = (props: NewMessageButtonProps) => {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={onPress}>
+      <TouchableOpacity onPress={onPress}>
         <FontAwesome5
           name="pencil-alt"
           size={30}
           color={"white"}
         />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   )
 }

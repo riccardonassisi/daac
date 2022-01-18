@@ -4,10 +4,6 @@
   "slug": "daac",
   "version": "1.0.0",
   "icon": "./assets/images/icon.png",
-  "splash": {
-    "image": "./assets/images/favicon.png",
-    "resizeMode": "contain",
-    "backgroundColor": "#ffffff"
-  }
+  
 }
 

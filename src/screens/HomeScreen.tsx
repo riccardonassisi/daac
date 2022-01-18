@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { View, StyleSheet, FlatList, Text } from "react-native"
+import { View, StyleSheet, FlatList, Text, ActivityIndicator } from "react-native"
 import { useRoute } from "@react-navigation/native"
 
 
@@ -18,7 +18,7 @@ export type HomeScreenProps = {
 
 const HomeScreen = (props: HomeScreenProps) => {
 
-  const [chatRooms, setChatRooms] = useState<ChatRoom[]>([])
+  const [chatRooms, setChatRooms] = useState<ChatRoom[]|undefined>()
   const colorScheme = useColorScheme()
   let { currentUserId } = props
 
@@ -42,6 +42,10 @@ const HomeScreen = (props: HomeScreenProps) => {
   useEffect(() => {
     fetchChatRooms()
   }, [chatRooms])
+
+  if (chatRooms === undefined) {
+    return <ActivityIndicator />
+  }
 
   return (
     <View style={styles[`${colorScheme}_root`]}>

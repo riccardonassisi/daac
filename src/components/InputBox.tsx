@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View, Keyboard, Platform, TextInput, FlatList, StyleSheet, Pressable } from "react-native"
+import { View, Keyboard, Platform, TextInput, FlatList, StyleSheet, TouchableOpacity } from "react-native"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
 import Colors from "@constants/Color"
@@ -127,11 +127,11 @@ const InputBox = (props: InputBoxProps) => {
           styles.containerIOS :
           styles.containerAndroid
       }>
-      <Pressable onPress={onShowPictoKeyboard}>
+      <TouchableOpacity onPress={onShowPictoKeyboard}>
         <View style={styles.caaContainer}>
           <FastImage source={caaLogo} style={styles.caaIcon} />
         </View>
-      </Pressable>
+      </TouchableOpacity>
 
       <View style={styles.mainContainer}>
         <View style={styles.preview}>
@@ -166,13 +166,13 @@ const InputBox = (props: InputBoxProps) => {
         />
       </View>
 
-      <Pressable onPress={() => {
+      <TouchableOpacity onPress={() => {
         onPress()
       }}>
         <View style={styles.buttonContainer}>
           <FontAwesome5 name="paper-plane" size={25} color={"white"} />
         </View>
-      </Pressable>
+      </TouchableOpacity>
 
     </View>
   )

@@ -1,7 +1,7 @@
 import React from "react"
 import { useEffect, useState } from "react"
 
-import { View, Text, StyleSheet, Pressable, ActivityIndicator } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native"
 import FastImage from "react-native-fast-image"
 
 import moment from "moment"
@@ -93,12 +93,12 @@ const ChatListItem = (props: ChatListItemsProps) => {
     })
   }
 
-  if (!updatedChatRoom || !lastMessage) {
+  if (!updatedChatRoom || !otherUser) {
     return <ActivityIndicator />
   }
 
   return (
-    <Pressable onPress={onClick}>
+    <TouchableOpacity onPress={onClick}>
       <View style={styles.container}>
         <View style={styles.leftContainer} >
           <FastImage source={{ uri: otherUser?.imageUri }} style={styles.avatar} />
@@ -124,7 +124,7 @@ const ChatListItem = (props: ChatListItemsProps) => {
         </View>
 
       </View>
-    </Pressable>
+    </TouchableOpacity>
   )
 }
 
