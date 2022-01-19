@@ -10,11 +10,7 @@ import FastImage from "react-native-fast-image"
 import { User } from "src/models"
 import { useLoader } from "src/loader/loader.context"
 
-export type HomeHeaderProps = {
-  currentUserId: string
-}
-
-const HomeHeader = (props: HomeHeaderProps) => {
+const HomeHeader = () => {
 
   const [currentUser, setCurrentUser] = useState<User|undefined>()
   const loader = useLoader()

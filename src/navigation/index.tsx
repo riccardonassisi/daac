@@ -79,8 +79,8 @@ const Navigation = (props: NavProps) => {
           <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{ headerShown: false }}/>
           <Stack.Screen
             name="Home"
-            options={({ route }) => ({
-              header: () => (<HomeHeader currentUserId={currentUserId ? currentUserId : route?.params?.currentUserId}/>)
+            options={() => ({
+              header: () => (<HomeHeader />)
             })}
           >
             {() => <HomeScreen currentUserId={currentUserId}/>}
