@@ -126,7 +126,8 @@ const InputBox = (props: InputBoxProps) => {
         Platform.OS === "ios" ?
           styles.containerIOS :
           styles.containerAndroid
-      }>
+      }
+      behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <TouchableOpacity onPress={onShowPictoKeyboard}>
         <View style={styles.caaContainer}>
           <FastImage source={caaLogo} style={styles.caaIcon} />
@@ -158,7 +159,6 @@ const InputBox = (props: InputBoxProps) => {
           placeholderTextColor={"grey"}
           multiline
           value={message}
-          // keyboardType="visible-password" // workaround per gli hints
           onChangeText={(message) => {
             setMessage(message)
             setNewUrls(message)

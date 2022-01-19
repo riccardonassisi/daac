@@ -10,6 +10,7 @@ import { StackActions, useNavigation } from "@react-navigation/native"
 import { Auth, DataStore } from "aws-amplify"
 import CustomErrorMessage from "../components/forms/CustomErrorMessage"
 import FastImage from "react-native-fast-image"
+import { useLoader } from "src/loader/loader.context"
 
 const SignInScreen = () => {
   const [username, setUsername] = useState("")
@@ -20,30 +21,33 @@ const SignInScreen = () => {
 
   const { height } = useWindowDimensions()
   const navigation = useNavigation()
+  const loader = useLoader()
 
   const onSignInPressed = async() => {
 
     try {
+      loader.setLoaderVisible(true)
       const res = await Auth.signIn(username, password)
-      const currentUserId = res?.attributes?.sub
-      DataStore.clear()
+      console.log(`id utente loggato: ${res?.attributes?.sub}`)
+      loader.dismissLoader()
       navigation.dispatch(
         StackActions.replace("Home",
-          { currentUserId })
+          { currentUserId: res?.attributes?.sub })
       )
     } catch (error) {
+      loader.dismissLoader()
       setErrorMessage(error.message)
     }
 
   }
 
-  const onUsernameSubmit = () => {
-    passwordRef.current.focus()
-  }
+  // const onUsernameSubmit = () => {
+  //   passwordRef.current.focus()
+  // }
 
-  const onPasswordSubmit = () => {
-    onSignInPressed()
-  }
+  // const onPasswordSubmit = () => {
+  //   onSignInPressed()
+  // }
 
   const onForgotPasswordPressed = () => {
     navigation.navigate("ForgotPassword")
@@ -68,14 +72,14 @@ const SignInScreen = () => {
           placeholder="Username"
           value={username}
           setValue={setUsername}
-          onSubmit={onUsernameSubmit}
+          // onSubmit={onUsernameSubmit}
           secureTextEntry={false}
         />
         <CustomInput
           ref={passwordRef}
           placeholder="Password"
           value={password}
-          onSubmit={onPasswordSubmit}
+          // onSubmit={onPasswordSubmit}
           setValue={setPassword}
           secureTextEntry={true}
         />
@@ -85,6 +89,7 @@ const SignInScreen = () => {
         <CustomButton
           buttonText="Accedi"
           onPress={onSignInPressed}
+          type="PRIMARY"
         />
 
         <CustomButton

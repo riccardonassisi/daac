@@ -17,13 +17,13 @@ import Colors from "../constants/Color"
 import { DataStore, Hub } from "aws-amplify"
 import { Message } from "src/models"
 import RNBootSplash from "react-native-bootsplash"
-
+import { useLoader } from "src/loader/loader.context"
+import AppLoader from "src/components/AppLoader"
 
 export type NavProps = {
   currentUserId: string,
   isLoggedIn: boolean,
   colorScheme: "light" | "dark"
-
 }
 
 const Stack = createNativeStackNavigator()
@@ -31,6 +31,7 @@ const Stack = createNativeStackNavigator()
 const Navigation = (props: NavProps) => {
 
   const { currentUserId, isLoggedIn, colorScheme } = props
+  const loader = useLoader()
 
   useEffect(() => {
     const listener = Hub.listen("datastore", async hubData => {
@@ -100,6 +101,7 @@ const Navigation = (props: NavProps) => {
           />
         </Stack.Navigator>
       </NavigationContainer>
+      {loader.visible ? <AppLoader /> : null}
     </View>
   )
 

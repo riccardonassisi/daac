@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native"
 
 import { Auth } from "aws-amplify"
 import useColorScheme from "src/hooks/useColorScheme"
+import { useLoader } from "src/loader/loader.context"
 
 const SignUpScreen = () => {
   const [username, setUsername] = useState("")
@@ -21,15 +22,16 @@ const SignUpScreen = () => {
   const [errorMessage, setErrorMessage] = useState("")
 
   const navigation = useNavigation()
-
+  const loader = useLoader()
   const colorScheme = useColorScheme()
 
   const onSignUpPressed = async() => {
-
     if (password !== passwordRepeat) {
       setErrorMessage("Le password non corrispondono")
 
     } else {
+      loader.setLoaderVisible(true)
+
       try {
         const { userSub } = await Auth.signUp({
           username,
@@ -40,11 +42,13 @@ const SignUpScreen = () => {
           }
         })
 
+        loader.dismissLoader()
         navigation.navigate("ConfirmEmail", {
           username
         })
       } catch (error) {
         setErrorMessage(error.message)
+        loader.dismissLoader()
       }
     }
 
@@ -108,6 +112,7 @@ const SignUpScreen = () => {
         <CustomButton
           buttonText="Registrati"
           onPress={onSignUpPressed}
+          type="PRIMARY"
         />
 
         <CustomButton

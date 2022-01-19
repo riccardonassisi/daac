@@ -94,7 +94,7 @@ const ChatListItem = (props: ChatListItemsProps) => {
   }
 
   if (!updatedChatRoom || !otherUser) {
-    return <ActivityIndicator />
+    return <ActivityIndicator color={Colors.mainPurple} />
   }
 
   return (

@@ -9,6 +9,7 @@ import Colors from "../constants/Color"
 import { useNavigation } from "@react-navigation/native"
 import { Auth } from "aws-amplify"
 import useColorScheme from "src/hooks/useColorScheme"
+import { useLoader } from "src/loader/loader.context"
 
 const ResetPasswordScreen = () => {
   const [username, setUsername] = useState("")
@@ -17,15 +18,18 @@ const ResetPasswordScreen = () => {
   const [errorMessage, setErrorMessage] = useState("")
 
   const navigation = useNavigation()
-
+  const loader = useLoader()
   const colorScheme = useColorScheme()
 
   const onConfirmPressed = async() => {
+    loader.setLoaderVisible(true)
     try {
       await Auth.forgotPasswordSubmit(username, confirmationCode, newPassword)
+      loader.dismissLoader()
       navigation.navigate("SignIn")
     } catch (error) {
       setErrorMessage(error.message)
+      loader.dismissLoader()
     }
   }
   const onSignInPressed = () => {

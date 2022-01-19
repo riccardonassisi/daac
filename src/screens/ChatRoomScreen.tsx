@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 import { StyleSheet, FlatList, KeyboardAvoidingView, Platform, ActivityIndicator } from "react-native"
 
 import { useRoute } from "@react-navigation/native"
-import moment from "moment"
 
 import ChatMessage from "../components/ChatMessage"
 import InputBox from "../components/InputBox"
@@ -71,7 +70,7 @@ const ChatRoomScreen = () => {
   }, [])
 
   if (chatRoom === undefined) {
-    return <ActivityIndicator />
+    return <ActivityIndicator color={Colors.mainPurple} />
   }
 
   return (

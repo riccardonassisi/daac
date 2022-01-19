@@ -44,7 +44,7 @@ const HomeScreen = (props: HomeScreenProps) => {
   }, [chatRooms])
 
   if (chatRooms === undefined) {
-    return <ActivityIndicator />
+    return <ActivityIndicator color={Colors.mainPurple} />
   }
 
   return (
@@ -77,9 +77,10 @@ const styles = StyleSheet.create({
   },
   light_empty: {
     fontWeight: "bold",
-    padding: 15,
+    fontSize: 14,
+    padding: 16,
     borderColor: "grey",
-    borderWidth: 0.5,
+    borderWidth: 2,
     borderRadius: 15
   },
   dark_root: {
@@ -92,9 +93,10 @@ const styles = StyleSheet.create({
   },
   dark_empty: {
     fontWeight: "bold",
-    padding: 15,
+    fontSize: 14,
+    padding: 16,
     borderColor: Colors.lightPurple,
-    borderWidth: 0.5,
+    borderWidth: 2,
     borderRadius: 15
   }
 })

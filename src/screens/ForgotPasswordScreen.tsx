@@ -9,21 +9,25 @@ import Colors from "../constants/Color"
 import { useNavigation } from "@react-navigation/native"
 import { Auth } from "aws-amplify"
 import useColorScheme from "src/hooks/useColorScheme"
+import { useLoader } from "src/loader/loader.context"
 
 const ForgotPasswordScreen = () => {
   const [username, setUsername] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
 
   const navigation = useNavigation()
-
+  const loader = useLoader()
   const colorScheme = useColorScheme()
 
   const onConfirmPressed = async() => {
+    loader.setLoaderVisible(true)
     try {
       await Auth.forgotPassword(username)
+      loader.dismissLoader()
       navigation.navigate("ResetPassword")
     } catch (error) {
       setErrorMessage(error.message)
+      loader.dismissLoader()
     }
   }
   const onSignInPressed = () => {
@@ -48,6 +52,7 @@ const ForgotPasswordScreen = () => {
         <CustomButton
           buttonText="Conferma"
           onPress={onConfirmPressed}
+          type="PRIMARY"
         />
 
         <CustomButton

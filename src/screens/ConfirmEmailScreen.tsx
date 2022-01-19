@@ -10,12 +10,13 @@ import Colors from "../constants/Color"
 import { useNavigation, useRoute } from "@react-navigation/native"
 import { Auth } from "aws-amplify"
 import useColorScheme from "src/hooks/useColorScheme"
+import { useLoader } from "src/loader/loader.context"
 
 const ConfirmEmailScreen = () => {
 
   const route = useRoute()
   const navigation = useNavigation()
-
+  const loader = useLoader()
   const colorScheme = useColorScheme()
 
   const [username, setUsername] = useState(route?.params?.username)
@@ -23,12 +24,14 @@ const ConfirmEmailScreen = () => {
   const [errorMessage, setErrorMessage] = useState("")
 
   const onConfirmPressed = async() => {
+    loader.setLoaderVisible(true)
     try {
       const res = await Auth.confirmSignUp(username, confirmationCode)
-
+      loader.dismissLoader()
       navigation.navigate("SignIn")
     } catch (error) {
       setErrorMessage(error.message)
+      loader.dismissLoader()
     }
 
   }
@@ -38,10 +41,13 @@ const ConfirmEmailScreen = () => {
   }
 
   const onResendPress = async() => {
+    loader.setLoaderVisible(true)
     try {
       await Auth.resendSignUp(username)
+      loader.dismissLoader()
     } catch (error) {
       setErrorMessage(error.message)
+      loader.dismissLoader()
     }
   }
 

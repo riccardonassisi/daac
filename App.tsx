@@ -6,8 +6,8 @@ import {
 import Navigation from "./src/navigation"
 import { Auth } from "aws-amplify"
 import { KeyboardContextProvider } from "./src/keyboard/keyboard.context"
+import { LoaderContextProvider } from "src/loader/loader.context"
 import useColorScheme from "src/hooks/useColorScheme"
-import RNBootSplash from "react-native-bootsplash"
 
 const App = () => {
 
@@ -34,11 +34,13 @@ const App = () => {
     return null
   } else {
     return (
-      <KeyboardContextProvider>
-        <SafeAreaView style={styles.root}>
-          <Navigation currentUserId={userid} isLoggedIn={logged} colorScheme={colorScheme}/>
-        </SafeAreaView>
-      </KeyboardContextProvider>
+      <LoaderContextProvider>
+        <KeyboardContextProvider>
+          <SafeAreaView style={styles.root}>
+            <Navigation currentUserId={userid} isLoggedIn={logged} colorScheme={colorScheme}/>
+          </SafeAreaView>
+        </KeyboardContextProvider>
+      </LoaderContextProvider>
     )
   }
 
