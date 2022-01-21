@@ -4,7 +4,7 @@ enum MessageStatus {
   READ
 }
 
-type User @model @auth(rules: [{allow: owner, ownerField: "id"}, {allow: private}]) {
+type User @model @auth(rules: [{allow: private, provider: userPools}]) {
   id: ID!
   name: String
   imageUri: String
@@ -13,7 +13,7 @@ type User @model @auth(rules: [{allow: owner, ownerField: "id"}, {allow: private
   chatrooms: [ChatRoom] @manyToMany(relationName: "ChatRoomUser")
 }
 
-type ChatRoom @model @auth(rules: [{allow: private}]) {
+type ChatRoom @model @auth(rules: [{allow: private, provider: userPools}]) {
   id: ID!
   newMessages: Int
   LastMessage: Message @hasOne
@@ -21,7 +21,7 @@ type ChatRoom @model @auth(rules: [{allow: private}]) {
   ChatRoomUsers: [User] @manyToMany(relationName: "ChatRoomUser")
 }
 
-type Message @model @auth(rules: [{allow: private}]) {
+type Message @model @auth(rules: [{allow: private, provider: userPools}]) {
   id: ID!
   content: String
   urls: [String]
@@ -29,4 +29,3 @@ type Message @model @auth(rules: [{allow: private}]) {
   chatroomID: ID @index(name: "byChatRoom")
   status: MessageStatus
 }
- 

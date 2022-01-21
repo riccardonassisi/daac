@@ -1,13 +1,13 @@
 import React, { useRef, useState } from "react"
-import { View, StyleSheet, useWindowDimensions, ScrollView } from "react-native"
+import { View, StyleSheet, useWindowDimensions, ScrollView, Keyboard } from "react-native"
 import Logo from "@icons/logo.png"
 
 import CustomInput from "../components/forms/CustomInput"
 import CustomButton from "../components/forms/CustomButton"
 
-import { StackActions, useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native"
 
-import { Auth, DataStore } from "aws-amplify"
+import { Auth } from "aws-amplify"
 import CustomErrorMessage from "../components/forms/CustomErrorMessage"
 import FastImage from "react-native-fast-image"
 import { useLoader } from "src/loader/loader.context"
@@ -24,21 +24,17 @@ const SignInScreen = () => {
   const loader = useLoader()
 
   const onSignInPressed = async() => {
-
     try {
+      Keyboard.dismiss()
+
       loader.setLoaderVisible(true)
+
       const res = await Auth.signIn(username, password)
-      console.log(`id utente loggato: ${res?.attributes?.sub}`)
-      loader.dismissLoader()
-      navigation.dispatch(
-        StackActions.replace("Home",
-          { currentUserId: res?.attributes?.sub })
-      )
+
     } catch (error) {
       loader.dismissLoader()
       setErrorMessage(error.message)
     }
-
   }
 
   // const onUsernameSubmit = () => {

@@ -36,18 +36,18 @@ const ChatMessage = (props: ChatMessageProps) => {
   }, [])
 
   useEffect(() => {
+    const setAsRead = async() => {
+      if (isMyMessage() === false && message.status !== "READ") {
+        await DataStore.save(
+          Message.copyOf(message, (updated) => {
+            updated.status = "READ"
+          })
+        )
+      }
+    }
     setAsRead()
   }, [isMyMessage(), message])
 
-  const setAsRead = async() => {
-    if (isMyMessage() === false && message.status !== "READ") {
-      await DataStore.save(
-        Message.copyOf(message, (updated) => {
-          updated.status = "READ"
-        })
-      )
-    }
-  }
 
   return (
     <View style={styles.container}>

@@ -18,37 +18,25 @@ const ChatRoomScreen = () => {
 
   const [messages, setMessages] = useState<Message[]>([])
   const [chatRoom, setChatRoom] = useState<ChatRoom>()
-  const [nextLimit, setNextLimit] = useState(10)
+  // const [nextLimit, setNextLimit] = useState(10)
   const caaKeyboard = useKeyboard()
 
   const colorScheme = useColorScheme()
 
   const route = useRoute()
   const currentUserId = route?.params?.currentUserId
+  const currentChatRoomId = route?.params?.id
 
-  const fetchChatRoom = () => {
-    DataStore.query(ChatRoom, route?.params?.id).then(setChatRoom)
-  }
-
-  const fetchMessage = async() => {
-    try {
-      const fetchedMessage = await DataStore.query(Message,
-        message => message.chatroomID("eq", route?.params?.id), {
-          sort: m => m.createdAt(SortDirection.DESCENDING),
-          page: 0,
-          limit: nextLimit
-        })
-      setMessages(fetchedMessage)
-      setNextLimit(nextLimit + 5)
-    } catch (error) {
-      console.warn(error)
-
-    }
-  }
 
   useEffect(() => {
+    const fetchChatRoom = async() => {
+      DataStore.query(ChatRoom, currentChatRoomId).then(setChatRoom)
+    }
     fetchChatRoom()
-    const subscription = DataStore.observe(ChatRoom, chatRoom?.id).subscribe(msg => {
+  }, [])
+
+  useEffect(() => {
+    const subscription = DataStore.observe(ChatRoom, currentChatRoomId).subscribe(msg => {
       if (msg.model === ChatRoom && msg.opType === "UPDATE") {
         setChatRoom(msg.element)
       }
@@ -58,10 +46,26 @@ const ChatRoomScreen = () => {
   }, [])
 
   useEffect(() => {
+    const fetchMessage = async() => {
+      try {
+        const fetchedMessage = await DataStore.query(Message,
+          message => message.chatroomID("eq", currentChatRoomId), {
+            sort: m => m.createdAt(SortDirection.DESCENDING)
+          // page: 0,
+          // limit: nextLimit
+          })
+        setMessages(fetchedMessage)
+      // setNextLimit(nextLimit + 5)
+      } catch (error) {
+        console.warn(error)
+      }
+    }
     fetchMessage()
+  }, [])
 
+  useEffect(() => {
     const subscription = DataStore.observe(Message).subscribe(msg => {
-      if (msg.model === Message && msg.opType === "INSERT") {
+      if (msg.model === Message && msg.opType === "INSERT" && msg.element.chatroomID === currentChatRoomId) {
         setMessages(existingMessages => [msg.element, ...existingMessages])
       }
     })
@@ -81,8 +85,8 @@ const ChatRoomScreen = () => {
         data={messages}
         renderItem={({ item }) => <ChatMessage messageProp={item} ownerId={currentUserId}/>}
         inverted
-        onEndReached={fetchMessage}
-        onEndReachedThreshold={2.5}
+        // onEndReached={fetchMessage}
+        // onEndReachedThreshold={2.5}
       />
       {caaKeyboard.visible
         ? (<CaaKeyboard currentUserId={currentUserId} chatRoom={chatRoom}/>)

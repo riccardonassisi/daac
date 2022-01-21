@@ -1,26 +1,36 @@
 import React from "react"
-import { FlatList, StyleSheet, View } from "react-native"
+import { ActivityIndicator, FlatList, StyleSheet, View, Text } from "react-native"
 
 import ContactListItem from "../components/ContactListItem"
 
 import { useEffect, useState } from "react"
 import {
+  Auth,
   DataStore
 } from "aws-amplify"
 import { User } from "src/models"
 
-import { useRoute } from "@react-navigation/native"
 import useColorScheme from "src/hooks/useColorScheme"
 import Colors from "src/constants/Color"
 
 const ContactsScreen = () => {
 
   const [users, setUsers] = useState<User[]>([])
-  const route = useRoute()
+  const [currentUserId, setCurrentUserId] = useState<string>()
 
   const colorScheme = useColorScheme()
 
-  const currentUserId = route?.params?.currentUserId
+  useEffect(() => {
+    const fetchUsers = async() => {
+      const currentuser = await Auth.currentAuthenticatedUser()
+      setCurrentUserId(currentuser?.attributes?.sub)
+      const usersdata = await DataStore.query(User)
+      const otherUsers = usersdata.filter(user => user.id !== currentuser?.attributes?.sub)
+      setUsers(otherUsers)
+    }
+
+    fetchUsers()
+  }, [])
 
   useEffect(() => {
     const subscription = DataStore.observe(User).subscribe(msg => {
@@ -32,25 +42,22 @@ const ContactsScreen = () => {
     return () => subscription.unsubscribe()
   }, [])
 
-  useEffect(() => {
-    const fetchUsers = async() => {
-      const otherUsers = (await DataStore.query(User)).filter(user => user.id !== currentUserId)
-      setUsers(otherUsers)
-    }
-    fetchUsers()
-  }, [])
-
+  if (currentUserId === undefined) {
+    return <ActivityIndicator color={Colors.mainPurple}/>
+  }
 
   return (
     <View style={styles[`${colorScheme}_container`]}>
-      <FlatList
-        style= {{
-          width: "100%"
-        }}
-        data={users.sort((a, b) => a?.name.localeCompare(b?.name))}
-        renderItem={({ item }) => <ContactListItem currentUserId={currentUserId} otherUser={item} />}
-        keyExtractor={(item) => item.id}
-      />
+      {users.length > 0 ?
+        (<FlatList
+          style= {{
+            width: "100%"
+          }}
+          data={users.sort((a, b) => a?.name.localeCompare(b?.name))}
+          renderItem={({ item }) => <ContactListItem currentUserId={currentUserId} otherUser={item} />}
+          keyExtractor={(item) => item.id}
+        />)
+        : (<Text>Sei l'unico utilizzatore di questa app.. grazie!</Text>)}
     </View>
   )
 }

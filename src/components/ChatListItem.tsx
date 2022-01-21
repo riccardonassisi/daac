@@ -23,9 +23,14 @@ const ChatListItem = (props: ChatListItemsProps) => {
   const [lastMessage, setLastMessage] = useState<Message|undefined>()
   const [updatedChatRoom, setUpdatedChatRoom] = useState<ChatRoom>(chatRoom)
 
+  console.log(otherUser)
   const navigation = useNavigation()
   const colorScheme = useColorScheme()
 
+  /**
+   * Funzione che ritorna se l'ultimo messaggio è dell'utente loggato o
+   * dell'altro nella chat
+   */
   const isLastMessageMine = () => {
     if (lastMessage?.userID === currentUserId) {
       return true
@@ -34,32 +39,52 @@ const ChatListItem = (props: ChatListItemsProps) => {
     }
   }
 
+  const isLastMessageUnread = () => {
+    if (lastMessage?.status !== "READ") {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  /**
+   * Azzera i nuovi messaggi della chatroom
+   */
   const clearNewMessages = async() => {
+    console.log("clear new messages\n")
+
     await DataStore.save(ChatRoom.copyOf(chatRoom, updatedChatRoom => {
       updatedChatRoom.newMessages = 0
     }))
   }
 
+  /**
+   * Use Effect per fetchare l'altro utente che fa parte della chat
+   */
   useEffect(() => {
     const getOtherUser = async() => {
       const users = (await DataStore.query(ChatRoomUser))
         .filter(chatRoomUser => chatRoomUser.chatRoom.id === chatRoom.id)
         .map(chatRoomUser => chatRoomUser.user)
-      setOtherUser(users.find(user => user.id !== currentUserId) || null)
+
+      const user = users.find(user => user.id !== currentUserId)
+      setOtherUser(user ? user : null)
     }
     getOtherUser()
   }, [])
 
+  /**
+   * Use Effect per fetchare l'ultimo messaggio della chatroom ogni volta che aggiorna
+   */
   useEffect(() => {
-    if (!updatedChatRoom?.chatRoomLastMessageId) {
-      return
-    }
     DataStore.query(Message, updatedChatRoom?.chatRoomLastMessageId).then(setLastMessage)
-  }, [])
+  }, [updatedChatRoom])
+
 
   useEffect(() => {
     const subscription = DataStore.observe(ChatRoom, chatRoom.id).subscribe(msg => {
       if (msg.model === ChatRoom && msg.opType === "UPDATE") {
+        console.log("triggerata subscription della chat room", msg.element, "\n")
         setUpdatedChatRoom(msg.element)
         if (msg.element.chatRoomLastMessageId) {
           DataStore.query(Message, msg.element.chatRoomLastMessageId).then(setLastMessage)
@@ -70,9 +95,13 @@ const ChatListItem = (props: ChatListItemsProps) => {
     return () => subscription.unsubscribe()
   }, [])
 
+  /**
+   * Use Effect per fetchare tutti i dati dell'ultimo messaggio
+   */
   useEffect(() => {
     const subscription = DataStore.observe(Message, lastMessage?.id).subscribe(msg => {
-      if (msg.model === Message && msg.opType === "UPDATE") {
+      if (msg.model === Message && msg.opType === "UPDATE" && msg.element.chatroomID === updatedChatRoom.id) {
+        console.log("triggerata subscription del last message", msg.element, "\n")
         setLastMessage(msg.element)
       }
     })
@@ -81,7 +110,7 @@ const ChatListItem = (props: ChatListItemsProps) => {
   }, [])
 
   const onClick = () => {
-    if (!isLastMessageMine()) {
+    if (!isLastMessageMine() && isLastMessageUnread()) {
       clearNewMessages()
     }
 
@@ -93,6 +122,7 @@ const ChatListItem = (props: ChatListItemsProps) => {
     })
   }
 
+
   if (!updatedChatRoom || !otherUser) {
     return <ActivityIndicator color={Colors.mainPurple} />
   }
@@ -100,6 +130,7 @@ const ChatListItem = (props: ChatListItemsProps) => {
   return (
     <TouchableOpacity onPress={onClick}>
       <View style={styles.container}>
+
         <View style={styles.leftContainer} >
           <FastImage source={{ uri: otherUser?.imageUri }} style={styles.avatar} />
           <View style={styles.midContainer}>
@@ -118,9 +149,11 @@ const ChatListItem = (props: ChatListItemsProps) => {
             : styles.lastMessage}>
             {lastMessage && moment(lastMessage?.createdAt).format("DD/MM/YYYY")}
           </Text>
-          {!isLastMessageMine() && chatRoom?.newMessages > 0 ?
-            <View style={styles.badgeUnread}><Text style={styles.badgeText}>{chatRoom?.newMessages}</Text></View>
-            : null}
+          { !isLastMessageMine() && updatedChatRoom?.newMessages > 0 ?
+            <View style={styles.badgeUnread}>
+              <Text style={styles.badgeText}>{updatedChatRoom?.newMessages}</Text>
+            </View>
+            : null }
         </View>
 
       </View>

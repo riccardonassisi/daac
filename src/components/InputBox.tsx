@@ -33,7 +33,7 @@ const InputBox = (props: InputBoxProps) => {
     caaKeyboard.setKeyboardVisible(true, "AAC")
   }
 
-  // const setNewUrls = async(msg: string)  => {
+  // const algorithmZero = async(msg: string)  => {
   //   if (msg === "") {
   //     setUrls([])
   //   } else {
@@ -53,7 +53,7 @@ const InputBox = (props: InputBoxProps) => {
   //   }
   // }
 
-  const setNewUrls = (msg: string) => {
+  const algorithmOne = (msg: string) => {
     if (msg === "") {
       setUrls([])
     } else {
@@ -161,7 +161,7 @@ const InputBox = (props: InputBoxProps) => {
           value={message}
           onChangeText={(message) => {
             setMessage(message)
-            setNewUrls(message)
+            algorithmOne(message)
           }}
         />
       </View>

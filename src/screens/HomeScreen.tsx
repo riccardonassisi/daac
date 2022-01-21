@@ -1,50 +1,43 @@
 import React, { useEffect, useState } from "react"
-import { View, StyleSheet, FlatList, Text, ActivityIndicator } from "react-native"
-import { useRoute } from "@react-navigation/native"
-
+import { View, StyleSheet, FlatList, Text } from "react-native"
 
 import ChatListItem from "../components/ChatListItem"
 import NewMessageButton from "../components/NewMessageButton"
-import { DataStore } from "aws-amplify"
+import { Auth, DataStore } from "aws-amplify"
 
 import { ChatRoom, ChatRoomUser } from "src/models"
 import moment from "moment"
 import useColorScheme from "src/hooks/useColorScheme"
 import Colors from "src/constants/Color"
 
-export type HomeScreenProps = {
-  currentUserId: string
-}
+const HomeScreen = () => {
 
-const HomeScreen = (props: HomeScreenProps) => {
-
+  const [currentUserId, setCurrentUserId] = useState<string>()
   const [chatRooms, setChatRooms] = useState<ChatRoom[]|undefined>()
+
   const colorScheme = useColorScheme()
-  let { currentUserId } = props
-
-  if (!currentUserId) {
-    const route = useRoute()
-    currentUserId = route?.params?.currentUserId
-  }
-
-  const fetchChatRooms = async() => {
-    try {
-      const chats = (await DataStore.query(ChatRoomUser))
-        .filter(userChatRoom => userChatRoom.user.id === currentUserId)
-        .map(userChatRoom => userChatRoom.chatRoom)
-        .sort((a, b) => new moment(b?.updatedAt) - new moment(a?.updatedAt))
-      setChatRooms(chats)
-    } catch (e) {
-      console.error(e)
-    }
-  }
 
   useEffect(() => {
-    fetchChatRooms()
-  }, [chatRooms])
+    const fetchChatRooms = async() => {
+      try {
+        const userdata = await Auth.currentAuthenticatedUser()
+        setCurrentUserId(userdata?.attributes?.sub)
+        console.log(userdata?.attributes?.sub)
+        const chats = (await DataStore.query(ChatRoomUser))
+          .filter(userChatRoom => userChatRoom.user.id === userdata?.attributes?.sub)
+          .map(userChatRoom => userChatRoom.chatRoom)
+          .sort((a, b) => new moment(b?.updatedAt) - new moment(a?.updatedAt))
+        setChatRooms(chats)
+      } catch (e) {
+        console.error(e)
+      }
+    }
 
-  if (chatRooms === undefined) {
-    return <ActivityIndicator color={Colors.mainPurple} />
+    fetchChatRooms()
+  }, [])
+
+  if (chatRooms === undefined || currentUserId === undefined) {
+    return null
   }
 
   return (

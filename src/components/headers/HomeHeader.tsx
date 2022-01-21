@@ -1,64 +1,61 @@
 import React, { useEffect, useState } from "react"
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
 
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import Colors from "../../constants/Color"
 
-import { Auth, DataStore } from "aws-amplify"
-import { StackActions, useNavigation } from "@react-navigation/native"
+import { Auth, DataStore, Hub } from "aws-amplify"
 import FastImage from "react-native-fast-image"
 import { User } from "src/models"
 import { useLoader } from "src/loader/loader.context"
+
+export type HomeHeaderProps = {
+  currentUserId: string
+}
 
 const HomeHeader = () => {
 
   const [currentUser, setCurrentUser] = useState<User|undefined>()
   const loader = useLoader()
 
-  const navigation = useNavigation()
-
   const fetchUser = async() => {
     const user = await Auth.currentAuthenticatedUser()
+    console.log(`header sub: ${user?.attributes?.sub}`)
     const res = await DataStore.query(User, user?.attributes?.sub)
+    console.log(`header user: ${res}`)
     setCurrentUser(res)
   }
 
   useEffect(() => {
-    fetchUser()
-
-    const subscription = DataStore.observe(User, currentUser?.id).subscribe(msg => {
-      if (msg.model === User && msg.opType === "UPDATE") {
-        setCurrentUser(msg.element)
+    const listener = Hub.listen("datastore", async(hubData) => {
+      const { payload: { event, data } } = hubData
+      if (event === "ready") {
+        fetchUser()
       }
     })
+    return () => listener()
+  }, [])
 
-    return () => subscription.unsubscribe()
+  useEffect(() => {
+
   }, [])
 
   const signOut = async() => {
     try {
       await DataStore.clear()
       await Auth.signOut()
-      loader.dismissLoader()
-      navigation.dispatch(
-        StackActions.replace("SignIn")
-      )
+
     } catch (error) {
       console.error(error)
     }
   }
 
-  console.log(currentUser)
-
-
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        {currentUser
-          ? <FastImage
-            style={styles.image}
-            source={{ uri: currentUser?.imageUri }}/>
-          : <ActivityIndicator color={Colors.mainPurple} />}
+        <FastImage
+          style={styles.image}
+          source={{ uri: currentUser?.imageUri }}/>
       </View>
       <Text style={styles.text}>DAAC</Text>
       <TouchableOpacity

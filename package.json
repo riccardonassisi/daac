@@ -17,7 +17,7 @@
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "amazon-cognito-identity-js": "^5.2.3",
-    "aws-amplify": "^4.3.11",
+    "aws-amplify": "^4.3.12",
     "aws-amplify-react-native": "^6.0.2",
     "babel-plugin-module-resolver": "^4.1.0",
     "lottie-ios": "^3.2.3",

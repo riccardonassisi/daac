@@ -47,7 +47,7 @@ const ContactListItem = (props: ContactListProps) => {
       const currentUser = await DataStore.query(User, currentUserId)
 
       await DataStore.save(new ChatRoomUser({
-        userId: currentUserId,
+        userID: currentUserId,
         user: currentUser,
         chatRoom: newChatRoom,
         chatRoomID: newChatRoom.id
