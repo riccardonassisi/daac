@@ -20,9 +20,7 @@ const HomeHeader = () => {
 
   const fetchUser = async() => {
     const user = await Auth.currentAuthenticatedUser()
-    console.log(`header sub: ${user?.attributes?.sub}`)
     const res = await DataStore.query(User, user?.attributes?.sub)
-    console.log(`header user: ${res}`)
     setCurrentUser(res)
   }
 
@@ -37,7 +35,7 @@ const HomeHeader = () => {
   }, [])
 
   useEffect(() => {
-
+    fetchUser()
   }, [])
 
   const signOut = async() => {

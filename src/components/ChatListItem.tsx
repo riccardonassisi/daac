@@ -23,9 +23,12 @@ const ChatListItem = (props: ChatListItemsProps) => {
   const [lastMessage, setLastMessage] = useState<Message|undefined>()
   const [updatedChatRoom, setUpdatedChatRoom] = useState<ChatRoom>(chatRoom)
 
-  console.log(otherUser)
   const navigation = useNavigation()
   const colorScheme = useColorScheme()
+
+  const fetchChatRoom = async() => {
+    DataStore.query(ChatRoom, chatRoom.id).then(setUpdatedChatRoom)
+  }
 
   /**
    * Funzione che ritorna se l'ultimo messaggio è dell'utente loggato o
@@ -39,23 +42,14 @@ const ChatListItem = (props: ChatListItemsProps) => {
     }
   }
 
-  const isLastMessageUnread = () => {
-    if (lastMessage?.status !== "READ") {
-      return true
-    } else {
-      return false
-    }
-  }
-
   /**
    * Azzera i nuovi messaggi della chatroom
    */
   const clearNewMessages = async() => {
-    console.log("clear new messages\n")
-
     await DataStore.save(ChatRoom.copyOf(chatRoom, updatedChatRoom => {
       updatedChatRoom.newMessages = 0
     }))
+    // await fetchChatRoom()
   }
 
   /**
@@ -80,11 +74,12 @@ const ChatListItem = (props: ChatListItemsProps) => {
     DataStore.query(Message, updatedChatRoom?.chatRoomLastMessageId).then(setLastMessage)
   }, [updatedChatRoom])
 
-
+  /**
+   * Use Effect per la subscription di aggiornamento della chatroom
+   */
   useEffect(() => {
     const subscription = DataStore.observe(ChatRoom, chatRoom.id).subscribe(msg => {
       if (msg.model === ChatRoom && msg.opType === "UPDATE") {
-        console.log("triggerata subscription della chat room", msg.element, "\n")
         setUpdatedChatRoom(msg.element)
         if (msg.element.chatRoomLastMessageId) {
           DataStore.query(Message, msg.element.chatRoomLastMessageId).then(setLastMessage)
@@ -96,7 +91,7 @@ const ChatListItem = (props: ChatListItemsProps) => {
   }, [])
 
   /**
-   * Use Effect per fetchare tutti i dati dell'ultimo messaggio
+   * Use Effect per la subscription di aggiornamento del las message
    */
   useEffect(() => {
     const subscription = DataStore.observe(Message, lastMessage?.id).subscribe(msg => {
@@ -110,7 +105,7 @@ const ChatListItem = (props: ChatListItemsProps) => {
   }, [])
 
   const onClick = () => {
-    if (!isLastMessageMine() && isLastMessageUnread()) {
+    if (!isLastMessageMine()) {
       clearNewMessages()
     }
 
@@ -121,7 +116,6 @@ const ChatListItem = (props: ChatListItemsProps) => {
       currentUserId
     })
   }
-
 
   if (!updatedChatRoom || !otherUser) {
     return <ActivityIndicator color={Colors.mainPurple} />

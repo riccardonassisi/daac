@@ -3,7 +3,7 @@ import { View, StyleSheet, FlatList, Text } from "react-native"
 
 import ChatListItem from "../components/ChatListItem"
 import NewMessageButton from "../components/NewMessageButton"
-import { Auth, DataStore } from "aws-amplify"
+import { Auth, DataStore, Hub } from "aws-amplify"
 
 import { ChatRoom, ChatRoomUser } from "src/models"
 import moment from "moment"
@@ -17,23 +17,41 @@ const HomeScreen = () => {
 
   const colorScheme = useColorScheme()
 
-  useEffect(() => {
-    const fetchChatRooms = async() => {
-      try {
-        const userdata = await Auth.currentAuthenticatedUser()
-        setCurrentUserId(userdata?.attributes?.sub)
-        console.log(userdata?.attributes?.sub)
-        const chats = (await DataStore.query(ChatRoomUser))
-          .filter(userChatRoom => userChatRoom.user.id === userdata?.attributes?.sub)
-          .map(userChatRoom => userChatRoom.chatRoom)
-          .sort((a, b) => new moment(b?.updatedAt) - new moment(a?.updatedAt))
-        setChatRooms(chats)
-      } catch (e) {
-        console.error(e)
-      }
+  const fetchChatRooms = async() => {
+    try {
+      const userdata = await Auth.currentAuthenticatedUser()
+      setCurrentUserId(userdata?.attributes?.sub)
+      const chats = (await DataStore.query(ChatRoomUser))
+        .filter(userChatRoom => userChatRoom.user.id === userdata?.attributes?.sub)
+        .map(userChatRoom => userChatRoom.chatRoom)
+        .sort((a, b) => new moment(b?.updatedAt) - new moment(a?.updatedAt))
+      setChatRooms(chats)
+    } catch (e) {
+      console.error(e)
     }
+  }
 
+  useEffect(() => {
+    const listener = Hub.listen("datastore", async(hubData) => {
+      const { payload: { event, data } } = hubData
+      if (event === "ready") {
+        fetchChatRooms()
+      }
+    })
+    return () => listener()
+  }, [])
+
+  useEffect(() => {
     fetchChatRooms()
+  }, [])
+
+  useEffect(() => {
+    const subscription = DataStore.observe(ChatRoom).subscribe(msg => {
+      if (msg.model === ChatRoom && msg.opType === "INSERT") {
+        fetchChatRooms()
+      }
+    })
+    return () => subscription.unsubscribe()
   }, [])
 
   if (chatRooms === undefined || currentUserId === undefined) {
