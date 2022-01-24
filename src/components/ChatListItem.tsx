@@ -49,7 +49,7 @@ const ChatListItem = (props: ChatListItemsProps) => {
     await DataStore.save(ChatRoom.copyOf(chatRoom, updatedChatRoom => {
       updatedChatRoom.newMessages = 0
     }))
-    // await fetchChatRoom()
+    await fetchChatRoom()
   }
 
   /**
@@ -91,7 +91,7 @@ const ChatListItem = (props: ChatListItemsProps) => {
   }, [])
 
   /**
-   * Use Effect per la subscription di aggiornamento del las message
+   * Use Effect per la subscription di aggiornamento del last message
    */
   useEffect(() => {
     const subscription = DataStore.observe(Message, lastMessage?.id).subscribe(msg => {
