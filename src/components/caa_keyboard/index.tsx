@@ -4,7 +4,7 @@ import FastImage from "react-native-fast-image"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
 import Colors from "src/constants/Color"
-import caaLogo from "@pictograms/CAA.png"
+import caaLogo from "@pictograms/cose/caa.png"
 import bodyList from "@data/bodylist"
 
 import CaaKeyboardComponent from "./CaaKeyboardComponent"
@@ -120,17 +120,17 @@ const CaaKeyboard = (props: InputBoxProps) => {
         />
         <CaaKeyboardComponent
           text="SI"
-          uri="_si"
+          uri="_307"
           onPress={() => {
-            addPicto("si", "_si")
+            addPicto("si", "_307")
           }}
           type="MAIN"
         />
         <CaaKeyboardComponent
           text="NO"
-          uri="_no"
+          uri="_308"
           onPress={() => {
-            addPicto("no", "_no")
+            addPicto("no", "_308")
           }}
           type="MAIN"
         />

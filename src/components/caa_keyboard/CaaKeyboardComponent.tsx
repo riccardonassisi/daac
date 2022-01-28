@@ -10,12 +10,12 @@ const CaaKeyboardComponent = ({ text, uri, onPress, type }: CaaKeyboardComponent
     <TouchableOpacity
       onPress={onPress}
       style={[styles.container, styles[`type_${type}`]]}>
+      <Text style={styles.text}>{text}</Text>
       <FastImage
         source={Pictograms[uri]}
         style={styles.image}
         resizeMode="contain"
       />
-      <Text style={styles.text}>{text}</Text>
     </TouchableOpacity>
   )
 }

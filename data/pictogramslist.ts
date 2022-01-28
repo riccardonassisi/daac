@@ -1,383 +1,1268 @@
 
 const PictogramList = [
   {
-    text: "ciao",
-    uri: "_ciao"
+    uri: "_1",
+    text: "ciao"
   },
   {
-    text: "io",
-    uri: "_io"
+    uri: "_2",
+    text: "io"
   },
   {
-    text: "parlare",
-    uri: "_parlare"
-
+    uri: "_3",
+    text: "parlare"
   },
   {
-    text: "domande",
-    uri: "_domande"
+    uri: "_4",
+    text: "domande"
   },
   {
-    text: "parole",
-    uri: "_parole"
+    uri: "_5",
+    text: "parole"
   },
   {
-    text: "come stai?",
-    uri: "_come_stai_q"
+    uri: "_6",
+    text: "come stai?"
   },
   {
-    text: "ok",
-    uri: "_ok"
+    uri: "_7",
+    text: "ok"
   },
   {
-    text: "persone",
-    uri: "_persone"
+    uri: "_8",
+    text: "persone"
   },
   {
-    text: "igiene personale",
-    uri: "_igiene_personale"
+    uri: "_9",
+    text: "igiene"
   },
   {
-    text: "descrivere",
-    uri: "_descrivere"
+    uri: "_10",
+    text: "descrivere"
   },
   {
-    text: "sto bene",
-    uri: "_sto_bene"
+    uri: "_11",
+    text: "sto bene"
   },
   {
-    text: "sto male",
-    uri: "_sto_male"
+    uri: "_12",
+    text: "sto male"
   },
   {
-    text: "azioni",
-    uri: "_azioni"
+    uri: "_13",
+    text: "azioni"
   },
   {
-    text: "andare",
-    uri: "_andare"
+    uri: "_14",
+    text: "andare"
   },
   {
-    text: "volere",
-    uri: "_volere"
+    uri: "_15",
+    text: "volere"
   },
   {
-    text: "ho bisogno di aiuto",
-    uri: "_ho_bisogno_di_aiuto"
+    uri: "_16",
+    text: "ho bisogno di aiuto"
   },
   {
-    text: "non ho bisono di aiuto",
-    uri: "_non_ho_bisogno_di_aiuto"
+    uri: "_17",
+    text: "non ho bisogno di aiuto"
   },
   {
-    text: "cose",
-    uri: "_cose"
+    uri: "_18",
+    text: "cose"
   },
   {
-    text: "orario",
-    uri: "_orario"
+    uri: "_19",
+    text: "orario"
   },
   {
-    text: "luoghi",
-    uri: "_luoghi"
+    uri: "_20",
+    text: "luoghi"
   },
   {
-    text: "io",
-    uri: "_io"
+    uri: "_21",
+    text: "aiutare"
   },
   {
-    text: "tu",
-    uri: "_tu"
+    uri: "_14",
+    text: "andare"
   },
   {
-    text: "noi",
-    uri: "_noi"
+    uri: "_22",
+    text: "aprire"
   },
   {
-    text: "voi",
-    uri: "_voi"
+    uri: "_23",
+    text: "ascoltare"
   },
   {
-    text: "loro",
-    uri: "_loro"
+    uri: "_24",
+    text: "chiudere"
   },
   {
-    text: "lui",
-    uri: "_lui"
+    uri: "_25",
+    text: "creare"
   },
   {
-    text: "lei",
-    uri: "_lei"
+    uri: "_26",
+    text: "dare"
   },
   {
-    text: "mamma",
-    uri: "_mamma"
+    uri: "_27",
+    text: "fare"
   },
   {
-    text: "papà",
-    uri: "_papa"
+    uri: "_28",
+    text: "girare"
   },
   {
-    text: "insegnante",
-    uri: "_insegnante"
+    uri: "_29",
+    text: "mettere"
   },
   {
-    text: "amico",
-    uri: "_amico"
+    uri: "_3",
+    text: "parlare"
   },
   {
-    text: "amica",
-    uri: "_amica"
+    uri: "_30",
+    text: "pensare"
   },
   {
-    text: "cugino",
-    uri: "_cugino"
+    uri: "_31",
+    text: "piacere"
   },
   {
-    text: "cugina",
-    uri: "_cugina"
+    uri: "_32",
+    text: "prendere"
   },
   {
-    text: "compagno di classe",
-    uri: "_compagno_classe"
+    uri: "_33",
+    text: "raccontare"
   },
   {
-    text: "nonno",
-    uri: "_nonno"
+    uri: "_34",
+    text: "vedere"
   },
   {
-    text: "nonna",
-    uri: "_nonna"
+    uri: "_15",
+    text: "volere"
   },
   {
-    text: "zio",
-    uri: "_zio"
+    uri: "_35",
+    text: "chi?"
   },
   {
-    text: "zia",
-    uri: "_zia"
-
+    uri: "_36",
+    text: "cosa?"
   },
   {
-    text: "sto bene",
-    uri: "_sto_bene"
-
+    uri: "_37",
+    text: "dove?"
   },
   {
-    text: "ok",
-    uri: "_ok"
-
+    uri: "_38",
+    text: "quando?"
   },
   {
-    text: "ciao",
-    uri: "_ciao"
-
+    uri: "_39",
+    text: "perché?"
   },
   {
-    text: "addio",
-    uri: "_addio"
-
+    uri: "_40",
+    text: "come?"
   },
   {
-    text: "scusa",
-    uri: "_scusa"
-
+    uri: "_41",
+    text: "quale?"
   },
   {
-    text: "ma",
-    uri: "_ma"
-
+    uri: "_42",
+    text: "quanto costa?"
   },
   {
-    text: "per favore",
-    uri: "_per_favore"
-
+    uri: "_43",
+    text: "cosa fai?"
   },
   {
-    text: "sto male",
-    uri: "_sto_male"
-
+    uri: "_44",
+    text: "cos'è?"
   },
   {
-    text: "grazie",
-    uri: "_grazie"
-
+    uri: "_45",
+    text: "dove abiti?"
   },
   {
-    text: "non lo so",
-    uri: "_non_lo_so"
-
+    uri: "_46",
+    text: "dove andiamo?"
   },
   {
-    text: "ti voglio bene",
-    uri: "_volere_bene"
-
+    uri: "_47",
+    text: "addio"
   },
   {
-    text: "ti amo",
-    uri: "_amare"
-
+    uri: "_48",
+    text: "ti amo"
   },
   {
-    text: "riguardo me",
-    uri: "_io",
-    type: "LINK"
+    uri: "_49",
+    text: "grazie"
   },
   {
-    text: "riguardo te",
-    uri: "_tu",
-    type: "LINK"
+    uri: "_50",
+    text: "ma"
   },
   {
-    text: "chi?",
-    uri: "_chi_q"
-
+    uri: "_51",
+    text: "non lo so"
   },
   {
-    text: "cosa?",
-    uri: "_cosa_q"
-
+    uri: "_52",
+    text: "per favore"
   },
   {
-    text: "dove?",
-    uri: "_dove_q"
-
+    uri: "_53",
+    text: "scusa"
   },
   {
-    text: "quando?",
-    uri: "_quando_q"
-
+    uri: "_54",
+    text: "ti voglio bene"
   },
   {
-    text: "perché?",
-    uri: "_perche_q"
-
+    uri: "_55",
+    text: "buon giorno"
   },
   {
-    text: "come?",
-    uri: "_come_q"
-
+    uri: "_56",
+    text: "buon pomeriggio"
   },
   {
-    text: "quale?",
-    uri: "_quale_q"
-
+    uri: "_57",
+    text: "buona notte"
   },
   {
-    text: "come stai?",
-    uri: "_come_stai_q"
-
+    uri: "_58",
+    text: "buon appetito"
   },
   {
-    text: "quanto costa?",
-    uri: "_quanto_costa_q"
-
+    uri: "_59",
+    text: "amica"
   },
   {
-    text: "cosa fai?",
-    uri: "_cosa_fai_q"
-
+    uri: "_60",
+    text: "amico"
   },
   {
-    text: "cos'è?",
-    uri: "_cos_e_q"
-
+    uri: "_61",
+    text: "compagno di classe"
   },
   {
-    text: "dove abiti?",
-    uri: "_dove_abiti_q"
-
+    uri: "_62",
+    text: "cugina"
   },
   {
-    text: "dove andiamo?",
-    uri: "_dove_andiamo_q"
-
+    uri: "_63",
+    text: "cugino"
   },
   {
-    text: "fare",
-    uri: "_fare"
-
+    uri: "_64",
+    text: "insegnante"
   },
   {
-    text: "aiutare",
-    uri: "_aiutare"
-
+    uri: "_65",
+    text: "lei"
   },
   {
-    text: "vedere",
-    uri: "_vedere"
-
+    uri: "_66",
+    text: "loro"
   },
   {
-    text: "pensare",
-    uri: "_pensare"
-
+    uri: "_67",
+    text: "lui"
   },
   {
-    text: "prendere",
-    uri: "_prendere"
-
+    uri: "_68",
+    text: "mamma"
   },
   {
-    text: "piacere",
-    uri: "_piacere"
-
+    uri: "_69",
+    text: "noi"
   },
   {
-    text: "ascoltare",
-    uri: "_ascoltare"
+    uri: "_70",
+    text: "nonna"
   },
   {
-    text: "dare",
-    uri: "_dare"
+    uri: "_71",
+    text: "nonno"
   },
   {
-    text: "creare",
-    uri: "_creare"
+    uri: "_72",
+    text: "papa"
   },
   {
-    text: "mettere",
-    uri: "_mettere"
+    uri: "_73",
+    text: "tu"
   },
   {
-    text: "raccontare",
-    uri: "_raccontare"
+    uri: "_74",
+    text: "voi"
   },
   {
-    text: "girare",
-    uri: "_girare"
+    uri: "_75",
+    text: "zia"
   },
   {
-    text: "aprire",
-    uri: "_aprire"
+    uri: "_76",
+    text: "zio"
   },
   {
-    text: "chiudere",
-    uri: "_chiudere"
+    uri: "_77",
+    text: "di"
   },
   {
-    text: "andare",
-    uri: "_andare"
+    uri: "_78",
+    text: "a"
   },
   {
-    text: "volere",
-    uri: "_volere"
+    uri: "_79",
+    text: "da"
   },
   {
-    text: "parlare",
-    uri: "_parlare"
+    uri: "_80",
+    text: "in"
   },
   {
-    text: "?",
-    uri: "_undefined"
+    uri: "_81",
+    text: "con"
   },
   {
-    text: "si",
-    uri: "_si"
+    uri: "_82",
+    text: "su"
   },
   {
-    text: "no",
-    uri: "_no"
+    uri: "_83",
+    text: "per"
+  },
+  {
+    uri: "_84",
+    text: "anche se"
+  },
+  {
+    uri: "_85",
+    text: "e"
+  },
+  {
+    uri: "_86",
+    text: "il"
+  },
+  {
+    uri: "_86",
+    text: "la"
+  },
+  {
+    uri: "_87",
+    text: "gli"
+  },
+  {
+    uri: "_87",
+    text: "le"
+  },
+  {
+    uri: "_88",
+    text: "un"
+  },
+  {
+    uri: "_88",
+    text: "uno"
+  },
+  {
+    uri: "_88",
+    text: "una"
+  },
+  {
+    uri: "_89",
+    text: "perché"
+  },
+  {
+    uri: "_90",
+    text: "questo"
+  },
+  {
+    uri: "_91",
+    text: "quello"
+  },
+  {
+    uri: "_92",
+    text: "posizioni"
+  },
+  {
+    uri: "_93",
+    text: "sopra"
+  },
+  {
+    uri: "_94",
+    text: "sotto"
+  },
+  {
+    uri: "_95",
+    text: "dentro"
+  },
+  {
+    uri: "_96",
+    text: "fuori"
+  },
+  {
+    uri: "_97",
+    text: "qui"
+  },
+  {
+    uri: "_98",
+    text: "là"
+  },
+  {
+    uri: "_99",
+    text: "giù"
+  },
+  {
+    uri: "_100",
+    text: "in mezzo"
+  },
+  {
+    uri: "_101",
+    text: "all'inizio"
+  },
+  {
+    uri: "_102",
+    text: "alla fine"
+  },
+  {
+    uri: "_103",
+    text: "tanti"
+  },
+  {
+    uri: "_104",
+    text: "pochi"
+  },
+  {
+    uri: "_105",
+    text: "tutti"
+  },
+  {
+    uri: "_106",
+    text: "nessuno"
+  },
+  {
+    uri: "_107",
+    text: "bello"
+  },
+  {
+    uri: "_108",
+    text: "brutto"
+  },
+  {
+    uri: "_109",
+    text: "giusto"
+  },
+  {
+    uri: "_110",
+    text: "sbagliato"
+  },
+  {
+    uri: "_111",
+    text: "uguale"
+  },
+  {
+    uri: "_112",
+    text: "diverso"
+  },
+  {
+    uri: "_113",
+    text: "colori"
+  },
+  {
+    uri: "_114",
+    text: "emozioni"
+  },
+  {
+    uri: "_115",
+    text: "è"
+  },
+  {
+    uri: "_116",
+    text: "sono"
+  },
+  {
+    uri: "_117",
+    text: "felice"
+  },
+  {
+    uri: "_118",
+    text: "triste"
+  },
+  {
+    uri: "_119",
+    text: "stanco"
+  },
+  {
+    uri: "_120",
+    text: "spaventato"
+  },
+  {
+    uri: "_121",
+    text: "divertente"
+  },
+  {
+    uri: "_122",
+    text: "al sicuro"
+  },
+  {
+    uri: "_123",
+    text: "malato"
+  },
+  {
+    uri: "_124",
+    text: "caldo"
+  },
+  {
+    uri: "_125",
+    text: "freddo"
+  },
+  {
+    uri: "_126",
+    text: "confuso"
+  },
+  {
+    uri: "_127",
+    text: "colore"
+  },
+  {
+    uri: "_128",
+    text: "bianco"
+  },
+  {
+    uri: "_129",
+    text: "nero"
+  },
+  {
+    uri: "_130",
+    text: "rosso"
+  },
+  {
+    uri: "_131",
+    text: "arancione"
+  },
+  {
+    uri: "_132",
+    text: "giallo"
+  },
+  {
+    uri: "_133",
+    text: "verde"
+  },
+  {
+    uri: "_134",
+    text: "azzurro"
+  },
+  {
+    uri: "_135",
+    text: "blu"
+  },
+  {
+    uri: "_136",
+    text: "viola"
+  },
+  {
+    uri: "_137",
+    text: "marrone"
+  },
+  {
+    uri: "_138",
+    text: "rosa"
+  },
+  {
+    uri: "_139",
+    text: "ho bisogno di"
+  },
+  {
+    uri: "_140",
+    text: "ho"
+  },
+  {
+    uri: "_141",
+    text: "devo"
+  },
+  {
+    uri: "_142",
+    text: "andare in bagno"
+  },
+  {
+    uri: "_143",
+    text: "aiuto"
+  },
+  {
+    uri: "_144",
+    text: "medicine"
+  },
+  {
+    uri: "_145",
+    text: "occhiali"
+  },
+  {
+    uri: "_146",
+    text: "sonno"
+  },
+  {
+    uri: "_147",
+    text: "vestiti"
+  },
+  {
+    uri: "_148",
+    text: "doccia"
+  },
+  {
+    uri: "_149",
+    text: "mal di testa"
+  },
+  {
+    uri: "_150",
+    text: "mal di pancia"
+  },
+  {
+    uri: "_151",
+    text: "raffreddore"
+  },
+  {
+    uri: "_152",
+    text: "prurito"
+  },
+  {
+    uri: "_153",
+    text: "ora"
+  },
+  {
+    uri: "_154",
+    text: "giorni"
+  },
+  {
+    uri: "_155",
+    text: "notte"
+  },
+  {
+    uri: "_156",
+    text: "mattina"
+  },
+  {
+    uri: "_157",
+    text: "pomeriggio"
+  },
+  {
+    uri: "_158",
+    text: "sera"
+  },
+  {
+    uri: "_159",
+    text: "adesso"
+  },
+  {
+    uri: "_160",
+    text: "dopo"
+  },
+  {
+    uri: "_161",
+    text: "prima"
+  },
+  {
+    uri: "_162",
+    text: "tardi"
+  },
+  {
+    uri: "_163",
+    text: "presto"
+  },
+  {
+    uri: "_164",
+    text: "ieri"
+  },
+  {
+    uri: "_165",
+    text: "oggi"
+  },
+  {
+    uri: "_166",
+    text: "domani"
+  },
+  {
+    uri: "_167",
+    text: "lunedi"
+  },
+  {
+    uri: "_168",
+    text: "martedi"
+  },
+  {
+    uri: "_169",
+    text: "mercoledi"
+  },
+  {
+    uri: "_170",
+    text: "giovedi"
+  },
+  {
+    uri: "_171",
+    text: "venerdi"
+  },
+  {
+    uri: "_172",
+    text: "sabato"
+  },
+  {
+    uri: "_173",
+    text: "domenica"
+  },
+  {
+    uri: "_174",
+    text: "giorno"
+  },
+  {
+    uri: "_175",
+    text: "settimana"
+  },
+  {
+    uri: "_176",
+    text: "lavoro"
+  },
+  {
+    uri: "_177",
+    text: "scuola"
+  },
+  {
+    uri: "_178",
+    text: "città"
+  },
+  {
+    uri: "_179",
+    text: "casa"
+  },
+  {
+    uri: "_180",
+    text: "ospedale"
+  },
+  {
+    uri: "_181",
+    text: "aeroporto"
+  },
+  {
+    uri: "_182",
+    text: "dentista"
+  },
+  {
+    uri: "_183",
+    text: "banca"
+  },
+  {
+    uri: "_184",
+    text: "dottore"
+  },
+  {
+    uri: "_185",
+    text: "piscina"
+  },
+  {
+    uri: "_186",
+    text: "ristorante"
+  },
+  {
+    uri: "_187",
+    text: "libreria"
+  },
+  {
+    uri: "_188",
+    text: "cinema"
+  },
+  {
+    uri: "_189",
+    text: "negozio"
+  },
+  {
+    uri: "_190",
+    text: "supermercato"
+  },
+  {
+    uri: "_191",
+    text: "cosa"
+  },
+  {
+    uri: "_192",
+    text: "parti del corpo"
+  },
+  {
+    uri: "_193",
+    text: "tecnologia"
+  },
+  {
+    uri: "_194",
+    text: "giochi"
+  },
+  {
+    uri: "_195",
+    text: "strumenti" 
+  },
+  {
+    uri: "_196",
+    text: "mezzi di trasporto"
+  },
+  {
+    uri: "_197",
+    text: "natura"
+  },
+  {
+    uri: "_198",
+    text: "cibo"
+  },
+  {
+    uri: "_199",
+    text: "animali"
+  },
+  {
+    uri: "_200",
+    text: "mano"
+  },
+  {
+    uri: "_201",
+    text: "testa"
+  },
+  {
+    uri: "_202",
+    text: "dito"
+  },
+  {
+    uri: "_203",
+    text: "petto"
+  },
+  {
+    uri: "_204",
+    text: "orecchio"
+  },
+  {
+    uri: "_205",
+    text: "faccia"
+  },
+  {
+    uri: "_206",
+    text: "capelli"
+  },
+  {
+    uri: "_207",
+    text: "bocca"
+  },
+  {
+    uri: "_208",
+    text: "schiena"
+  },
+  {
+    uri: "_209",
+    text: "naso"
+  },
+  {
+    uri: "_210",
+    text: "braccio"
+  },
+  {
+    uri: "_211",
+    text: "piede"
+  },
+  {
+    uri: "_212",
+    text: "occhio"
+  },
+  {
+    uri: "_213",
+    text: "gamba"
+  },
+  {
+    uri: "_214",
+    text: "corpo"
+  },
+  {
+    uri: "_215",
+    text: "maglia"
+  },
+  {
+    uri: "_216",
+    text: "pantaloni"
+  },
+  {
+    uri: "_217",
+    text: "felpa"
+  },
+  {
+    uri: "_218",
+    text: "maglione"
+  },
+  {
+    uri: "_219",
+    text: "jeans"
+  },
+  {
+    uri: "_220",
+    text: "gonna"
+  },
+  {
+    uri: "_221",
+    text: "vestito"
+  },
+  {
+    uri: "_222",
+    text: "costume da bagno"
+  },
+  {
+    uri: "_223",
+    text: "cappello"
+  },
+  {
+    uri: "_224",
+    text: "giacca"
+  },
+  {
+    uri: "_225",
+    text: "scarpe"
+  },
+  {
+    uri: "_226",
+    text: "calze"
+  },
+  {
+    uri: "_227",
+    text: "guanti"
+  },
+  {
+    uri: "_228",
+    text: "pigiama"
+  },
+  {
+    uri: "_229",
+    text: "pantofole"
+  },
+  {
+    uri: "_230",
+    text: "mutande"
+  },
+  {
+    uri: "_231",
+    text: "reggiseno"
+  },
+  {
+    uri: "_232",
+    text: "computer"
+  },
+  {
+    uri: "_233",
+    text: "mouse"
+  },
+  {
+    uri: "_234",
+    text: "tastiera"
+  },
+  {
+    uri: "_235",
+    text: "schermo"
+  },
+  {
+    uri: "_236",
+    text: "stampante"
+  },
+  {
+    uri: "_237",
+    text: "email"
+  },
+  {
+    uri: "_238",
+    text: "telefono"
+  },
+  {
+    uri: "_239",
+    text: "tablet"
+  },
+  {
+    uri: "_241",
+    text: "bambola"
+  },
+  {
+    uri: "_242",
+    text: "costruzioni"
+  },
+  {
+    uri: "_243",
+    text: "lego"
+  },
+  {
+    uri: "_244",
+    text: "tempere"
+  },
+  {
+    uri: "_245",
+    text: "libri"
+  },
+  {
+    uri: "_246",
+    text: "aquilone"
+  },
+  {
+    uri: "_247",
+    text: "peluche"
+  },
+  {
+    uri: "_248",
+    text: "puzzle"
+  },
+  {
+    uri: "_249",
+    text: "caa"
+  },
+  {
+    uri: "_250",
+    text: "libro di comunicazione"
+  },
+  {
+    uri: "_251",
+    text: "aiuto per la comunicazione"
+  },
+  {
+    uri: "_252",
+    text: "schermo touch"
+  },
+  {
+    uri: "_253",
+    text: "sedia a rotelle"
+  },
+  {
+    uri: "_254",
+    text: "dispositivo acustico"
+  },
+  {
+    uri: "_255",
+    text: "macchina"
+  },
+  {
+    uri: "_256",
+    text: "treno"
+  },
+  {
+    uri: "_257",
+    text: "autobus"
+  },
+  {
+    uri: "_258",
+    text: "camper"
+  },
+  {
+    uri: "_259",
+    text: "ambulanza"
+  },
+  {
+    uri: "_260",
+    text: "nave"
+  },
+  {
+    uri: "_261",
+    text: "aereo"
+  },
+  {
+    uri: "_262",
+    text: "camion"
+  },
+  {
+    uri: "_263",
+    text: "bici"
+  },
+  {
+    uri: "_264",
+    text: "taxi"
+  },
+  {
+    uri: "_265",
+    text: "pompieri"
+  },
+  {
+    uri: "_266",
+    text: "polizia"
+  },
+  {
+    uri: "_267",
+    text: "albero"
+  },
+  {
+    uri: "_268",
+    text: "erba"
+  },
+  {
+    uri: "_269",
+    text: "fiori"
+  },
+  {
+    uri: "_270",
+    text: "foglie"
+  },
+  {
+    uri: "_271",
+    text: "piante"
+  },
+  {
+    uri: "_272",
+    text: "sole"
+  },
+  {
+    uri: "_273",
+    text: "pioggia"
+  },
+  {
+    uri: "_274",
+    text: "neve"
+  },
+  {
+    uri: "_275",
+    text: "vento"
+  },
+  {
+    uri: "_276",
+    text: "nuvole"
+  },
+  {
+    uri: "_277",
+    text: "temporale"
+  },
+  {
+    uri: "_278",
+    text: "nebbia"
+  },
+  {
+    uri: "_279",
+    text: "colazione"
+  },
+  {
+    uri: "_280",
+    text: "pranzo"
+  },
+  {
+    uri: "_281",
+    text: "cena"
+  },
+  {
+    uri: "_282",
+    text: "acqua"
+  },
+  {
+    uri: "_283",
+    text: "pasta"
+  },
+  {
+    uri: "_284",
+    text: "pizza"
+  },
+  {
+    uri: "_285",
+    text: "mela"
+  },
+  {
+    uri: "_286",
+    text: "frutta"
+  },
+  {
+    uri: "_287",
+    text: "verdura"
+  },
+  {
+    uri: "_288",
+    text: "latte"
+  },
+  {
+    uri: "_289",
+    text: "the"
+  },
+  {
+    uri: "_290",
+    text: "succo"
+  },
+  {
+    uri: "_291",
+    text: "torta"
+  },
+  {
+    uri: "_292",
+    text: "carne"
+  },
+  {
+    uri: "_293",
+    text: "pesce"
+  },
+  {
+    uri: "_294",
+    text: "cane"
+  },
+  {
+    uri: "_295",
+    text: "gatto"
+  },
+  {
+    uri: "_296",
+    text: "coniglio"
+  },
+  {
+    uri: "_297",
+    text: "cavallo"
+  },
+  {
+    uri: "_298",
+    text: "pecora"
+  },
+  {
+    uri: "_299",
+    text: "gallina"
+  },
+  {
+    uri: "_300",
+    text: "mucca"
+  },
+  {
+    uri: "_301",
+    text: "maiale"
+  },
+  {
+    uri: "_302",
+    text: "leone"
+  },
+  {
+    uri: "_303",
+    text: "giraffa"
+  },
+  {
+    uri: "_304",
+    text: "elefante"
+  },
+  {
+    uri: "_305",
+    text: "tigre"
+  },
+  {
+    uri: "_306",
+    text: "scimmia"
+  },
+  {
+    uri: "_0",
+    text: "?"
+  },
+  {
+    uri: "_307",
+    text: "si"
+  },
+  {
+    uri: "_308",
+    text: "no"
+  },
+  {
+    uri: "_999",
+    text: "papera"
   }
 ]
 

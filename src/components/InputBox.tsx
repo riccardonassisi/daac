@@ -3,7 +3,7 @@ import { View, Keyboard, Platform, TextInput, FlatList, StyleSheet, TouchableOpa
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 
 import Colors from "@constants/Color"
-import caaLogo from "@pictograms/CAA.png"
+import caaLogo from "@pictograms/cose/caa.png"
 
 import { DataStore } from "aws-amplify"
 

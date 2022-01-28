@@ -3,67 +3,67 @@ import { Pictogram } from "../types"
 const domande: Pictogram[] = [
   {
     text: "chi?",
-    uri: "_chi_q",
+    uri: "_35",
     type: "SINGLE"
   },
   {
     text: "cosa?",
-    uri: "_cosa_q",
+    uri: "_36",
     type: "SINGLE"
   },
   {
     text: "dove?",
-    uri: "_dove_q",
+    uri: "_37",
     type: "SINGLE"
   },
   {
     text: "quando?",
-    uri: "_quando_q",
+    uri: "_38",
     type: "SINGLE"
   },
   {
     text: "perché?",
-    uri: "_perche_q",
+    uri: "_39",
     type: "SINGLE"
   },
   {
     text: "come?",
-    uri: "_come_q",
+    uri: "_40",
     type: "SINGLE"
   },
   {
     text: "quale?",
-    uri: "_quale_q",
+    uri: "_41",
     type: "SINGLE"
   },
   {
     text: "come stai?",
-    uri: "_come_stai_q",
+    uri: "_6",
     type: "SINGLE"
   },
   {
     text: "quanto costa?",
-    uri: "_quanto_costa_q",
+    uri: "_42",
     type: "SINGLE"
   },
   {
     text: "cosa fai?",
-    uri: "_cosa_fai_q",
+    uri: "_43",
     type: "SINGLE"
   },
   {
     text: "cos'è?",
-    uri: "_cos_e_q",
+    uri: "_44",
     type: "SINGLE"
   },
   {
     text: "dove abiti?",
-    uri: "_dove_abiti_q",
+    uri: "_45",
     type: "SINGLE"
   },
   {
     text: "dove andiamo?",
-    uri: "_dove_andiamo_q",
+    uri: "_46",
     type: "SINGLE"
   }
 ]
