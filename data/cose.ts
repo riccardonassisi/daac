@@ -45,6 +45,11 @@ const cose: Pictogram[] = [
     uri: "_199",
     text: "animali",
     type: "LINK"
+  },
+  {
+    uri: "_309",
+    text: "numeri",
+    type: "LINK"
   }
 ]
 

@@ -326,7 +326,20 @@ const Pictograms =
     _304: require("@pictograms/animali/elefante.png"),
     _305: require("@pictograms/animali/tigre.png"),
     _306: require("@pictograms/animali/scimmia.png"),
-    _999: require("@pictograms/animali/papera.png")
+    _999: require("@pictograms/animali/papera.png"),
+    // NUMERI
+    _309: require("@pictograms/numeri/numeri.png"),
+    _310: require("@pictograms/numeri/0.png"),
+    _311: require("@pictograms/numeri/1.png"),
+    _312: require("@pictograms/numeri/2.png"),
+    _313: require("@pictograms/numeri/3.png"),
+    _314: require("@pictograms/numeri/4.png"),
+    _315: require("@pictograms/numeri/5.png"),
+    _316: require("@pictograms/numeri/6.png"),
+    _317: require("@pictograms/numeri/7.png"),
+    _318: require("@pictograms/numeri/8.png"),
+    _319: require("@pictograms/numeri/9.png"),
+    _320: require("@pictograms/numeri/10.png")
   }
 
 export default Pictograms

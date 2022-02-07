@@ -1,6 +1,10 @@
 
 const PictogramList = [
   {
+    uri: "_0",
+    text: "?"
+  },
+  {
     uri: "_1",
     text: "ciao"
   },
@@ -806,7 +810,7 @@ const PictogramList = [
   },
   {
     uri: "_195",
-    text: "strumenti" 
+    text: "strumenti"
   },
   {
     uri: "_196",
@@ -1249,10 +1253,6 @@ const PictogramList = [
     text: "scimmia"
   },
   {
-    uri: "_0",
-    text: "?"
-  },
-  {
     uri: "_307",
     text: "si"
   },
@@ -1261,8 +1261,60 @@ const PictogramList = [
     text: "no"
   },
   {
+    uri: "_308",
+    text: "no"
+  },
+  {
     uri: "_999",
     text: "papera"
+  },
+  {
+    uri: "_309",
+    text: "numeri"
+  },
+  {
+    uri: "_310",
+    text: "0"
+  },
+  {
+    uri: "_311",
+    text: "1"
+  },
+  {
+    uri: "_312",
+    text: "2"
+  },
+  {
+    uri: "_313",
+    text: "3"
+  },
+  {
+    uri: "_314",
+    text: "4"
+  },
+  {
+    uri: "_315",
+    text: "5"
+  },
+  {
+    uri: "_316",
+    text: "6"
+  },
+  {
+    uri: "_317",
+    text: "7"
+  },
+  {
+    uri: "_318",
+    text: "8"
+  },
+  {
+    uri: "_319",
+    text: "9"
+  },
+  {
+    uri: "_320",
+    text: "10"
   }
 ]
 

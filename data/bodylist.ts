@@ -22,6 +22,7 @@ import posizioni from "./posizioni"
 import strumenti from "./strumenti"
 import tecnologia from "./tecnologia"
 import vestiti from "./vestiti"
+import numeri from "./numeri"
 
 const bodyList = {
   mainbody,
@@ -47,7 +48,8 @@ const bodyList = {
   posizioni,
   strumenti,
   tecnologia,
-  vestiti
+  vestiti,
+  numeri
 }
 
 export default bodyList
