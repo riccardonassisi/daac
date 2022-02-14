@@ -1,6 +1,6 @@
 import React from "react"
 import { useEffect, useState } from "react"
-import { StyleSheet, FlatList, KeyboardAvoidingView, Platform, ActivityIndicator } from "react-native"
+import { StyleSheet, FlatList, KeyboardAvoidingView, Platform, ActivityIndicator, View } from "react-native"
 
 import { useRoute } from "@react-navigation/native"
 
@@ -78,8 +78,8 @@ const ChatRoomScreen = () => {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+    <View
+      // behavior={Platform.OS === "ios" ? "padding" : undefined}
       style={styles[`${colorScheme}_container`]}>
       <FlatList
         data={messages}
@@ -92,7 +92,7 @@ const ChatRoomScreen = () => {
         ? (<CaaKeyboard currentUserId={currentUserId} chatRoom={chatRoom}/>)
         : (<InputBox currentUserId={currentUserId} chatRoom={chatRoom}/>)
       }
-    </KeyboardAvoidingView>
+    </View>
   )
 }
 

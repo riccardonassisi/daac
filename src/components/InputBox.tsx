@@ -90,12 +90,9 @@ const InputBox = (props: InputBoxProps) => {
 
   return (
     <KeyboardAvoidingView
-      style={
-        Platform.OS === "ios" ?
-          styles.containerIOS :
-          styles.containerAndroid
-      }
-      behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset = {Platform.OS === "ios" ? 100 : 0}>
       <TouchableOpacity onPress={onShowPictoKeyboard}>
         <View style={styles.caaContainer}>
           <FastImage source={caaLogo} style={styles.caaIcon} />
@@ -147,16 +144,9 @@ const InputBox = (props: InputBoxProps) => {
 }
 
 const styles = StyleSheet.create({
-  containerAndroid: {
+  container: {
     flexDirection: "row",
     padding: 10,
-    alignItems: "center",
-    backgroundColor: Colors.lightPurple
-  },
-  containerIOS: {
-    flexDirection: "row",
-    padding: 10,
-
     alignItems: "center",
     backgroundColor: Colors.lightPurple
   },
@@ -165,9 +155,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.mainPurple,
     borderWidth: 2,
     borderStyle: "solid",
-    paddingHorizontal: 8,
-    paddingTop: 8,
-    marginHorizontal: 5,
+    padding: 8,
     borderRadius: 25,
     flex: 1,
     flexDirection: "column"

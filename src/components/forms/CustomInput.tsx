@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
   light_input: {
   },
   dark_input: {
+    color: "#fff"
   }
 })
 
