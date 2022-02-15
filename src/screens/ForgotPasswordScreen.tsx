@@ -44,7 +44,7 @@ const ForgotPasswordScreen = () => {
           placeholder="Username"
           value={username}
           setValue={setUsername}
-          secureTextEntry={true}
+          secureTextEntry={false}
         />
 
         <CustomErrorMessage value={errorMessage}/>
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   dark_title: {
     fontSize: 26,
     fontWeight: "bold",
-    color: Colors.lightPurplei,
+    color: Colors.lightPurple,
     padding: 10
   }
 })

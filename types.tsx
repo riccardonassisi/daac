@@ -39,11 +39,11 @@ export type ChatRoom = {
   lastMessage: Message
 }
 
-export type StandardMessage = {
-  id: string,
-  content: string,
-  urls: string[]
-}
+// export type StandardMessage = {
+//   id: string,
+//   content: string,
+//   urls: string[]
+// }
 
 export type Pictogram = {
   text: string,

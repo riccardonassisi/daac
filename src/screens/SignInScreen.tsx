@@ -26,11 +26,8 @@ const SignInScreen = () => {
   const onSignInPressed = async() => {
     try {
       Keyboard.dismiss()
-
       loader.setLoaderVisible(true)
-
-      const res = await Auth.signIn(username, password)
-
+      await Auth.signIn(username, password)
     } catch (error) {
       loader.dismissLoader()
       setErrorMessage(error.message)

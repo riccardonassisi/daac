@@ -18,9 +18,8 @@ const ChatRoomScreen = () => {
 
   const [messages, setMessages] = useState<Message[]>([])
   const [chatRoom, setChatRoom] = useState<ChatRoom>()
-  // const [nextLimit, setNextLimit] = useState(10)
-  const caaKeyboard = useKeyboard()
 
+  const caaKeyboard = useKeyboard()
   const colorScheme = useColorScheme()
 
   const route = useRoute()
@@ -51,11 +50,8 @@ const ChatRoomScreen = () => {
         const fetchedMessage = await DataStore.query(Message,
           message => message.chatroomID("eq", currentChatRoomId), {
             sort: m => m.createdAt(SortDirection.DESCENDING)
-          // page: 0,
-          // limit: nextLimit
           })
         setMessages(fetchedMessage)
-      // setNextLimit(nextLimit + 5)
       } catch (error) {
         console.warn(error)
       }
@@ -79,14 +75,11 @@ const ChatRoomScreen = () => {
 
   return (
     <View
-      // behavior={Platform.OS === "ios" ? "padding" : undefined}
       style={styles[`${colorScheme}_container`]}>
       <FlatList
         data={messages}
         renderItem={({ item }) => <ChatMessage messageProp={item} ownerId={currentUserId}/>}
         inverted
-        // onEndReached={fetchMessage}
-        // onEndReachedThreshold={2.5}
       />
       {caaKeyboard.visible
         ? (<CaaKeyboard currentUserId={currentUserId} chatRoom={chatRoom}/>)

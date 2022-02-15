@@ -28,20 +28,18 @@ const SignUpScreen = () => {
   const onSignUpPressed = async() => {
     if (password !== passwordRepeat) {
       setErrorMessage("Le password non corrispondono")
-
     } else {
       loader.setLoaderVisible(true)
 
       try {
-        const { userSub } = await Auth.signUp({
+        await Auth.signUp({
           username,
           password,
           attributes: {
-            email,          // optional
-            phone_number: phoneNumber   // optional - E.164 number convention
+            email,
+            phone_number: phoneNumber
           }
         })
-
         loader.dismissLoader()
         navigation.navigate("ConfirmEmail", {
           username
@@ -50,8 +48,8 @@ const SignUpScreen = () => {
         setErrorMessage(error.message)
         loader.dismissLoader()
       }
-    }
 
+    }
   }
 
   const onSignInPressed = () => {

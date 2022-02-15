@@ -57,16 +57,24 @@ const ChatMessage = (props: ChatMessageProps) => {
         <Text style={styles.message}>{message?.content}</Text>
         <FlatList
           data={message?.urls}
-          renderItem={({ item }) => {
-            if (item[0] === "_") {
+
+          // renderItem={({ uri }) => (
+          //   <FastImage
+          //     style={styles.image}
+          //     source={Pictograms[uri]}
+          //   />
+          // )}
+
+          renderItem={({ uri }) => {
+            if (uri[0] === "_") {
               return (<FastImage
                 style={styles.image}
-                source={Pictograms[item]}
+                source={Pictograms[uri]}
               />)
             } else {
               return (<FastImage
                 style={styles.image}
-                source={{ uri: item }}
+                source={{ uri: uri }}
               />)
             }
           }}
